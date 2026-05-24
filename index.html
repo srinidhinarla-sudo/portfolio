@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Srinidhi Narla</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <span class="nav-logo">SN</span>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <section id="hero">
+    <div class="container">
+      <p class="hero-greeting">Hi, I'm</p>
+      <h1 class="hero-name">Srinidhi Narla</h1>
+      <h2 class="hero-sub">Data Engineering &nbsp;·&nbsp; Cybersecurity &nbsp;·&nbsp; Software Development</h2>
+      <p class="hero-desc">
+        CS Junior at UT Dallas · Cybersecurity minor · 3.7 GPA<br />
+        I build secure, scalable data systems — from tamper-evident audit trails to fraud detection pipelines.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
+        <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <h2 class="section-label">About</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm a junior at the University of Texas at Dallas studying Computer Science with minors in
+            Cybersecurity and Business Finance. I'm interested in the intersection of data engineering
+            and information security — building pipelines that are not just fast and reliable, but
+            resilient to adversarial threats.
+          </p>
+          <p>
+            This past summer I interned at Novelis as an Enterprise Architect Intern, building ETL
+            pipelines on Azure Databricks and automating enterprise-wide access governance for 500+ users.
+            I'm actively seeking internship opportunities in data engineering and information security.
+          </p>
+        </div>
+        <div class="about-meta">
+          <div class="meta-row"><span class="meta-key">School</span><span class="meta-val">University of Texas at Dallas</span></div>
+          <div class="meta-row"><span class="meta-key">GPA</span><span class="meta-val">3.7 / 4.0</span></div>
+          <div class="meta-row"><span class="meta-key">Graduating</span><span class="meta-val">May 2027</span></div>
+          <div class="meta-row"><span class="meta-key">Minors</span><span class="meta-val">Cybersecurity · Business Finance</span></div>
+          <div class="meta-row"><span class="meta-key">Certified</span><span class="meta-val">AWS Cloud Practitioner</span></div>
+          <div class="meta-row"><span class="meta-key">Location</span><span class="meta-val">Dallas, TX</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-label">Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="tl-header">
+            <div>
+              <h3 class="tl-role">Enterprise Architect Intern</h3>
+              <p class="tl-company">Novelis &nbsp;·&nbsp; Atlanta, GA</p>
+            </div>
+            <span class="tl-date">May – Aug 2025</span>
+          </div>
+          <ul class="tl-bullets">
+            <li>Automated license validation and access governance for 500+ enterprise users using Alteryx workflows, replacing a recurring manual audit and enforcing cybersecurity compliance.</li>
+            <li>Built secure ETL pipelines on Azure Databricks (PySpark + Delta Lake) to ingest and transform 5,000+ multilingual invoices for the finance reporting team.</li>
+            <li>Optimized Spark jobs via partitioning, broadcast joins, and adaptive query execution — cutting the largest transformation's runtime roughly in half on enterprise-scale datasets.</li>
+            <li>Analyzed 75+ internal applications across SAP and non-SAP systems; built Oracle-based reports that drove portfolio rationalization decisions.</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="tl-header">
+            <div>
+              <h3 class="tl-role">Finance &amp; Data Analytics Intern</h3>
+              <p class="tl-company">State Farm &nbsp;·&nbsp; Dallas, TX</p>
+            </div>
+            <span class="tl-date">Jan – May 2023</span>
+          </div>
+          <ul class="tl-bullets">
+            <li>Audited 300+ internal finance policies for reporting accuracy and flagged inconsistencies to support compliance-ready workflows.</li>
+            <li>Structured and processed 1,000+ financial records using pivot tables and reconciliation formulas to produce weekly audit-ready reports.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-label">Projects</h2>
+      <div class="projects-grid">
+
+        <div class="project-card featured">
+          <div class="card-top">
+            <span class="card-badge">Featured</span>
+            <a href="https://github.com/srinidhinarla-sudo/secure-financial-pipeline" target="_blank" rel="noopener" class="card-link" aria-label="View on GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <h3 class="card-title">Secure Financial Data Pipeline</h3>
+          <p class="card-desc">
+            Apache Airflow ETL processing 284K+ credit card transactions through a Bronze/Silver/Gold
+            medallion architecture in Delta Lake. Built a tamper-evident audit layer that SHA-256 hashes
+            every row, assembles a Merkle tree, and fires Slack alerts if any Parquet file is modified
+            on disk — catching attacks that bypass Delta Lake's own transaction log. Includes an
+            unsupervised Isolation Forest model for fraud anomaly detection across 29 features with no
+            label leakage during training.
+          </p>
+          <div class="card-tags">
+            <span>PySpark</span><span>Apache Airflow</span><span>Delta Lake</span><span>scikit-learn</span><span>Docker</span><span>GitHub Actions</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-top">
+            <span class="card-badge">Personal</span>
+          </div>
+          <h3 class="card-title">Personal Finance Intelligence Platform</h3>
+          <p class="card-desc">
+            Secure REST API in Flask with JWT authentication and role-based access control exposing
+            6 endpoints for transaction ingestion, querying, and forecasting. ETL pipelines process
+            10,000+ transactions; an Isolation Forest flags anomalous spending with precision/recall
+            evaluation on the minority class. Budget forecasting model compares snowball vs. avalanche
+            debt repayment strategies. Deployed on AWS with GitHub Actions CI/CD.
+          </p>
+          <div class="card-tags">
+            <span>Python</span><span>Flask</span><span>JWT</span><span>scikit-learn</span><span>AWS</span><span>Docker</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-top">
+            <span class="card-badge">Novelis</span>
+          </div>
+          <h3 class="card-title">Multilingual Invoice Translation Pipeline</h3>
+          <p class="card-desc">
+            AI-powered ETL pipeline on Azure Databricks integrating Azure AI Services to translate
+            5,000+ international invoices across 8 languages with automatic language detection.
+            Normalized currencies and date formats for downstream finance reporting using PySpark
+            and Delta Lake for scalable, auditable storage.
+          </p>
+          <div class="card-tags">
+            <span>Azure Databricks</span><span>PySpark</span><span>Delta Lake</span><span>Azure AI Services</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-label">Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h4>Languages</h4>
+          <div class="skill-pills"><span>Python</span><span>Java</span><span>SQL</span><span>JavaScript</span><span>C++</span><span>Bash</span><span>HTML/CSS</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>Data Engineering</h4>
+          <div class="skill-pills"><span>PySpark</span><span>Apache Airflow</span><span>Delta Lake</span><span>Azure Databricks</span><span>Apache Iceberg</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>Security</h4>
+          <div class="skill-pills"><span>Cybersecurity Compliance</span><span>Access Governance</span><span>JWT Auth</span><span>Tamper Detection</span><span>Merkle Auditing</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>Cloud &amp; DevOps</h4>
+          <div class="skill-pills"><span>AWS</span><span>Microsoft Azure</span><span>Docker</span><span>GitHub Actions</span><span>Linux</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>Backend &amp; APIs</h4>
+          <div class="skill-pills"><span>Flask</span><span>FastAPI</span><span>Spring Boot</span><span>REST API</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>AI &amp; Analytics</h4>
+          <div class="skill-pills"><span>scikit-learn</span><span>Anomaly Detection</span><span>Power BI</span><span>Tableau</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container contact-inner">
+      <h2 class="section-label">Contact</h2>
+      <p class="contact-desc">
+        I'm actively looking for internships in data engineering and information security.<br />
+        Feel free to reach out.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:srinidhi.narla@gmail.com" class="contact-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          srinidhi.narla@gmail.com
+        </a>
+        <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="contact-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          linkedin.com/in/srinidhinarla1352
+        </a>
+        <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="contact-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          github.com/srinidhinarla-sudo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Srinidhi Narla &nbsp;·&nbsp; Dallas, TX</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
