@@ -9,10 +9,10 @@
   --text:        #1a0f06;
   --muted:       #7d6550;
   --muted-light: #b09a82;
-  --accent:      #0891b2;
-  --accent2:     #22d3ee;
-  --accent-bg:   #ecfeff;
-  --accent-dark: #0e7490;
+  --accent:      #22d3ee;
+  --accent2:     #67e8f9;
+  --accent-bg:   #f0fdff;
+  --accent-dark: #0891b2;
   --font:        'Inter', system-ui, sans-serif;
 }
 
