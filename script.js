@@ -61,8 +61,8 @@ const GAUGES = [
   { fillId:'fill-left',  needleId:'needle-left',  ticksId:'ticks-left',  target:0.87  },
   { fillId:'fill-right', needleId:'needle-right', ticksId:'ticks-right', target:0.925 },
 ];
-const CIRC = 2 * Math.PI * 72; // 452.39
-const ARC  = CIRC * (240/360); // 301.59
+const CIRC = 2 * Math.PI * 72;
+const ARC  = CIRC * (240/360);
 
 /* ── Clock ────────────────────────────────────────────── */
 function updateClock() {
@@ -76,7 +76,7 @@ updateClock();
 /* ── Build SVG tick marks ─────────────────────────────── */
 function buildTicks(id) {
   const g = document.getElementById(id);
-  if (!g) return;
+  if (!g || g.childElementCount) return; // don't rebuild
   for (let i = 0; i <= 24; i++) {
     const deg = 150 + (i/24)*240, rad = deg*Math.PI/180;
     const major = i%4===0, r=86, len=major?8:4;
@@ -85,6 +85,7 @@ function buildTicks(id) {
     const l = document.createElementNS('http://www.w3.org/2000/svg','line');
     l.setAttribute('x1',x1.toFixed(2)); l.setAttribute('y1',y1.toFixed(2));
     l.setAttribute('x2',x2.toFixed(2)); l.setAttribute('y2',y2.toFixed(2));
+    l.style.stroke      = '#1a3a50';
     l.style.strokeWidth = major?'1.5':'1';
     l.style.opacity     = major?'0.7':'0.35';
     g.appendChild(l);
@@ -108,11 +109,11 @@ function switchPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   const t = document.getElementById(`panel-${name}`);
   if (t) t.classList.add('active');
-  document.querySelectorAll('.d-tab').forEach(b => b.classList.toggle('active', b.dataset.panel===name));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.panel===name));
+  document.querySelectorAll('.dtab').forEach(b => b.classList.toggle('active', b.dataset.panel===name));
+  document.querySelectorAll('.nb').forEach(b => b.classList.toggle('active', b.dataset.panel===name));
 }
-document.querySelectorAll('.d-tab').forEach(t => t.addEventListener('click', () => switchPanel(t.dataset.panel)));
-document.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => switchPanel(b.dataset.panel)));
+document.querySelectorAll('.dtab').forEach(t => t.addEventListener('click', () => switchPanel(t.dataset.panel)));
+document.querySelectorAll('.nb').forEach(b => b.addEventListener('click', () => switchPanel(b.dataset.panel)));
 window.switchPanel = switchPanel;
 
 /* ── Project detail overlay ───────────────────────────── */
@@ -139,49 +140,46 @@ function enterDashboard() {
   if (inDashboard) return;
   inDashboard = true;
 
-  const scene  = document.getElementById('car-scene');
-  const prompt = document.getElementById('car-prompt');
-  const ui     = document.getElementById('dashboard-ui');
+  const scene     = document.getElementById('car-scene');
+  const tapLabel  = document.getElementById('tap-label');
+  const screenTap = document.getElementById('screen-tap');
+  const ui        = document.getElementById('dashboard-ui');
 
-  // Hide prompt
-  prompt.classList.add('hidden');
+  if (tapLabel)  tapLabel.classList.add('hidden');
+  if (screenTap) screenTap.style.pointerEvents = 'none';
 
-  // Zoom car scene in
   scene.classList.add('zooming');
-
-  // Build ticks, then show dashboard UI
   GAUGES.forEach(g => buildTicks(g.ticksId));
 
   setTimeout(() => {
     scene.classList.add('hidden');
     ui.classList.add('visible');
     setTimeout(animateGauges, 300);
-  }, 1200); // halfway through the 2.4s zoom
+  }, 1200);
 }
 
 function exitDashboard() {
   if (!inDashboard) return;
   inDashboard = false;
 
-  const scene  = document.getElementById('car-scene');
-  const prompt = document.getElementById('car-prompt');
-  const ui     = document.getElementById('dashboard-ui');
+  const scene     = document.getElementById('car-scene');
+  const tapLabel  = document.getElementById('tap-label');
+  const screenTap = document.getElementById('screen-tap');
+  const ui        = document.getElementById('dashboard-ui');
 
   ui.classList.remove('visible');
 
   setTimeout(() => {
     scene.classList.remove('hidden');
     scene.classList.remove('zooming');
-    // Re-enable idle animation by forcing reflow
-    void scene.offsetWidth;
-    setTimeout(() => prompt.classList.remove('hidden'), 400);
+    void scene.offsetWidth; // force reflow to restart idle animation
+    if (screenTap) screenTap.style.pointerEvents = '';
+    setTimeout(() => { if (tapLabel) tapLabel.classList.remove('hidden'); }, 400);
   }, 400);
 }
 
-window.exitDashboard = exitDashboard;
-
-/* ── Enter button ─────────────────────────────────────── */
-document.getElementById('enter-btn').addEventListener('click', enterDashboard);
+window.enterDashboard = enterDashboard;
+window.exitDashboard  = exitDashboard;
 
 /* ── Auto-launch after 2.5s ───────────────────────────── */
 setTimeout(enterDashboard, 2500);

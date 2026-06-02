@@ -11,385 +11,509 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════
-     CAR INTERIOR SCENE  (z-index 1, zooms on entry)
-══════════════════════════════════════════════════════════ -->
+<!-- ══ CAR INTERIOR SCENE ══════════════════════════════════ -->
 <div id="car-scene">
+
+  <!-- ── Clickable "tap the screen" zone positioned over the SVG infotainment ── -->
+  <div id="screen-tap" onclick="enterDashboard()"></div>
+
+  <!-- ── Tap prompt label ── -->
+  <div id="tap-label">
+    <span class="tl-ring"></span>
+    <span class="tl-text">TOUCH SCREEN TO EXPLORE</span>
+  </div>
+
 <svg id="car-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
      xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <!-- Night sky gradient -->
-  <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#010508"/>
-    <stop offset="70%"  stop-color="#020b14"/>
-    <stop offset="100%" stop-color="#030e1c"/>
+
+  <!-- Daylight sky gradient -->
+  <linearGradient id="skyDay" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#b8d4e8"/>
+    <stop offset="60%"  stop-color="#d4e8f4"/>
+    <stop offset="100%" stop-color="#e8f2f8"/>
   </linearGradient>
-  <!-- Dashboard surface gradient -->
+
+  <!-- Horizon haze -->
+  <linearGradient id="skyHaze" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="white" stop-opacity="0"/>
+    <stop offset="100%" stop-color="white" stop-opacity="0.4"/>
+  </linearGradient>
+
+  <!-- Dashboard gradient (dark top, slightly lighter depth) -->
   <linearGradient id="dashGrad" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#050d1c"/>
-    <stop offset="100%" stop-color="#020810"/>
-  </linearGradient>
-  <!-- LED glow filter -->
-  <filter id="ledGlow" x="-30%" y="-200%" width="160%" height="600%">
-    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
-    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-  <!-- Screen glow filter -->
-  <filter id="screenGlow" x="-10%" y="-10%" width="120%" height="120%">
-    <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
-    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-  <!-- City light halo -->
-  <radialGradient id="cityLight" cx="50%" cy="50%" r="50%">
-    <stop offset="0%"   stop-color="#204060" stop-opacity="0.7"/>
-    <stop offset="100%" stop-color="#204060" stop-opacity="0"/>
-  </radialGradient>
-  <!-- A-pillar gradient (edge darker) -->
-  <linearGradient id="pillarL" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%"   stop-color="#020608"/>
+    <stop offset="0%"   stop-color="#0a141e"/>
     <stop offset="100%" stop-color="#060e18"/>
   </linearGradient>
-  <linearGradient id="pillarR" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%"   stop-color="#060e18"/>
-    <stop offset="100%" stop-color="#020608"/>
+
+  <!-- Door panel gradient -->
+  <linearGradient id="doorL" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%"   stop-color="#040810"/>
+    <stop offset="100%" stop-color="#0c1828"/>
   </linearGradient>
+  <linearGradient id="doorR" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%"   stop-color="#0c1828"/>
+    <stop offset="100%" stop-color="#040810"/>
+  </linearGradient>
+
+  <!-- Seat gradient -->
+  <linearGradient id="seatL" x1="1" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#101c2c"/>
+    <stop offset="100%" stop-color="#060c16"/>
+  </linearGradient>
+  <linearGradient id="seatR" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%"   stop-color="#101c2c"/>
+    <stop offset="100%" stop-color="#060c16"/>
+  </linearGradient>
+
+  <!-- LED glow filter -->
+  <filter id="glow" x="-40%" y="-300%" width="180%" height="800%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b1"/>
+    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b2"/>
+    <feMerge><feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+
+  <!-- Screen glow filter -->
+  <filter id="scrglow" x="-5%" y="-5%" width="110%" height="110%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+
+  <!-- Soft shadow -->
+  <filter id="shadow">
+    <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+  </filter>
+
+  <!-- Quilted leather pattern (diamond stitch) -->
+  <pattern id="leather-quilt" x="0" y="0" width="36" height="36" patternUnits="userSpaceOnUse">
+    <rect width="36" height="36" fill="#0d1a28"/>
+    <polygon points="18,2 34,18 18,34 2,18" fill="#0d1a28" stroke="#162436" stroke-width="1.2"/>
+  </pattern>
+
+  <!-- Center console pattern -->
+  <pattern id="console-tex" x="0" y="0" width="24" height="8" patternUnits="userSpaceOnUse">
+    <rect width="24" height="8" fill="#070f1a"/>
+    <line x1="0" y1="4" x2="24" y2="4" stroke="#0e1c2a" stroke-width="0.8"/>
+  </pattern>
+
+  <!-- Chrome / metallic gradient for trim -->
+  <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#2a3e52"/>
+    <stop offset="40%"  stop-color="#1c2e40"/>
+    <stop offset="100%" stop-color="#0e1c28"/>
+  </linearGradient>
+
   <!-- Screen bezel gradient -->
-  <linearGradient id="bezelGrad" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#0a1828"/>
-    <stop offset="100%" stop-color="#060e1a"/>
+  <linearGradient id="bezel" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#0c1c2c"/>
+    <stop offset="100%" stop-color="#060e18"/>
   </linearGradient>
+
 </defs>
 
-<!-- ── 1. Base background ── -->
-<rect width="1440" height="900" fill="#010408"/>
+<!-- ═══ 1 ─ Deep background ═══ -->
+<rect width="1440" height="900" fill="#040810"/>
 
-<!-- ── 2. Night sky / city visible through windshield ── -->
-<polygon points="268,62 1172,62 1108,532 332,532" fill="url(#skyGrad)"/>
+<!-- ═══ 2 ─ Sky / exterior through windshield ═══ -->
+<polygon points="244,55 1196,55 1162,278 278,278" fill="url(#skyDay)"/>
+<polygon points="244,55 1196,55 1162,278 278,278" fill="url(#skyHaze)"/>
 
-<!-- City lights in distance (glowing halos) -->
-<ellipse cx="420" cy="300" rx="60" ry="40" fill="url(#cityLight)" opacity="0.5"/>
-<ellipse cx="720" cy="200" rx="80" ry="50" fill="url(#cityLight)" opacity="0.3"/>
-<ellipse cx="1020" cy="320" rx="55" ry="35" fill="url(#cityLight)" opacity="0.4"/>
-<ellipse cx="600"  cy="400" rx="40" ry="25" fill="url(#cityLight)" opacity="0.3"/>
-<ellipse cx="880"  cy="380" rx="45" ry="28" fill="url(#cityLight)" opacity="0.35"/>
+<!-- Distant road / horizon suggestion -->
+<line x1="278" y1="270" x2="1162" y2="270" stroke="#c8dce8" stroke-width="1" opacity="0.4"/>
+<line x1="600" y1="278" x2="840" y2="278" stroke="#b0c8da" stroke-width="1" opacity="0.3"/>
 
-<!-- Distant headlights / building dots -->
-<circle cx="400"  cy="430" r="3" fill="#6090b0" opacity="0.6"/>
-<circle cx="415"  cy="432" r="2" fill="#6090b0" opacity="0.4"/>
-<circle cx="750"  cy="410" r="4" fill="#8ab0c8" opacity="0.5"/>
-<circle cx="1050" cy="440" r="3" fill="#6090b0" opacity="0.6"/>
-<circle cx="1070" cy="442" r="2" fill="#6090b0" opacity="0.4"/>
-<circle cx="560"  cy="460" r="2" fill="#5080a0" opacity="0.5"/>
-<circle cx="900"  cy="450" r="2" fill="#5080a0" opacity="0.4"/>
+<!-- Windshield glass reflection streaks -->
+<polygon points="900,55 1050,55 1162,200 1060,170" fill="rgba(255,255,255,0.06)"/>
+<polygon points="1100,55 1196,55 1162,130 1090,110" fill="rgba(255,255,255,0.04)"/>
 
-<!-- Horizon line glow -->
-<line x1="332" y1="488" x2="1108" y2="488" stroke="#102030" stroke-width="1" opacity="0.6"/>
-
-<!-- Windshield glass reflection (diagonal streak, top-right) -->
-<polygon points="820,62 1000,62 1108,200 950,180"
-         fill="rgba(140,200,255,0.025)"/>
-<polygon points="1060,62 1172,62 1108,130 1020,110"
-         fill="rgba(140,200,255,0.02)"/>
-
-<!-- ── 3. Car cabin frame ── -->
-<!-- Roof header -->
-<rect x="0" y="0" width="1440" height="64" fill="#030a14"/>
+<!-- ═══ 3 ─ Car frame: roof + A-pillars ═══ -->
+<!-- Roof headliner -->
+<rect x="0" y="0" width="1440" height="58" fill="#060d18"/>
+<!-- Subtle headliner texture lines -->
+<line x1="0" y1="30" x2="1440" y2="30" stroke="#0a1520" stroke-width="0.5"/>
+<line x1="0" y1="44" x2="1440" y2="44" stroke="#0a1520" stroke-width="0.5"/>
 
 <!-- Left A-pillar -->
-<polygon points="0,62 268,62 332,532 0,532" fill="url(#pillarL)"/>
-<!-- Left pillar inner edge highlight -->
-<line x1="268" y1="62" x2="332" y2="532" stroke="#0e2030" stroke-width="2"/>
+<polygon points="0,55 244,55 278,278 0,278" fill="#050b15"/>
+<!-- Left A-pillar inner chrome edge -->
+<line x1="244" y1="55" x2="278" y2="278" stroke="#1a2c3e" stroke-width="3"/>
+<line x1="244" y1="55" x2="278" y2="278" stroke="#263c52" stroke-width="1"/>
 
 <!-- Right A-pillar -->
-<polygon points="1172,62 1440,62 1440,532 1108,532" fill="url(#pillarR)"/>
-<!-- Right pillar inner edge -->
-<line x1="1172" y1="62" x2="1108" y2="532" stroke="#0e2030" stroke-width="2"/>
+<polygon points="1196,55 1440,55 1440,278 1162,278" fill="#050b15"/>
+<!-- Right A-pillar chrome edge -->
+<line x1="1196" y1="55" x2="1162" y2="278" stroke="#1a2c3e" stroke-width="3"/>
+<line x1="1196" y1="55" x2="1162" y2="278" stroke="#263c52" stroke-width="1"/>
 
-<!-- Windshield top frame / rearview mirror mount -->
-<rect x="620" y="62" width="200" height="14" rx="2" fill="#020810"/>
-<!-- Rearview mirror base -->
-<rect x="690" y="76" width="60" height="8" rx="2" fill="#030c18"/>
+<!-- Rearview mirror mount (center top of windshield) -->
+<rect x="665" y="55" width="110" height="18" rx="3" fill="#040a14"/>
+<rect x="685" y="70" width="70" height="10" rx="2" fill="#030810"/>
 
-<!-- ── 4. Dashboard base ── -->
-<!-- Main dashboard surface (curved top) -->
-<path d="M 0,528 Q 720,502 1440,528 L 1440,900 L 0,900 Z" fill="url(#dashGrad)"/>
+<!-- ═══ 4 ─ Door panels ═══ -->
+<!-- Left door panel (visible left side) -->
+<polygon points="0,278 235,278 255,558 0,558" fill="url(#doorL)"/>
+<!-- Left door chrome trim strip (top) -->
+<line x1="0" y1="288" x2="240" y2="288" stroke="#1a2c3e" stroke-width="2" opacity="0.7"/>
+<!-- Left door LED ambient strip -->
+<line x1="10" y1="302" x2="228" y2="302" stroke="#00c0f0" stroke-width="1.5" opacity="0.7" filter="url(#glow)"/>
+<!-- Left door armrest suggestion -->
+<rect x="0" y="400" width="180" height="55" rx="4" fill="#0a1828" opacity="0.6"/>
+<!-- Left mirror housing -->
+<ellipse cx="80" cy="260" rx="42" ry="26" fill="#060e1a"/>
+<ellipse cx="80" cy="260" rx="36" ry="22" fill="#040a14"/>
+<ellipse cx="80" cy="260" rx="26" ry="16" fill="#050d1c"/>
 
-<!-- Dashboard top trim line (subtle border) -->
-<path d="M 0,528 Q 720,502 1440,528" fill="none" stroke="#0c2038" stroke-width="3"/>
+<!-- Right door panel -->
+<polygon points="1205,278 1440,278 1440,558 1185,558" fill="url(#doorR)"/>
+<!-- Right door chrome trim -->
+<line x1="1210" y1="288" x2="1440" y2="288" stroke="#1a2c3e" stroke-width="2" opacity="0.7"/>
+<!-- Right door LED -->
+<line x1="1215" y1="302" x2="1432" y2="302" stroke="#00c0f0" stroke-width="1.5" opacity="0.7" filter="url(#glow)"/>
+<!-- Right door armrest -->
+<rect x="1260" y="400" width="180" height="55" rx="4" fill="#0a1828" opacity="0.6"/>
+<!-- Right mirror housing -->
+<ellipse cx="1360" cy="260" rx="42" ry="26" fill="#060e1a"/>
+<ellipse cx="1360" cy="260" rx="36" ry="22" fill="#040a14"/>
+<ellipse cx="1360" cy="260" rx="26" ry="16" fill="#050d1c"/>
 
-<!-- ── 5. LED ambient strip along dashboard top ── -->
-<path d="M 60,528 Q 720,504 1380,528"
-      fill="none" stroke="#00c0f0" stroke-width="1.5" opacity="0.9"
-      filter="url(#ledGlow)" class="led-strip"/>
+<!-- ═══ 5 ─ Dashboard surface ═══ -->
+<!-- Main dashboard body -->
+<path d="M 240,278 Q 720,258 1200,278 L 1200,558 L 240,558 Z" fill="url(#dashGrad)"/>
 
-<!-- LED glow diffuse layer -->
-<path d="M 60,528 Q 720,504 1380,528"
-      fill="none" stroke="#00c0f0" stroke-width="12" opacity="0.06"/>
+<!-- Dashboard top chrome/trim bead -->
+<path d="M 240,278 Q 720,258 1200,278" fill="none" stroke="url(#chrome)" stroke-width="4"/>
 
-<!-- ── 6. Instrument cluster (left, partially behind steering wheel) ── -->
-<!-- Cluster housing -->
-<rect x="68" y="545" width="318" height="224" rx="8" fill="#040c18"/>
-<rect x="72" y="549" width="310" height="216" rx="6" fill="#020810"/>
+<!-- ═══ 6 ─ LED ambient strip (the signature luxury car element) ═══ -->
+<!-- Wide glow layer -->
+<path d="M 240,278 Q 720,258 1200,278" fill="none" stroke="#00c0f0" stroke-width="28" opacity="0.06"/>
+<path d="M 240,278 Q 720,258 1200,278" fill="none" stroke="#00c0f0" stroke-width="12" opacity="0.12"/>
+<!-- Bright core line -->
+<path d="M 240,278 Q 720,258 1200,278"
+      fill="none" stroke="#00c0f0" stroke-width="2.5" opacity="0.95"
+      filter="url(#glow)" class="led-strip"/>
 
-<!-- Tachometer (left gauge in cluster) -->
-<!-- Track arc -->
-<circle cx="165" cy="665" r="80" fill="none" stroke="#0a1a28" stroke-width="11"
-        stroke-dasharray="252 105" transform="rotate(135 165 665)"/>
-<!-- Fill arc (showing ~40% revs for idle) -->
-<circle cx="165" cy="665" r="80" fill="none" stroke="#00c0f0" stroke-width="11"
+<!-- Left door LED continues along door-dash junction -->
+<line x1="240" y1="278" x2="10" y2="302" stroke="#00c0f0" stroke-width="1.5" opacity="0.5" filter="url(#glow)"/>
+<!-- Right side -->
+<line x1="1200" y1="278" x2="1432" y2="302" stroke="#00c0f0" stroke-width="1.5" opacity="0.5" filter="url(#glow)"/>
+
+<!-- ═══ 7 ─ Instrument cluster screen (behind steering wheel) ═══ -->
+<!-- Cluster housing/shroud -->
+<rect x="62" y="290" width="328" height="210" rx="10" fill="#040c18"/>
+<!-- Cluster glass -->
+<rect x="68" y="296" width="316" height="198" rx="8" fill="#020810"/>
+<!-- Cluster glow -->
+<rect x="68" y="296" width="316" height="198" rx="8" fill="none"
+      stroke="#00c0f0" stroke-width="1" opacity="0.2" filter="url(#scrglow)"/>
+
+<!-- Speedometer (left circle in cluster) -->
+<circle cx="152" cy="392" r="72" fill="none" stroke="#091620" stroke-width="10"
+        stroke-dasharray="226 75" transform="rotate(135 152 392)"/>
+<circle cx="152" cy="392" r="72" fill="none" stroke="#00c0f0" stroke-width="10"
         stroke-linecap="round"
-        stroke-dasharray="101 256"
-        transform="rotate(135 165 665)"
-        filter="url(#ledGlow)" opacity="0.9" class="cluster-arc"/>
-<circle cx="165" cy="665" r="52" fill="#020810"/>
-<text x="165" y="660" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="19" fill="#00c0f0" class="cluster-text">3200</text>
-<text x="165" y="676" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="9" fill="#2a4860">RPM</text>
+        stroke-dasharray="0 301"
+        transform="rotate(135 152 392)"
+        class="cluster-sweep" id="clust-speed"/>
+<circle cx="152" cy="392" r="46" fill="#020810"/>
+<text x="152" y="387" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="20" fill="#00c0f0" class="ctext">0</text>
+<text x="152" y="403" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="8"  fill="#1e3a50">MPH</text>
 
-<!-- Speedometer (right gauge in cluster) -->
-<circle cx="295" cy="658" r="68" fill="none" stroke="#0a1a28" stroke-width="10"
-        stroke-dasharray="214 89" transform="rotate(135 295 658)"/>
-<circle cx="295" cy="658" r="68" fill="none" stroke="#00c0f0" stroke-width="10"
+<!-- Tachometer (right circle in cluster) -->
+<circle cx="296" cy="385" r="64" fill="none" stroke="#091620" stroke-width="10"
+        stroke-dasharray="201 67" transform="rotate(135 296 385)"/>
+<circle cx="296" cy="385" r="64" fill="none" stroke="#00c0f0" stroke-width="10"
         stroke-linecap="round"
-        stroke-dasharray="0 320"
-        transform="rotate(135 295 658)"
-        class="cluster-arc"/>
-<circle cx="295" cy="658" r="44" fill="#020810"/>
-<text x="295" y="652" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="18" fill="#00c0f0" class="cluster-text">0</text>
-<text x="295" y="668" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="9" fill="#2a4860">MPH</text>
+        stroke-dasharray="80 268"
+        transform="rotate(135 296 385)"
+        filter="url(#glow)" opacity="0.9" class="cluster-sweep"/>
+<circle cx="296" cy="385" r="40" fill="#020810"/>
+<text x="296" y="380" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="18" fill="#00c0f0" class="ctext">3.2</text>
+<text x="296" y="395" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="8"  fill="#1e3a50">×1000 RPM</text>
 
-<!-- Cluster bottom info strip -->
-<text x="230" y="742" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="9" fill="#1a3848" letter-spacing="2">DRIVE · ECO</text>
+<!-- Cluster bottom info -->
+<text x="230" y="468" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="9" fill="#102030" letter-spacing="2">D · ECO · 273 mi</text>
 
-<!-- ── 7. Main infotainment screen (center) ── -->
+<!-- ═══ 8 ─ MAIN infotainment screen (the portfolio focal point) ═══ -->
 <!-- Outer bezel -->
-<rect x="442" y="540" width="556" height="282" rx="8" fill="url(#bezelGrad)"/>
+<rect x="406" y="285" width="900" height="218" rx="10" fill="url(#bezel)"/>
+<!-- Screen border glow -->
+<rect x="406" y="285" width="900" height="218" rx="10" fill="none"
+      stroke="#00c0f0" stroke-width="1" opacity="0.3" filter="url(#scrglow)"/>
 <!-- Screen glass -->
-<rect x="448" y="546" width="544" height="270" rx="6" fill="#010610"/>
-<!-- Screen glow -->
-<rect x="448" y="546" width="544" height="270" rx="6" fill="none"
-      stroke="#00c0f0" stroke-width="1" opacity="0.2" filter="url(#screenGlow)"/>
+<rect x="413" y="292" width="886" height="204" rx="7" fill="#010810"/>
 
-<!-- Screen boot content (shown before HTML overlay appears) -->
-<text x="720" y="618" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="11" fill="#1a3a50" letter-spacing="4" class="boot-text">PORTFOLIO OS v3.0</text>
-<text x="720" y="660" text-anchor="middle" font-family="Inter,sans-serif"
-      font-size="32" font-weight="800" fill="#00c0f0" letter-spacing="-1" class="boot-name">Srinidhi Narla</text>
-<text x="720" y="692" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="11" fill="#2a5070" letter-spacing="2" class="boot-text">CS SENIOR · UT DALLAS</text>
-<!-- Loading bar -->
-<rect x="620" y="718" width="200" height="3" rx="1" fill="#0a1a28" class="boot-text"/>
-<rect x="620" y="718" width="0"   height="3" rx="1" fill="#00c0f0"
-      class="boot-text" id="svg-progress-bar"/>
+<!-- Screen ambient glow (blue, as in the reference images) -->
+<rect x="413" y="292" width="886" height="204" rx="7"
+      fill="url(#skyDay)" opacity="0.03"/>
 
-<!-- ── 8. Right screen (passenger side) ── -->
-<rect x="1034" y="545" width="262" height="196" rx="6" fill="url(#bezelGrad)"/>
-<rect x="1038" y="549" width="254" height="188" rx="5" fill="#010610"/>
-<rect x="1038" y="549" width="254" height="188" rx="5" fill="none"
-      stroke="#00c0f0" stroke-width="1" opacity="0.15" filter="url(#screenGlow)"/>
-<!-- Right screen content -->
-<text x="1165" y="598" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="8"  fill="#1a3040" letter-spacing="3">NAVIGATION</text>
-<!-- Map grid lines (decorative) -->
-<line x1="1045" y1="612" x2="1285" y2="612" stroke="#0d2030" stroke-width="1"/>
-<line x1="1045" y1="632" x2="1285" y2="632" stroke="#0d2030" stroke-width="1"/>
-<line x1="1045" y1="652" x2="1285" y2="652" stroke="#0d2030" stroke-width="1"/>
-<line x1="1045" y1="672" x2="1285" y2="672" stroke="#0d2030" stroke-width="1"/>
-<line x1="1045" y1="692" x2="1285" y2="692" stroke="#0d2030" stroke-width="1"/>
-<line x1="1100" y1="560" x2="1100" y2="730" stroke="#0d2030" stroke-width="1"/>
-<line x1="1165" y1="560" x2="1165" y2="730" stroke="#0d2030" stroke-width="1"/>
-<line x1="1230" y1="560" x2="1230" y2="730" stroke="#0d2030" stroke-width="1"/>
-<!-- Location dot -->
-<circle cx="1165" cy="660" r="6" fill="none" stroke="#00c0f0" stroke-width="2"
-        filter="url(#ledGlow)"/>
-<circle cx="1165" cy="660" r="2" fill="#00c0f0"/>
-<text x="1165" y="716" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="8" fill="#1a4060">DALLAS, TX</text>
+<!-- ── Screen content (visible before zoom / HTML overlay) ── -->
+<!-- Top status bar -->
+<rect x="413" y="292" width="886" height="22" rx="7" fill="#030e1c"/>
+<text x="430" y="307" font-family="Share Tech Mono,monospace" font-size="9" fill="#1a3a50">09:41</text>
+<text x="856" y="307" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="9" fill="#1a3a50" letter-spacing="3">PORTFOLIO OS v3.0</text>
+<text x="1282" y="307" text-anchor="end" font-family="Share Tech Mono,monospace" font-size="9" fill="#1a3a50">●● WIFI</text>
 
-<!-- ── 9. Dashboard detail between screens ── -->
-<!-- Left vent grille (between cluster and infotainment) -->
-<g opacity="0.7">
-  <line x1="400" y1="590" x2="440" y2="590" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="400" y1="602" x2="440" y2="602" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="400" y1="614" x2="440" y2="614" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="400" y1="626" x2="440" y2="626" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="400" y1="638" x2="440" y2="638" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="400" y1="650" x2="440" y2="650" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="400" y1="662" x2="440" y2="662" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="400" y1="674" x2="440" y2="674" stroke="#0d2030" stroke-width="1.5"/>
+<!-- Main screen content area -->
+<!-- Name -->
+<text x="856" y="374" text-anchor="middle" font-family="Inter,sans-serif"
+      font-size="36" font-weight="800" fill="#e8f4ff" letter-spacing="-1">Srinidhi Narla</text>
+<!-- Role line -->
+<text x="856" y="404" text-anchor="middle" font-family="Share Tech Mono,monospace"
+      font-size="11" fill="#3a6a8a" letter-spacing="3">CS SENIOR  ·  UT DALLAS  ·  OPEN TO WORK</text>
+
+<!-- Horizontal divider -->
+<line x1="580" y1="420" x2="1132" y2="420" stroke="#0e2030" stroke-width="1"/>
+
+<!-- Quick info row -->
+<text x="650" y="450" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="10" fill="#2a5070">GPA</text>
+<text x="650" y="466" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="18" fill="#00c0f0">3.7</text>
+<text x="780" y="450" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="10" fill="#2a5070">PROJECTS</text>
+<text x="780" y="466" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="18" fill="#00c0f0">5+</text>
+<text x="910" y="450" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="10" fill="#2a5070">INTERNSHIPS</text>
+<text x="910" y="466" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="18" fill="#00c0f0">2</text>
+<text x="1050" y="450" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="10" fill="#2a5070">CERTIFIED</text>
+<text x="1050" y="466" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="18" fill="#00c0f0">AWS</text>
+
+<!-- "Touch" invite text with pulsing dot -->
+<circle cx="808" cy="485" r="4" fill="#00c0f0" filter="url(#glow)" class="tap-dot"/>
+<text x="822" y="489" font-family="Share Tech Mono,monospace" font-size="10" fill="#00c0f0" letter-spacing="2" class="tap-label-svg">TOUCH TO EXPLORE</text>
+
+<!-- ═══ 9 ─ Dashboard lower section (below main screen) ═══ -->
+<!-- Climate / controls strip -->
+<rect x="413" y="510" width="886" height="42" rx="4" fill="#040c18"/>
+<!-- AC left readout -->
+<text x="450" y="534" font-family="Share Tech Mono,monospace" font-size="12" fill="#2a5070">22°C</text>
+<!-- Vent icon grid (center) -->
+<g opacity="0.5">
+  <line x1="790" y1="515" x2="790" y2="548" stroke="#0e2030" stroke-width="1.5"/>
+  <line x1="806" y1="515" x2="806" y2="548" stroke="#0e2030" stroke-width="1.5"/>
+  <line x1="822" y1="515" x2="822" y2="548" stroke="#0e2030" stroke-width="1.5"/>
+  <line x1="838" y1="515" x2="838" y2="548" stroke="#0e2030" stroke-width="1.5"/>
+  <line x1="854" y1="515" x2="854" y2="548" stroke="#0e2030" stroke-width="1.5"/>
+  <line x1="870" y1="515" x2="870" y2="548" stroke="#0e2030" stroke-width="1.5"/>
+  <line x1="886" y1="515" x2="886" y2="548" stroke="#0e2030" stroke-width="1.5"/>
 </g>
-<!-- Right vent grille -->
-<g opacity="0.7">
-  <line x1="1000" y1="590" x2="1032" y2="590" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="1000" y1="602" x2="1032" y2="602" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="1000" y1="614" x2="1032" y2="614" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="1000" y1="626" x2="1032" y2="626" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="1000" y1="638" x2="1032" y2="638" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="1000" y1="650" x2="1032" y2="650" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="1000" y1="662" x2="1032" y2="662" stroke="#0d2030" stroke-width="1.5"/>
-  <line x1="1000" y1="674" x2="1032" y2="674" stroke="#0d2030" stroke-width="1.5"/>
-</g>
+<!-- Vent frame -->
+<rect x="782" y="512" width="120" height="34" rx="3" fill="none" stroke="#0c1e2e" stroke-width="1"/>
+<!-- AC right readout -->
+<text x="1250" y="534" text-anchor="end" font-family="Share Tech Mono,monospace" font-size="12" fill="#2a5070">22°C</text>
 
-<!-- Below-infotainment control strip -->
-<rect x="448" y="828" width="544" height="48" rx="4" fill="#030c1a"/>
-<!-- AC/control buttons -->
-<circle cx="510" cy="852" r="12" fill="#030c1a" stroke="#0e2030" stroke-width="1.5"/>
-<circle cx="548" cy="852" r="12" fill="#030c1a" stroke="#0e2030" stroke-width="1.5"/>
-<circle cx="586" cy="852" r="12" fill="#030c1a" stroke="#0e2030" stroke-width="1.5"/>
-<circle cx="854" cy="852" r="12" fill="#030c1a" stroke="#0e2030" stroke-width="1.5"/>
-<circle cx="892" cy="852" r="12" fill="#030c1a" stroke="#0e2030" stroke-width="1.5"/>
-<circle cx="930" cy="852" r="12" fill="#030c1a" stroke="#0e2030" stroke-width="1.5"/>
-<text x="720" y="856" text-anchor="middle" font-family="Share Tech Mono,monospace"
-      font-size="8" fill="#0e2030" letter-spacing="3">22°C ·:· AUTO</text>
-
-<!-- ── 10. Steering wheel ── -->
-<g id="svg-wheel" transform="translate(295, 862)">
-  <!-- Outer rim shadow -->
-  <circle cx="0" cy="0" r="165" fill="none" stroke="#020608" stroke-width="30"/>
-  <!-- Main rim -->
-  <circle cx="0" cy="0" r="162" fill="none" stroke="#0a1824" stroke-width="22"/>
-  <!-- Rim highlight edge -->
-  <circle cx="0" cy="0" r="162" fill="none" stroke="#14243a" stroke-width="16"/>
-  <!-- Subtle grip texture (dashed highlight on rim) -->
-  <circle cx="0" cy="0" r="162" fill="none" stroke="#1c3048" stroke-width="8"
-          stroke-dasharray="18 12" stroke-dashoffset="4"/>
-  <!-- Rim inner edge (slight LED ambient) -->
-  <circle cx="0" cy="0" r="148" fill="none" stroke="#040c18" stroke-width="3"/>
-
-  <!-- Top spoke -->
-  <line x1="0"   y1="-32" x2="0"   y2="-130" stroke="#080f1c" stroke-width="28" stroke-linecap="round"/>
-  <line x1="0"   y1="-32" x2="0"   y2="-130" stroke="#0e1e30" stroke-width="18" stroke-linecap="round"/>
-  <line x1="0"   y1="-32" x2="0"   y2="-130" stroke="#162840" stroke-width="8"  stroke-linecap="round"/>
-
-  <!-- Bottom-left spoke (8 o'clock) -->
-  <line x1="-26" y1="16"  x2="-114" y2="66"  stroke="#080f1c" stroke-width="28" stroke-linecap="round"/>
-  <line x1="-26" y1="16"  x2="-114" y2="66"  stroke="#0e1e30" stroke-width="18" stroke-linecap="round"/>
-  <line x1="-26" y1="16"  x2="-114" y2="66"  stroke="#162840" stroke-width="8"  stroke-linecap="round"/>
-
-  <!-- Bottom-right spoke (4 o'clock) -->
-  <line x1="26"  y1="16"  x2="114"  y2="66"  stroke="#080f1c" stroke-width="28" stroke-linecap="round"/>
-  <line x1="26"  y1="16"  x2="114"  y2="66"  stroke="#0e1e30" stroke-width="18" stroke-linecap="round"/>
-  <line x1="26"  y1="16"  x2="114"  y2="66"  stroke="#162840" stroke-width="8"  stroke-linecap="round"/>
-
-  <!-- Paddle shifters (behind rim, partially visible) -->
-  <rect x="-188" y="-28" width="22" height="52" rx="5" fill="#070e1a" stroke="#0e2030" stroke-width="1"/>
-  <rect x="166"  y="-28" width="22" height="52" rx="5" fill="#070e1a" stroke="#0e2030" stroke-width="1"/>
-
-  <!-- Hub -->
-  <circle cx="0" cy="0" r="34" fill="#060d1c"/>
-  <circle cx="0" cy="0" r="30" fill="#040a16" stroke="#0c1c2c" stroke-width="1.5"/>
-  <!-- Hub logo -->
-  <text x="0" y="4" text-anchor="middle" dominant-baseline="middle"
-        font-family="Inter,sans-serif" font-size="14" font-weight="800"
-        fill="#162840" letter-spacing="-0.5">SN</text>
-
-  <!-- Horn button LED ring -->
-  <circle cx="0" cy="0" r="22" fill="none" stroke="#00c0f0" stroke-width="1" opacity="0.2"
-          filter="url(#ledGlow)"/>
+<!-- Left vent grille cluster (near pillar) -->
+<g opacity="0.6" transform="translate(260,312)">
+  <line x1="0" y1="0"  x2="0"  y2="55" stroke="#0e2030" stroke-width="2"/>
+  <line x1="10" y1="0" x2="10" y2="55" stroke="#0e2030" stroke-width="2"/>
+  <line x1="20" y1="0" x2="20" y2="55" stroke="#0e2030" stroke-width="2"/>
+  <line x1="30" y1="0" x2="30" y2="55" stroke="#0e2030" stroke-width="2"/>
+  <rect x="-4" y="-3" width="42" height="61" rx="3" fill="none" stroke="#0c1a28" stroke-width="1.5"/>
 </g>
 
-<!-- Center console (between seats, below dashboard) -->
-<path d="M 590,880 L 850,880 L 830,900 L 610,900 Z" fill="#040a16"/>
-<rect x="620" y="840" width="200" height="40" rx="4" fill="#040a16" stroke="#0a1828" stroke-width="1"/>
-<!-- Gear knob suggestion -->
-<circle cx="720" cy="855" r="14" fill="#060e1c" stroke="#0e2030" stroke-width="2"/>
-<circle cx="720" cy="855" r="8" fill="#040a16"/>
+<!-- Right vent grille cluster -->
+<g opacity="0.6" transform="translate(1150,312)">
+  <line x1="0" y1="0"  x2="0"  y2="55" stroke="#0e2030" stroke-width="2"/>
+  <line x1="10" y1="0" x2="10" y2="55" stroke="#0e2030" stroke-width="2"/>
+  <line x1="20" y1="0" x2="20" y2="55" stroke="#0e2030" stroke-width="2"/>
+  <line x1="30" y1="0" x2="30" y2="55" stroke="#0e2030" stroke-width="2"/>
+  <rect x="-4" y="-3" width="42" height="61" rx="3" fill="none" stroke="#0c1a28" stroke-width="1.5"/>
+</g>
 
-<!-- ── 11. Ambient lighting effects ── -->
-<!-- Blue underlay glow on dashboard surface from screens -->
-<rect x="448" y="818" width="544" height="10" rx="2"
-      fill="#00c0f0" opacity="0.03" filter="url(#screenGlow)"/>
+<!-- ═══ 10 ─ Leather seats (crucial for driver's-seat feel) ═══ -->
+<!-- Driver seat (left) with quilted diamond pattern -->
+<polygon points="0,555 380,555 460,900 0,900" fill="url(#leather-quilt)"/>
+<!-- Seat side bolster edge (chrome trim line) -->
+<line x1="380" y1="555" x2="460" y2="900" stroke="#1a2c3e" stroke-width="2"/>
+<!-- Seat shadow at top -->
+<polygon points="0,555 380,555 400,610 0,610" fill="rgba(0,0,0,0.3)"/>
+<!-- Seat headrest / backrest visible top edge -->
+<rect x="0" y="545" width="380" height="14" rx="3" fill="#0e1e2e"/>
 
-<!-- Seat headrest hint (far right, passenger side context) -->
-<ellipse cx="1380" cy="600" rx="45" ry="60" fill="#050c1a" opacity="0.5"/>
-<ellipse cx="1380" cy="580" rx="30" ry="22" fill="#060d1c" opacity="0.4"/>
+<!-- Passenger seat (right) -->
+<polygon points="1060,555 1440,555 1440,900 980,900" fill="url(#leather-quilt)"/>
+<line x1="1060" y1="555" x2="980" y2="900" stroke="#1a2c3e" stroke-width="2"/>
+<polygon points="1060,555 1440,555 1440,610 1040,610" fill="rgba(0,0,0,0.3)"/>
+<rect x="1060" y="545" width="380" height="14" rx="3" fill="#0e1e2e"/>
+
+<!-- ═══ 11 ─ Center console ═══ -->
+<!-- Console main body -->
+<polygon points="400,558 1040,558 1000,900 440,900" fill="url(#console-tex)"/>
+<!-- Console top trim -->
+<line x1="400" y1="558" x2="1040" y2="558" stroke="#1a2c3e" stroke-width="2"/>
+
+<!-- Center console screen (like the Mercedes lower screen) -->
+<rect x="520" y="565" width="400" height="80" rx="6" fill="#030c18"/>
+<rect x="525" y="570" width="390" height="70" rx="5" fill="#010810"/>
+<rect x="525" y="570" width="390" height="70" rx="5" fill="none"
+      stroke="#00c0f0" stroke-width="0.8" opacity="0.2" filter="url(#scrglow)"/>
+<text x="720" y="596" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="8" fill="#1a3a50" letter-spacing="3">CENTER CONSOLE</text>
+<text x="720" y="616" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="10" fill="#2a5070">09:41 · MON 02 JUNE</text>
+<text x="720" y="632" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="8" fill="#0e2030" letter-spacing="2">ECO MODE ACTIVE</text>
+
+<!-- Gear selector area -->
+<rect x="642" y="655" width="156" height="50" rx="8" fill="#060e1a" stroke="#0e1e2e" stroke-width="1.5"/>
+<text x="720" y="685" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="16" fill="#1a3a50">P · R · N · D</text>
+<!-- Current gear highlight -->
+<rect x="712" y="660" width="16" height="36" rx="3" fill="#00c0f0" opacity="0.12"/>
+<text x="720" y="682" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="14" fill="#00c0f0">D</text>
+
+<!-- Cup holder area -->
+<circle cx="650" cy="770" r="22" fill="#04090f" stroke="#0c1826" stroke-width="2"/>
+<circle cx="650" cy="770" r="16" fill="#030810"/>
+<circle cx="790" cy="770" r="22" fill="#04090f" stroke="#0c1826" stroke-width="2"/>
+<circle cx="790" cy="770" r="16" fill="#030810"/>
+
+<!-- ═══ 12 ─ Steering wheel ═══ -->
+<!-- Steering column -->
+<rect x="290" y="558" width="100" height="320" rx="6" fill="#070d1a"/>
+<rect x="304" y="558" width="72" height="300" rx="4" fill="#060c18"/>
+
+<!-- Wheel shadow projected on seat/console -->
+<ellipse cx="345" cy="900" rx="175" ry="28" fill="#000" opacity="0.4"/>
+
+<g id="wheel" transform="translate(345, 842)">
+  <!-- Rim shadow -->
+  <circle cx="0" cy="0" r="218" fill="none" stroke="#010408" stroke-width="36"/>
+  <!-- Main rim (thick, dark) -->
+  <circle cx="0" cy="0" r="215" fill="none" stroke="#0c1828" stroke-width="28"/>
+  <!-- Rim mid tone -->
+  <circle cx="0" cy="0" r="215" fill="none" stroke="#14263a" stroke-width="20"/>
+  <!-- Rim inner edge (chrome) -->
+  <circle cx="0" cy="0" r="215" fill="none" stroke="#263c52" stroke-width="8"/>
+  <!-- Rim inner face -->
+  <circle cx="0" cy="0" r="200" fill="none" stroke="#0a1824" stroke-width="4"/>
+
+  <!-- Y-spoke: top spoke ──────────────────── -->
+  <!-- Shadow -->
+  <line x1="0" y1="-42" x2="0" y2="-175" stroke="#030810" stroke-width="38" stroke-linecap="round"/>
+  <!-- Main -->
+  <line x1="0" y1="-42" x2="0" y2="-175" stroke="#0c1828" stroke-width="28" stroke-linecap="round"/>
+  <line x1="0" y1="-42" x2="0" y2="-175" stroke="#16283c" stroke-width="18" stroke-linecap="round"/>
+  <!-- Chrome highlight on spoke -->
+  <line x1="0" y1="-42" x2="0" y2="-175" stroke="#263c52" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Y-spoke: bottom-left (8 o'clock = 240° from 12) ──────── -->
+  <!-- sin240=−0.866, cos240=−0.5 → tip at (−150, 87) -->
+  <line x1="-36" y1="21" x2="-150" y2="87" stroke="#030810" stroke-width="38" stroke-linecap="round"/>
+  <line x1="-36" y1="21" x2="-150" y2="87" stroke="#0c1828" stroke-width="28" stroke-linecap="round"/>
+  <line x1="-36" y1="21" x2="-150" y2="87" stroke="#16283c" stroke-width="18" stroke-linecap="round"/>
+  <line x1="-36" y1="21" x2="-150" y2="87" stroke="#263c52" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Y-spoke: bottom-right (4 o'clock = 120° from 12) ──────── -->
+  <!-- sin120=0.866, cos120=−0.5 → tip at (150, 87) -->
+  <line x1="36" y1="21" x2="150" y2="87" stroke="#030810" stroke-width="38" stroke-linecap="round"/>
+  <line x1="36" y1="21" x2="150" y2="87" stroke="#0c1828" stroke-width="28" stroke-linecap="round"/>
+  <line x1="36" y1="21" x2="150" y2="87" stroke="#16283c" stroke-width="18" stroke-linecap="round"/>
+  <line x1="36" y1="21" x2="150" y2="87" stroke="#263c52" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Multifunction buttons on left spoke cluster -->
+  <rect x="-90" y="-14" width="50" height="26" rx="4" fill="#080f1c" stroke="#10202e" stroke-width="1.5"/>
+  <rect x="-86" y="-10" width="14" height="18" rx="2" fill="#060d1a"/>
+  <rect x="-68" y="-10" width="14" height="18" rx="2" fill="#060d1a"/>
+  <rect x="-50" y="-10" width="14" height="18" rx="2" fill="#060d1a"/>
+
+  <!-- Multifunction buttons on right spoke cluster -->
+  <rect x="40" y="-14" width="50" height="26" rx="4" fill="#080f1c" stroke="#10202e" stroke-width="1.5"/>
+  <rect x="44" y="-10" width="14" height="18" rx="2" fill="#060d1a"/>
+  <rect x="62" y="-10" width="14" height="18" rx="2" fill="#060d1a"/>
+  <rect x="80" y="-10" width="14" height="18" rx="2" fill="#060d1a"/>
+
+  <!-- Paddle shifters (behind rim) -->
+  <rect x="-254" y="-32" width="36" height="64" rx="6" fill="#070d1c" stroke="#0e2030" stroke-width="2"/>
+  <rect x="-250" y="-26" width="28" height="52" rx="4" fill="#060c18"/>
+  <rect x="218"  y="-32" width="36" height="64" rx="6" fill="#070d1c" stroke="#0e2030" stroke-width="2"/>
+  <rect x="222"  y="-26" width="28" height="52" rx="4" fill="#060c18"/>
+
+  <!-- Hub (center) -->
+  <circle cx="0" cy="0" r="50"  fill="#07101e"/>
+  <circle cx="0" cy="0" r="44"  fill="#050c1a" stroke="#0e2030" stroke-width="2"/>
+  <circle cx="0" cy="0" r="34"  fill="#030810"/>
+  <!-- Hub logo (stylized) -->
+  <circle cx="0" cy="0" r="26"  fill="none" stroke="#1a3048" stroke-width="1.5"/>
+  <text x="0" y="5" text-anchor="middle" dominant-baseline="middle"
+        font-family="Inter,sans-serif" font-size="15" font-weight="800"
+        fill="#1a3048" letter-spacing="-0.5">SN</text>
+  <!-- Hub ambient LED ring -->
+  <circle cx="0" cy="0" r="46" fill="none" stroke="#00c0f0" stroke-width="1" opacity="0.15" filter="url(#glow)"/>
+</g>
+
+<!-- ═══ 13 ─ Atmosphere / depth vignette ═══ -->
+<!-- Edge darkening for immersive depth -->
+<radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+  <stop offset="0%"   stop-color="transparent"/>
+  <stop offset="100%" stop-color="rgba(0,0,0,0.55)"/>
+</radialGradient>
+<rect width="1440" height="900" fill="url(#vignette)" pointer-events="none"/>
 
 </svg>
 
-<!-- Initial car-view enter prompt -->
-<div id="car-prompt">
-  <div class="cp-badge"><span class="cp-dot"></span>SYSTEMS ONLINE</div>
-  <div class="cp-subtext">Srinidhi Narla · Portfolio v3.0</div>
-  <button id="enter-btn">ENTER DASHBOARD <span class="cp-arrow">›</span></button>
-  <div class="cp-hint">or wait for auto-launch</div>
-</div>
+<!-- Touch label on top of SVG -->
 </div><!-- /car-scene -->
 
 
-<!-- ══════════════════════════════════════════════════════════
-     INTERACTIVE DASHBOARD UI  (z-index 2, fades in after zoom)
-══════════════════════════════════════════════════════════ -->
+<!-- ══ INTERACTIVE DASHBOARD UI ══════════════════════════ -->
 <div id="dashboard-ui">
 
-  <!-- HUD bar -->
   <div id="hud">
-    <div class="hud-left">
-      <span class="hud-clock" id="hud-clock">00:00:00</span>
-      <span class="hud-sep">|</span>
-      <span class="hud-status"><span class="status-dot"></span>SYSTEMS NOMINAL</span>
+    <div class="hud-l">
+      <span class="hclock" id="hud-clock">00:00:00</span>
+      <span class="hsep">|</span>
+      <span class="hstatus"><span class="hdot"></span>SYSTEMS NOMINAL</span>
     </div>
-    <div class="hud-center">SRINIDHI NARLA</div>
-    <div class="hud-right">
-      <span class="hud-badge">UT DALLAS</span>
-      <span class="hud-badge accent">OPEN TO WORK</span>
-      <button id="zoom-out-btn" onclick="exitDashboard()">⊠ EXIT</button>
+    <div class="hud-c">SRINIDHI NARLA</div>
+    <div class="hud-r">
+      <span class="hbadge">UT DALLAS</span>
+      <span class="hbadge accent">OPEN TO WORK</span>
+      <button id="exit-btn" onclick="exitDashboard()">⬡ EXIT</button>
     </div>
   </div>
 
-  <!-- Three-panel body -->
   <div id="dash-body">
 
-    <!-- Left: skill gauge -->
-    <div class="gauge-panel" id="gauge-left">
-      <div class="gauge-label">SKILL INDEX</div>
-      <svg class="gauge-svg" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="92" class="g-outer"/>
+    <!-- Left gauge -->
+    <div class="gpanel" id="gauge-left">
+      <div class="glabel">SKILL INDEX</div>
+      <svg class="gsvg" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="92" class="go"/>
         <g id="ticks-left"></g>
-        <circle cx="100" cy="100" r="72" class="g-track"/>
-        <circle cx="100" cy="100" r="72" class="g-fill" id="fill-left"/>
-        <circle cx="100" cy="100" r="48" class="g-inner"/>
-        <line x1="100" y1="100" x2="100" y2="36" class="g-needle" id="needle-left"/>
-        <circle cx="100" cy="100" r="6" class="g-cap"/>
-        <text x="100" y="101" class="g-value">87</text>
-        <text x="100" y="118" class="g-unit">/100</text>
+        <circle cx="100" cy="100" r="72" class="gtrack"/>
+        <circle cx="100" cy="100" r="72" class="gfill" id="fill-left"/>
+        <circle cx="100" cy="100" r="48" class="ginner"/>
+        <line x1="100" y1="100" x2="100" y2="36" class="gneedle" id="needle-left"/>
+        <circle cx="100" cy="100" r="6" class="gcap"/>
+        <text x="100" y="101" class="gval">87</text>
+        <text x="100" y="118" class="gunit">/100</text>
       </svg>
-      <div class="gauge-sub">FULL STACK</div>
+      <div class="gsub">FULL STACK</div>
     </div>
 
-    <!-- Center: infotainment with tabs -->
+    <!-- Center display -->
     <div id="center-display">
-      <div class="display-bezel">
-        <div class="display-tabs">
-          <button class="d-tab active" data-panel="home">HOME</button>
-          <button class="d-tab" data-panel="about">ABOUT</button>
-          <button class="d-tab" data-panel="projects">PROJECTS</button>
-          <button class="d-tab" data-panel="experience">EXP</button>
-          <button class="d-tab" data-panel="skills">SKILLS</button>
-          <button class="d-tab" data-panel="contact">CONTACT</button>
+      <div class="dbezel">
+        <div class="dtabs">
+          <button class="dtab active" data-panel="home">HOME</button>
+          <button class="dtab" data-panel="about">ABOUT</button>
+          <button class="dtab" data-panel="projects">PROJECTS</button>
+          <button class="dtab" data-panel="experience">EXP</button>
+          <button class="dtab" data-panel="skills">SKILLS</button>
+          <button class="dtab" data-panel="contact">CONTACT</button>
         </div>
-        <div class="display-screen">
+        <div class="dscreen">
 
           <!-- HOME -->
           <div class="panel active" id="panel-home">
-            <div class="home-wrap">
-              <p class="home-greeting">Hi, I'm</p>
-              <h1 class="home-name">Srinidhi<br/><span>Narla</span></h1>
-              <p class="home-sub">Data Engineering · Cybersecurity · Software</p>
-              <p class="home-desc">CS Senior at UT Dallas building secure, scalable systems — from safety-critical C++ state machines to fraud detection pipelines processing 284K+ transactions.</p>
-              <div class="home-stats">
-                <div class="stat"><span class="sv">3.7</span><span class="sk">GPA</span></div>
-                <div class="stat"><span class="sv">2</span><span class="sk">Internships</span></div>
-                <div class="stat"><span class="sv">5+</span><span class="sk">Projects</span></div>
-                <div class="stat"><span class="sv">AWS</span><span class="sk">Certified</span></div>
+            <div class="hwrap">
+              <p class="hgreet">Hi, I'm</p>
+              <h1 class="hname">Srinidhi<br/><span>Narla</span></h1>
+              <p class="hsub">Data Engineering · Cybersecurity · Software</p>
+              <p class="hdesc">CS Senior at UT Dallas building secure, scalable systems — from safety-critical C++ state machines to fraud detection pipelines processing 284K+ transactions.</p>
+              <div class="hstats">
+                <div class="hstat"><span class="sv">3.7</span><span class="sk">GPA</span></div>
+                <div class="hstat"><span class="sv">2</span><span class="sk">Internships</span></div>
+                <div class="hstat"><span class="sv">5+</span><span class="sk">Projects</span></div>
+                <div class="hstat"><span class="sv">AWS</span><span class="sk">Certified</span></div>
               </div>
-              <div class="home-btns">
-                <button class="dbtn primary" onclick="switchPanel('projects')">View Projects</button>
-                <a href="https://github.com/srinidhinarla-sudo" target="_blank" class="dbtn outline">GitHub ↗</a>
-                <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" class="dbtn outline">LinkedIn ↗</a>
+              <div class="hbtns">
+                <button class="btn primary" onclick="switchPanel('projects')">View Projects</button>
+                <a href="https://github.com/srinidhinarla-sudo" target="_blank" class="btn outline">GitHub ↗</a>
+                <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" class="btn outline">LinkedIn ↗</a>
               </div>
             </div>
           </div>
@@ -399,19 +523,19 @@
             <div class="pscroll">
               <h2 class="ptitle">About</h2>
               <div class="about-grid">
-                <div class="about-text">
-                  <p>I'm a senior at UT Dallas studying Computer Science with minors in Cybersecurity and Business Finance. I'm drawn to problems at the edge of systems, data, and security — where getting it wrong has real consequences.</p>
-                  <p>Last summer I interned at Novelis in Atlanta as an Enterprise Architect Intern, building ETL pipelines on Azure Databricks and automating access governance for 500+ enterprise users. I'm actively looking for full-time roles in data engineering, software engineering, and information security.</p>
+                <div class="atext">
+                  <p>I'm a senior at UT Dallas studying Computer Science with minors in Cybersecurity and Business Finance. I'm drawn to problems at the intersection of systems, data, and security — where getting it wrong has real consequences.</p>
+                  <p>Last summer I interned at Novelis in Atlanta as an Enterprise Architect Intern, building ETL pipelines on Azure Databricks and automating access governance for 500+ enterprise users.</p>
                   <p>Outside of work I'm into automotive technology, fintech, AI/ML, and sustainable tech.</p>
                 </div>
-                <div class="about-card">
-                  <div class="ac-row"><span class="ak">School</span><span class="av">UT Dallas</span></div>
-                  <div class="ac-row"><span class="ak">GPA</span><span class="av">3.7 / 4.0</span></div>
-                  <div class="ac-row"><span class="ak">Graduating</span><span class="av">May 2027</span></div>
-                  <div class="ac-row"><span class="ak">Minors</span><span class="av">Cybersecurity · Finance</span></div>
-                  <div class="ac-row"><span class="ak">Certified</span><span class="av">AWS Cloud Practitioner</span></div>
-                  <div class="ac-row"><span class="ak">Location</span><span class="av">Dallas, TX</span></div>
-                  <div class="ac-row last"><span class="ak">Status</span><span class="av open">● Open to Work</span></div>
+                <div class="acard">
+                  <div class="arow"><span class="ak">School</span><span class="av">UT Dallas</span></div>
+                  <div class="arow"><span class="ak">GPA</span><span class="av">3.7 / 4.0</span></div>
+                  <div class="arow"><span class="ak">Graduating</span><span class="av">May 2027</span></div>
+                  <div class="arow"><span class="ak">Minors</span><span class="av">Cybersecurity · Finance</span></div>
+                  <div class="arow"><span class="ak">Certified</span><span class="av">AWS Cloud Practitioner</span></div>
+                  <div class="arow"><span class="ak">Location</span><span class="av">Dallas, TX</span></div>
+                  <div class="arow last"><span class="ak">Status</span><span class="av open">● Open to Work</span></div>
                 </div>
               </div>
             </div>
@@ -421,29 +545,29 @@
           <div class="panel" id="panel-projects">
             <div class="pscroll">
               <h2 class="ptitle">Projects</h2>
-              <div class="proj-list">
+              <div class="plist">
                 <div class="pcard featured" onclick="openProject('sfp')">
-                  <div class="pcard-top"><span class="pbadge">Featured</span><a href="https://github.com/srinidhinarla-sudo/secure-financial-pipeline" target="_blank" class="plink" onclick="event.stopPropagation()">↗</a></div>
-                  <h3 class="ptname">Secure Financial Data Pipeline</h3>
-                  <p class="pdesc">Apache Airflow ETL processing 284K+ credit card transactions through Bronze/Silver/Gold Delta Lake medallion architecture. Tamper-evident Merkle audit layer. Isolation Forest fraud detection across 29 features.</p>
+                  <div class="ptop"><span class="pbadge">Featured</span><a href="https://github.com/srinidhinarla-sudo/secure-financial-pipeline" target="_blank" class="plink" onclick="event.stopPropagation()">↗</a></div>
+                  <h3 class="pname">Secure Financial Data Pipeline</h3>
+                  <p class="pdesc">Apache Airflow ETL processing 284K+ transactions through Bronze/Silver/Gold Delta Lake medallion architecture. SHA-256 + Merkle tree tamper-evident audit. Isolation Forest fraud detection.</p>
                   <div class="ptags"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>scikit-learn</span><span>Docker</span></div>
                 </div>
                 <div class="pcard" onclick="openProject('ava')">
-                  <div class="pcard-top"><span class="pbadge">Systems</span><a href="https://github.com/srinidhinarla-sudo/autonomous-validation-agent" target="_blank" class="plink" onclick="event.stopPropagation()">↗</a></div>
-                  <h3 class="ptname">Autonomous Validation Agent</h3>
+                  <div class="ptop"><span class="pbadge">Systems</span><a href="https://github.com/srinidhinarla-sudo/autonomous-validation-agent" target="_blank" class="plink" onclick="event.stopPropagation()">↗</a></div>
+                  <h3 class="pname">Autonomous Validation Agent</h3>
                   <p class="pdesc">Validation platform for a 61-state C++ vehicle-infotainment state machine via pybind11. 100% transition coverage. ddmin delta debugging. 92% mutation kill rate in CI.</p>
                   <div class="ptags"><span>C++</span><span>Python</span><span>pybind11</span><span>FastAPI</span><span>pytest</span></div>
                 </div>
                 <div class="pcard" onclick="openProject('nov')">
-                  <div class="pcard-top"><span class="pbadge">Novelis</span></div>
-                  <h3 class="ptname">Multilingual Invoice Pipeline</h3>
-                  <p class="pdesc">AI-powered ETL on Azure Databricks translating 5,000+ invoices across 8 languages using Azure AI Services. Currency and date normalization for finance reporting.</p>
+                  <div class="ptop"><span class="pbadge">Novelis</span></div>
+                  <h3 class="pname">Multilingual Invoice Pipeline</h3>
+                  <p class="pdesc">AI-powered ETL on Azure Databricks translating 5,000+ invoices across 8 languages. Currency and date normalization for finance reporting.</p>
                   <div class="ptags"><span>Azure Databricks</span><span>PySpark</span><span>Delta Lake</span><span>Azure AI</span></div>
                 </div>
                 <div class="pcard" onclick="openProject('fin')">
-                  <div class="pcard-top"><span class="pbadge">Personal</span></div>
-                  <h3 class="ptname">Personal Finance Intelligence Platform</h3>
-                  <p class="pdesc">Flask REST API with JWT auth and RBAC. 10K+ transactions. Isolation Forest anomaly detection, snowball vs. avalanche budget forecasting. Deployed on AWS.</p>
+                  <div class="ptop"><span class="pbadge">Personal</span></div>
+                  <h3 class="pname">Personal Finance Intelligence Platform</h3>
+                  <p class="pdesc">Flask REST API with JWT auth and RBAC. Isolation Forest anomaly detection, snowball vs. avalanche budget forecasting. Deployed on AWS.</p>
                   <div class="ptags"><span>Flask</span><span>JWT</span><span>scikit-learn</span><span>AWS</span><span>Docker</span></div>
                 </div>
               </div>
@@ -454,26 +578,26 @@
           <div class="panel" id="panel-experience">
             <div class="pscroll">
               <h2 class="ptitle">Experience</h2>
-              <div class="exp-tl">
-                <div class="exp-item">
+              <div class="etl">
+                <div class="eitem">
                   <div class="edot"></div>
-                  <div class="exp-body">
-                    <div class="exp-hd"><div><h3 class="erole">Enterprise Architect Intern</h3><p class="eco">Novelis · Atlanta, GA</p></div><span class="edate">May – Aug 2025</span></div>
+                  <div class="ebody">
+                    <div class="ehd"><div><h3 class="erole">Enterprise Architect Intern</h3><p class="eco">Novelis · Atlanta, GA</p></div><span class="edate">May – Aug 2025</span></div>
                     <ul class="ebullets">
-                      <li>Automated license validation and access governance for 500+ enterprise users using Alteryx, replacing a recurring manual audit.</li>
-                      <li>Built secure ETL pipelines on Azure Databricks (PySpark + Delta Lake) ingesting and transforming 5,000+ multilingual invoices.</li>
-                      <li>Optimized Spark jobs via partitioning, broadcast joins, and AQE — cutting the largest transformation's runtime roughly in half.</li>
-                      <li>Analyzed 75+ internal applications across SAP and non-SAP systems; built Oracle-based reports for portfolio rationalization.</li>
+                      <li>Automated license validation and access governance for 500+ enterprise users using Alteryx.</li>
+                      <li>Built secure ETL pipelines on Azure Databricks (PySpark + Delta Lake) ingesting 5,000+ multilingual invoices.</li>
+                      <li>Optimized Spark jobs via partitioning, broadcast joins, and AQE — cutting largest job runtime roughly in half.</li>
+                      <li>Analyzed 75+ internal applications; built Oracle-based reports for portfolio rationalization decisions.</li>
                     </ul>
                   </div>
                 </div>
-                <div class="exp-item">
+                <div class="eitem">
                   <div class="edot"></div>
-                  <div class="exp-body">
-                    <div class="exp-hd"><div><h3 class="erole">Finance & Data Analytics Intern</h3><p class="eco">State Farm · Dallas, TX</p></div><span class="edate">Jan – May 2023</span></div>
+                  <div class="ebody">
+                    <div class="ehd"><div><h3 class="erole">Finance & Data Analytics Intern</h3><p class="eco">State Farm · Dallas, TX</p></div><span class="edate">Jan – May 2023</span></div>
                     <ul class="ebullets">
-                      <li>Audited 300+ internal finance policies for reporting accuracy and flagged inconsistencies for compliance-ready workflows.</li>
-                      <li>Structured 1,000+ financial records using pivot tables and reconciliation formulas to produce weekly audit-ready reports.</li>
+                      <li>Audited 300+ internal finance policies for reporting accuracy and compliance readiness.</li>
+                      <li>Structured 1,000+ financial records with pivot tables to produce weekly audit-ready reports.</li>
                     </ul>
                   </div>
                 </div>
@@ -485,7 +609,7 @@
           <div class="panel" id="panel-skills">
             <div class="pscroll">
               <h2 class="ptitle">Skills</h2>
-              <div class="sk-grid">
+              <div class="skgrid">
                 <div class="skg"><h4>Languages</h4><div class="skp"><span>Python</span><span>C++</span><span>Java</span><span>SQL</span><span>JavaScript</span><span>Bash</span></div></div>
                 <div class="skg"><h4>Data Engineering</h4><div class="skp"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>Azure Databricks</span><span>Iceberg</span></div></div>
                 <div class="skg"><h4>Security</h4><div class="skp"><span>Access Governance</span><span>JWT Auth</span><span>Tamper Detection</span><span>Merkle Auditing</span></div></div>
@@ -498,58 +622,55 @@
 
           <!-- CONTACT -->
           <div class="panel" id="panel-contact">
-            <div class="contact-wrap">
+            <div class="cwrap">
               <h2 class="ptitle">Contact</h2>
-              <p class="contact-desc">Actively looking for full-time roles in data engineering, software engineering, and information security.</p>
-              <div class="contact-links">
-                <a href="mailto:srinidhi.narla@gmail.com" class="citem"><span class="cicon">✉</span><span>srinidhi.narla@gmail.com</span></a>
-                <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" class="citem"><span class="cicon">in</span><span>linkedin.com/in/srinidhinarla1352</span></a>
-                <a href="https://github.com/srinidhinarla-sudo" target="_blank" class="citem"><span class="cicon">gh</span><span>github.com/srinidhinarla-sudo</span></a>
+              <p class="cdesc">Actively looking for full-time roles in data engineering, software engineering, and information security.</p>
+              <div class="clinks">
+                <a href="mailto:srinidhi.narla@gmail.com" class="citem"><span class="cico">✉</span><span>srinidhi.narla@gmail.com</span></a>
+                <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" class="citem"><span class="cico">in</span><span>linkedin.com/in/srinidhinarla1352</span></a>
+                <a href="https://github.com/srinidhinarla-sudo" target="_blank" class="citem"><span class="cico">gh</span><span>github.com/srinidhinarla-sudo</span></a>
               </div>
             </div>
           </div>
 
-        </div><!-- /display-screen -->
-      </div><!-- /display-bezel -->
+        </div><!-- /dscreen -->
+      </div><!-- /dbezel -->
     </div><!-- /center-display -->
 
-    <!-- Right: GPA gauge -->
-    <div class="gauge-panel" id="gauge-right">
-      <div class="gauge-label">ACADEMIC</div>
-      <svg class="gauge-svg" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="92" class="g-outer"/>
+    <!-- Right gauge -->
+    <div class="gpanel" id="gauge-right">
+      <div class="glabel">ACADEMIC</div>
+      <svg class="gsvg" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="92" class="go"/>
         <g id="ticks-right"></g>
-        <circle cx="100" cy="100" r="72" class="g-track"/>
-        <circle cx="100" cy="100" r="72" class="g-fill" id="fill-right"/>
-        <circle cx="100" cy="100" r="48" class="g-inner"/>
-        <line x1="100" y1="100" x2="100" y2="36" class="g-needle" id="needle-right"/>
-        <circle cx="100" cy="100" r="6" class="g-cap"/>
-        <text x="100" y="101" class="g-value">3.7</text>
-        <text x="100" y="118" class="g-unit">GPA</text>
+        <circle cx="100" cy="100" r="72" class="gtrack"/>
+        <circle cx="100" cy="100" r="72" class="gfill" id="fill-right"/>
+        <circle cx="100" cy="100" r="48" class="ginner"/>
+        <line x1="100" y1="100" x2="100" y2="36" class="gneedle" id="needle-right"/>
+        <circle cx="100" cy="100" r="6" class="gcap"/>
+        <text x="100" y="101" class="gval">3.7</text>
+        <text x="100" y="118" class="gunit">GPA</text>
       </svg>
-      <div class="gauge-sub">UT DALLAS</div>
+      <div class="gsub">UT DALLAS</div>
     </div>
 
   </div><!-- /dash-body -->
 
-  <!-- Bottom nav -->
   <div id="dash-nav">
-    <button class="nav-btn active" data-panel="home"><span class="ni">⌂</span><span class="nl">HOME</span></button>
-    <button class="nav-btn" data-panel="about"><span class="ni">◎</span><span class="nl">ABOUT</span></button>
-    <button class="nav-btn" data-panel="projects"><span class="ni">◈</span><span class="nl">PROJECTS</span></button>
-    <button class="nav-btn" data-panel="experience"><span class="ni">◷</span><span class="nl">EXP</span></button>
-    <button class="nav-btn" data-panel="skills"><span class="ni">◧</span><span class="nl">SKILLS</span></button>
-    <button class="nav-btn" data-panel="contact"><span class="ni">◉</span><span class="nl">CONTACT</span></button>
+    <button class="nb active" data-panel="home"><span class="ni">⌂</span><span class="nl">HOME</span></button>
+    <button class="nb" data-panel="about"><span class="ni">◎</span><span class="nl">ABOUT</span></button>
+    <button class="nb" data-panel="projects"><span class="ni">◈</span><span class="nl">PROJECTS</span></button>
+    <button class="nb" data-panel="experience"><span class="ni">◷</span><span class="nl">EXP</span></button>
+    <button class="nb" data-panel="skills"><span class="ni">◧</span><span class="nl">SKILLS</span></button>
+    <button class="nb" data-panel="contact"><span class="ni">◉</span><span class="nl">CONTACT</span></button>
   </div>
 
 </div><!-- /dashboard-ui -->
 
 
-<!-- ══════════════════════════════════════════════════════════
-     PROJECT DETAIL OVERLAY  (z-index 3)
-══════════════════════════════════════════════════════════ -->
+<!-- ══ PROJECT OVERLAY ═══════════════════════════════════ -->
 <div id="proj-overlay">
-  <button class="proj-back" onclick="closeProject()">← BACK TO DASHBOARD</button>
+  <button class="pback" onclick="closeProject()">← BACK TO DASHBOARD</button>
   <div id="proj-detail"></div>
 </div>
 
