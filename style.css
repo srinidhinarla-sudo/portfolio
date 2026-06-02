@@ -15,7 +15,7 @@ html, body {
   z-index: 10;
   transition: transform 1.4s cubic-bezier(0.4,0,0.2,1),
               opacity   1.4s cubic-bezier(0.4,0,0.2,1);
-  transform-origin: 59.4% 43.8%;
+  transform-origin: 57.6% 45.8%;
 }
 #car-scene.zooming { transform: scale(3.5); opacity: 0; }
 #car-scene.hidden  { display: none; }
@@ -38,10 +38,10 @@ html, body {
 /* ── Tap zone & label ────────────────────────────────────── */
 #screen-tap {
   position: absolute;
-  left: 28.2%;
-  top: 29%;
-  width: 62.5%;
-  height: 26%;
+  left: 34.7%;
+  top: 31.5%;
+  width: 45.8%;
+  height: 28.4%;
   cursor: pointer;
   z-index: 15;
   border-radius: 8px;
@@ -49,8 +49,8 @@ html, body {
 
 #tap-label {
   position: absolute;
-  left: 50%;
-  top: 57%;
+  left: 57.6%;
+  top: 62%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
@@ -83,10 +83,10 @@ html, body {
 }
 
 /* ── SVG car FX ──────────────────────────────────────────── */
-.led-strip { animation: led-pulse 3s ease-in-out infinite; }
-@keyframes led-pulse {
-  0%,100% { opacity: 0.95; }
-  50%      { opacity: 0.5;  }
+.tap-dot { animation: tap-pulse 2s ease-in-out infinite; }
+@keyframes tap-pulse {
+  0%,100% { opacity: 1;   }
+  50%      { opacity: 0.2; }
 }
 
 /* ── Dashboard UI ────────────────────────────────────────── */
