@@ -181,5 +181,4 @@ function exitDashboard() {
 window.enterDashboard = enterDashboard;
 window.exitDashboard  = exitDashboard;
 
-/* ── Auto-launch after 2.5s ───────────────────────────── */
-setTimeout(enterDashboard, 2500);
+/* user clicks the screen to enter — no auto-launch */

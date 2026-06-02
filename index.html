@@ -23,61 +23,74 @@
 <svg id="car-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
      xmlns="http://www.w3.org/2000/svg">
 <defs>
-
-  <!-- Sky gradient -->
   <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#7aaec8"/>
-    <stop offset="45%"  stop-color="#b0cfe0"/>
-    <stop offset="100%" stop-color="#d4e8f0"/>
+    <stop offset="0%"   stop-color="#1e2d42"/>
+    <stop offset="35%"  stop-color="#3a5878"/>
+    <stop offset="70%"  stop-color="#7aaccC"/>
+    <stop offset="100%" stop-color="#a8cce0"/>
   </linearGradient>
 
-  <!-- Horizon haze -->
+  <!-- Horizon snow haze -->
   <linearGradient id="hazeGrad" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0%"   stop-color="white" stop-opacity="0"/>
-    <stop offset="100%" stop-color="white" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="white" stop-opacity="0.35"/>
   </linearGradient>
 
-  <!-- Dashboard light gray -->
+  <!-- Lake water reflection -->
+  <linearGradient id="lakeGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#5888a8"/>
+    <stop offset="100%" stop-color="#3a6888"/>
+  </linearGradient>
+
+  <!-- Dashboard dark charcoal -->
   <linearGradient id="dashGrad" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#cdd1d6"/>
-    <stop offset="100%" stop-color="#b4b8be"/>
+    <stop offset="0%"   stop-color="#1e2028"/>
+    <stop offset="100%" stop-color="#0c0e14"/>
   </linearGradient>
 
-  <!-- Left door -->
+  <!-- Left door dark -->
   <linearGradient id="doorLGrad" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%"   stop-color="#9ea4aa"/>
-    <stop offset="100%" stop-color="#bec2c8"/>
+    <stop offset="0%"   stop-color="#08090e"/>
+    <stop offset="100%" stop-color="#1a1c24"/>
   </linearGradient>
 
-  <!-- Right door -->
+  <!-- Right door dark -->
   <linearGradient id="doorRGrad" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%"   stop-color="#bec2c8"/>
-    <stop offset="100%" stop-color="#9ea4aa"/>
+    <stop offset="0%"   stop-color="#1a1c24"/>
+    <stop offset="100%" stop-color="#08090e"/>
   </linearGradient>
 
-  <!-- Wood trim -->
+  <!-- Dark walnut trim -->
   <linearGradient id="woodGrad" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%"   stop-color="#6a4410"/>
-    <stop offset="18%"  stop-color="#a86c22"/>
-    <stop offset="50%"  stop-color="#c4842a"/>
-    <stop offset="82%"  stop-color="#a06820"/>
-    <stop offset="100%" stop-color="#6a4410"/>
+    <stop offset="0%"   stop-color="#180e06"/>
+    <stop offset="15%"  stop-color="#4a2810"/>
+    <stop offset="42%"  stop-color="#7a4820"/>
+    <stop offset="58%"  stop-color="#6a3c18"/>
+    <stop offset="85%"  stop-color="#4a2810"/>
+    <stop offset="100%" stop-color="#180e06"/>
   </linearGradient>
 
-  <!-- Seat light gray -->
+  <!-- Seat light gray (contrast against dark) -->
   <linearGradient id="seatLGrad" x1="1" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#cdd1d6"/>
-    <stop offset="100%" stop-color="#b0b4ba"/>
+    <stop offset="0%"   stop-color="#9ea4a8"/>
+    <stop offset="100%" stop-color="#7a8088"/>
   </linearGradient>
   <linearGradient id="seatRGrad" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0%"   stop-color="#cdd1d6"/>
-    <stop offset="100%" stop-color="#b0b4ba"/>
+    <stop offset="0%"   stop-color="#9ea4a8"/>
+    <stop offset="100%" stop-color="#7a8088"/>
   </linearGradient>
 
-  <!-- Center console near-white -->
+  <!-- Center console dark -->
   <linearGradient id="consoleGrad" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%"   stop-color="#e4e8ec"/>
-    <stop offset="100%" stop-color="#cacdd2"/>
+    <stop offset="0%"   stop-color="#1c1e26"/>
+    <stop offset="100%" stop-color="#0e1016"/>
+  </linearGradient>
+
+  <!-- Steering wheel rim — 3D shading (top light, bottom dark) -->
+  <linearGradient id="wheelRimGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%"   stop-color="#3e4050"/>
+    <stop offset="35%"  stop-color="#262830"/>
+    <stop offset="100%" stop-color="#121418"/>
   </linearGradient>
 
   <!-- Screen glow -->
@@ -86,122 +99,153 @@
     <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
   </filter>
 
-  <!-- Soft drop shadow -->
+  <!-- Drop shadow -->
   <filter id="shadow">
-    <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.25"/>
+    <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+  </filter>
+
+  <!-- Wheel shadow -->
+  <filter id="wheelshadow" x="-20%" y="-10%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="10" stdDeviation="22" flood-color="#000" flood-opacity="0.65"/>
   </filter>
 
   <!-- Vignette -->
   <radialGradient id="vignette" cx="50%" cy="50%" r="72%">
     <stop offset="0%"   stop-color="transparent"/>
-    <stop offset="100%" stop-color="rgba(0,0,0,0.42)"/>
+    <stop offset="100%" stop-color="rgba(0,0,0,0.58)"/>
   </radialGradient>
 
   <!-- Pedal texture -->
   <pattern id="pedalTex" width="5" height="5" patternUnits="userSpaceOnUse">
-    <rect width="5" height="5" fill="#1c2028"/>
-    <line x1="0" y1="2.5" x2="5" y2="2.5" stroke="#262c34" stroke-width="1"/>
+    <rect width="5" height="5" fill="#1a1e26"/>
+    <line x1="0" y1="2.5" x2="5" y2="2.5" stroke="#222830" stroke-width="1"/>
   </pattern>
 
 </defs>
 
 <!-- ═══ BACKGROUND ═══ -->
-<rect width="1440" height="900" fill="#0a0e14"/>
+<rect width="1440" height="900" fill="#06080c"/>
 
 <!-- ═══ WINDSHIELD SKY ═══ -->
 <polygon points="244,55 1196,55 1162,278 278,278" fill="url(#skyGrad)"/>
 
-<!-- Mountain range — far (pale) -->
-<polygon points="278,278 310,218 365,244 428,196 500,230 580,188 660,222 740,180 820,214 900,182 978,216 1058,186 1130,218 1162,278"
-         fill="#8fa8bc" opacity="0.38"/>
-<!-- Mountain range — mid -->
-<polygon points="278,278 295,248 346,265 400,238 468,256 535,232 608,252 678,228 750,248 820,230 892,250 964,234 1038,252 1110,236 1162,278"
-         fill="#5c7488" opacity="0.55"/>
+<!-- Lake / water reflection at base of mountains -->
+<polygon points="278,258 1162,258 1162,278 278,278" fill="url(#lakeGrad)" opacity="0.65"/>
 
-<!-- Horizon haze -->
+<!-- Snow mountain range — far (pale caps) -->
+<polygon points="278,278 306,220 356,240 412,202 476,234 552,198 626,228 704,196 782,220 860,192 934,216 1014,198 1086,220 1144,208 1162,278"
+         fill="#d8e4ea" opacity="0.25"/>
+<!-- Mountain range — mid depth -->
+<polygon points="278,278 300,240 352,256 406,232 468,250 535,228 606,248 676,226 748,248 820,228 892,248 966,230 1036,250 1108,236 1162,278"
+         fill="#5a7a98" opacity="0.52"/>
+<!-- Mountain range — near/dark foreground -->
+<polygon points="278,278 294,260 344,272 396,256 458,268 524,250 596,264 664,246 736,262 808,246 880,262 952,248 1022,264 1090,250 1162,278"
+         fill="#2a3e52" opacity="0.7"/>
+
+<!-- Snow haze at horizon -->
 <polygon points="244,55 1196,55 1162,278 278,278" fill="url(#hazeGrad)"/>
 
-<!-- Windshield glass reflections -->
-<polygon points="900,55 1060,55 1162,195 1055,168" fill="rgba(255,255,255,0.05)"/>
-<polygon points="1110,55 1196,55 1162,120 1092,105" fill="rgba(255,255,255,0.04)"/>
+<!-- Windshield glass glint -->
+<polygon points="900,55 1055,55 1162,190 1058,165" fill="rgba(255,255,255,0.035)"/>
+<polygon points="1115,55 1196,55 1162,118 1094,104" fill="rgba(255,255,255,0.028)"/>
 
-<!-- ═══ ROOF HEADLINER (light gray) ═══ -->
-<rect x="0" y="0" width="1440" height="58" fill="#d8dce2"/>
-<line x1="0" y1="22" x2="1440" y2="22" stroke="#c8ccd2" stroke-width="0.6"/>
-<line x1="0" y1="40" x2="1440" y2="40" stroke="#c8ccd2" stroke-width="0.6"/>
+<!-- ═══ ROOF HEADLINER (near black) ═══ -->
+<rect x="0" y="0" width="1440" height="58" fill="#0c0e16"/>
+<line x1="0" y1="18" x2="1440" y2="18" stroke="#14161e" stroke-width="0.8"/>
+<line x1="0" y1="36" x2="1440" y2="36" stroke="#14161e" stroke-width="0.8"/>
 
-<!-- Rearview mirror -->
-<rect x="662" y="55" width="116" height="22" rx="3" fill="#c0c4ca"/>
-<rect x="676" y="74" width="88" height="14" rx="2" fill="#b0b4ba"/>
+<!-- Overhead reading light cluster (off) -->
+<ellipse cx="720" cy="30" rx="32" ry="7" fill="#141620"/>
+<ellipse cx="720" cy="30" rx="22" ry="5" fill="#0e1018"/>
 
-<!-- ═══ A-PILLARS (light gray) ═══ -->
-<polygon points="0,55 244,55 278,278 0,278"    fill="#aaaeb4"/>
-<line x1="244" y1="55" x2="278" y2="278" stroke="#d8dce2" stroke-width="3"/>
-<line x1="243" y1="55" x2="277" y2="278" stroke="#989ca2" stroke-width="1"/>
+<!-- Rearview mirror (dark frame) -->
+<rect x="660" y="52" width="120" height="24" rx="4" fill="#12141c"/>
+<rect x="666" y="56" width="108" height="16" rx="3" fill="#0c0e16"/>
+<rect x="668" y="58" width="104" height="12" rx="2" fill="rgba(50,80,110,0.28)"/>
 
-<polygon points="1196,55 1440,55 1440,278 1162,278" fill="#aaaeb4"/>
-<line x1="1196" y1="55" x2="1162" y2="278" stroke="#d8dce2" stroke-width="3"/>
-<line x1="1197" y1="55" x2="1163" y2="278" stroke="#989ca2" stroke-width="1"/>
+<!-- ═══ A-PILLARS (very dark) ═══ -->
+<polygon points="0,55 244,55 278,278 0,278"    fill="#10121a"/>
+<line x1="244" y1="55" x2="278" y2="278" stroke="#22242e" stroke-width="2.5"/>
+<line x1="243" y1="55" x2="277" y2="278" stroke="#06080c" stroke-width="1"/>
 
-<!-- ═══ DOOR PANELS ═══ -->
+<polygon points="1196,55 1440,55 1440,278 1162,278" fill="#10121a"/>
+<line x1="1196" y1="55" x2="1162" y2="278" stroke="#22242e" stroke-width="2.5"/>
+<line x1="1197" y1="55" x2="1163" y2="278" stroke="#06080c" stroke-width="1"/>
+
+<!-- ═══ DOOR PANELS (dark matte) ═══ -->
 <!-- Left door -->
-<polygon points="0,278 238,278 258,558 0,558" fill="url(#doorLGrad)"/>
-<line x1="0" y1="285" x2="240" y2="285" stroke="#d0d4da" stroke-width="2"/>
-<!-- Left door window -->
-<polygon points="0,278 68,278 76,330 0,330" fill="rgba(160,200,220,0.22)"/>
-<!-- Left armrest -->
-<rect x="0" y="398" width="188" height="60" rx="0" fill="#b8bcc2" opacity="0.7"/>
-<rect x="0" y="424" width="165" height="14" rx="5" fill="#a8acb2"/>
+<polygon points="0,278 240,278 260,558 0,558" fill="url(#doorLGrad)"/>
+<line x1="0" y1="284" x2="242" y2="284" stroke="#1e2028" stroke-width="1.5"/>
+<!-- Left door window (dark tinted) -->
+<polygon points="0,278 68,278 76,330 0,330" fill="rgba(20,38,58,0.42)"/>
+<!-- Left armrest (dark) -->
+<rect x="0" y="398" width="195" height="64" rx="0" fill="#16181e"/>
+<rect x="0" y="422" width="170" height="16" rx="6" fill="#12141a"/>
 <!-- Left door handle -->
-<rect x="140" y="365" width="68" height="22" rx="11" fill="#c0c4ca" stroke="#b0b4ba" stroke-width="1"/>
-<!-- Left mirror -->
-<ellipse cx="72" cy="262" rx="44" ry="27" fill="#989ea4"/>
-<ellipse cx="72" cy="262" rx="36" ry="21" fill="#848a90"/>
+<rect x="142" y="363" width="72" height="24" rx="12" fill="#1c1e26" stroke="#2a2c36" stroke-width="1"/>
+<rect x="146" y="367" width="64" height="16" rx="8" fill="#14161e"/>
+<!-- Left speaker grille -->
+<g transform="translate(12,318)" opacity="0.55">
+  <rect x="0" y="0" width="60" height="68" rx="4" fill="#0a0c12"/>
+  <line x1="4" y1="7"  x2="56" y2="7"  stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="17" x2="56" y2="17" stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="27" x2="56" y2="27" stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="37" x2="56" y2="37" stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="47" x2="56" y2="47" stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="57" x2="56" y2="57" stroke="#181c24" stroke-width="1.2"/>
+</g>
+<!-- Left mirror (dark housing) -->
+<ellipse cx="68" cy="258" rx="46" ry="28" fill="#12141c"/>
+<ellipse cx="68" cy="258" rx="38" ry="22" fill="rgba(40,65,88,0.45)"/>
 
 <!-- Right door -->
-<polygon points="1202,278 1440,278 1440,558 1182,558" fill="url(#doorRGrad)"/>
-<line x1="1198" y1="285" x2="1440" y2="285" stroke="#d0d4da" stroke-width="2"/>
-<polygon points="1372,278 1440,278 1440,330 1364,330" fill="rgba(160,200,220,0.22)"/>
-<rect x="1252" y="398" width="188" height="60" rx="0" fill="#b8bcc2" opacity="0.7"/>
-<rect x="1275" y="424" width="165" height="14" rx="5" fill="#a8acb2"/>
-<rect x="1232" y="365" width="68" height="22" rx="11" fill="#c0c4ca" stroke="#b0b4ba" stroke-width="1"/>
-<ellipse cx="1368" cy="262" rx="44" ry="27" fill="#989ea4"/>
-<ellipse cx="1368" cy="262" rx="36" ry="21" fill="#848a90"/>
+<polygon points="1200,278 1440,278 1440,558 1180,558" fill="url(#doorRGrad)"/>
+<line x1="1198" y1="284" x2="1440" y2="284" stroke="#1e2028" stroke-width="1.5"/>
+<polygon points="1372,278 1440,278 1440,330 1364,330" fill="rgba(20,38,58,0.42)"/>
+<rect x="1245" y="398" width="195" height="64" rx="0" fill="#16181e"/>
+<rect x="1270" y="422" width="170" height="16" rx="6" fill="#12141a"/>
+<rect x="1226" y="363" width="72" height="24" rx="12" fill="#1c1e26" stroke="#2a2c36" stroke-width="1"/>
+<rect x="1230" y="367" width="64" height="16" rx="8" fill="#14161e"/>
+<g transform="translate(1368,318)" opacity="0.55">
+  <rect x="0" y="0" width="60" height="68" rx="4" fill="#0a0c12"/>
+  <line x1="4" y1="7"  x2="56" y2="7"  stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="17" x2="56" y2="17" stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="27" x2="56" y2="27" stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="37" x2="56" y2="37" stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="47" x2="56" y2="47" stroke="#181c24" stroke-width="1.2"/>
+  <line x1="4" y1="57" x2="56" y2="57" stroke="#181c24" stroke-width="1.2"/>
+</g>
+<ellipse cx="1372" cy="258" rx="46" ry="28" fill="#12141c"/>
+<ellipse cx="1372" cy="258" rx="38" ry="22" fill="rgba(40,65,88,0.45)"/>
 
-<!-- ═══ DASHBOARD SURFACE ═══ -->
+<!-- ═══ DASHBOARD SURFACE (dark charcoal) ═══ -->
 <path d="M 238,278 Q 720,256 1202,278 L 1202,558 L 238,558 Z" fill="url(#dashGrad)"/>
 
-<!-- ═══ WOOD TRIM STRIP ═══ -->
-<path d="M 238,278 Q 720,256 1202,278 L 1202,308 Q 720,286 238,308 Z" fill="url(#woodGrad)"/>
-<!-- Wood gloss edge -->
-<path d="M 238,278 Q 720,256 1202,278" fill="none" stroke="rgba(255,220,120,0.25)" stroke-width="1.5"/>
-<path d="M 238,308 Q 720,286 1202,308" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1"/>
+<!-- ═══ DARK WALNUT TRIM STRIP ═══ -->
+<path d="M 238,278 Q 720,256 1202,278 L 1202,310 Q 720,288 238,310 Z" fill="url(#woodGrad)"/>
+<path d="M 238,278 Q 720,256 1202,278" fill="none" stroke="rgba(160,100,30,0.18)" stroke-width="1.5"/>
+<path d="M 260,282 Q 720,260 1180,282" fill="none" stroke="rgba(220,140,50,0.07)" stroke-width="1"/>
+<path d="M 238,310 Q 720,288 1202,310" fill="none" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
 
-<!-- ═══ INSTRUMENT STRIP (behind yoke, minimal Tesla-style) ═══ -->
-<rect x="58"  y="316" width="326" height="74" rx="7" fill="#0c1018"/>
-<rect x="63"  y="321" width="316" height="64" rx="5" fill="#080c14"/>
-<!-- Speed -->
-<text x="128" y="360" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="30" font-weight="700" fill="#eef4ff">0</text>
-<text x="128" y="376" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="9" fill="#2a5070" letter-spacing="2">MPH</text>
-<!-- Range -->
-<text x="258" y="350" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="10" fill="#1e4060">RANGE</text>
-<text x="258" y="368" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="18" fill="#00c0f0">273</text>
-<text x="258" y="380" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="8" fill="#1a3a50">mi</text>
-<!-- AP dot -->
-<circle cx="346" cy="348" r="5" fill="#00c0f0" opacity="0.75"/>
-<text x="358" y="352" font-family="Share Tech Mono,monospace" font-size="9" fill="#1e4060">AP</text>
+<!-- ═══ INSTRUMENT STRIP ═══ -->
+<rect x="58" y="316" width="320" height="72" rx="7" fill="#08090e"/>
+<rect x="63" y="321" width="310" height="62" rx="5" fill="#050610"/>
+<text x="125" y="360" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="30" font-weight="700" fill="#eef4ff">0</text>
+<text x="125" y="376" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="9" fill="#2a5070" letter-spacing="2">MPH</text>
+<text x="252" y="350" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="10" fill="#1e4060">RANGE</text>
+<text x="252" y="368" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="18" fill="#00c0f0">273</text>
+<text x="252" y="380" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="8" fill="#1a3a50">mi</text>
+<circle cx="338" cy="347" r="5" fill="#00c0f0" opacity="0.65"/>
+<text x="348" y="351" font-family="Share Tech Mono,monospace" font-size="9" fill="#1e4060">AP</text>
 
 <!-- ═══ MAIN INFOTAINMENT SCREEN ═══ -->
-<!-- Outer bezel -->
-<rect x="500" y="284" width="660" height="256" rx="9" fill="#0a0e18" filter="url(#shadow)"/>
-<!-- Screen glass -->
-<rect x="507" y="291" width="646" height="242" rx="6" fill="#030810"/>
-<!-- Subtle edge glow -->
+<rect x="500" y="284" width="660" height="256" rx="9" fill="#060810" filter="url(#shadow)"/>
+<rect x="507" y="291" width="646" height="242" rx="6" fill="#030610"/>
 <rect x="507" y="291" width="646" height="242" rx="6" fill="none"
-      stroke="#00c0f0" stroke-width="0.8" opacity="0.2" filter="url(#scrglow)"/>
+      stroke="#00c0f0" stroke-width="0.8" opacity="0.18" filter="url(#scrglow)"/>
 
 <!-- Status bar -->
-<rect x="507" y="291" width="646" height="20" rx="6" fill="#020c1a"/>
+<rect x="507" y="291" width="646" height="20" rx="6" fill="#02081a"/>
 <text x="522"  y="305" font-family="Share Tech Mono,monospace" font-size="8" fill="#1a3a50">09:41</text>
 <text x="830"  y="305" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="8" fill="#1a3a50" letter-spacing="3">PORTFOLIO OS v3.0</text>
 <text x="1138" y="305" text-anchor="end"   font-family="Share Tech Mono,monospace" font-size="8" fill="#1a3a50">● WIFI</text>
@@ -228,156 +272,154 @@
 <text x="808" y="479" font-family="Share Tech Mono,monospace" font-size="10" fill="#00c0f0" letter-spacing="2">TOUCH TO EXPLORE</text>
 
 <!-- ═══ CLIMATE / VENT STRIP BELOW SCREEN ═══ -->
-<rect x="507" y="543" width="646" height="38" rx="4" fill="#c2c6cb"/>
-<rect x="511" y="547" width="638" height="30" rx="3" fill="#babec3"/>
-<text x="538"  y="566" font-family="Share Tech Mono,monospace" font-size="11" fill="#6a7078">22°C</text>
-<text x="1122" y="566" text-anchor="end" font-family="Share Tech Mono,monospace" font-size="11" fill="#6a7078">22°C</text>
-<!-- Vent slats center -->
-<g transform="translate(758,551)" opacity="0.45">
-  <line x1="0"  y1="0" x2="0"  y2="22" stroke="#7a8088" stroke-width="2"/>
-  <line x1="10" y1="0" x2="10" y2="22" stroke="#7a8088" stroke-width="2"/>
-  <line x1="20" y1="0" x2="20" y2="22" stroke="#7a8088" stroke-width="2"/>
-  <line x1="30" y1="0" x2="30" y2="22" stroke="#7a8088" stroke-width="2"/>
-  <line x1="40" y1="0" x2="40" y2="22" stroke="#7a8088" stroke-width="2"/>
-  <line x1="50" y1="0" x2="50" y2="22" stroke="#7a8088" stroke-width="2"/>
-  <line x1="60" y1="0" x2="60" y2="22" stroke="#7a8088" stroke-width="2"/>
+<rect x="507" y="543" width="646" height="38" rx="4" fill="#14161c"/>
+<rect x="511" y="547" width="638" height="30" rx="3" fill="#10121a"/>
+<text x="538"  y="566" font-family="Share Tech Mono,monospace" font-size="11" fill="#2e3848">22°C</text>
+<text x="1122" y="566" text-anchor="end" font-family="Share Tech Mono,monospace" font-size="11" fill="#2e3848">22°C</text>
+<g transform="translate(758,551)" opacity="0.38">
+  <line x1="0"  y1="0" x2="0"  y2="22" stroke="#303848" stroke-width="2"/>
+  <line x1="10" y1="0" x2="10" y2="22" stroke="#303848" stroke-width="2"/>
+  <line x1="20" y1="0" x2="20" y2="22" stroke="#303848" stroke-width="2"/>
+  <line x1="30" y1="0" x2="30" y2="22" stroke="#303848" stroke-width="2"/>
+  <line x1="40" y1="0" x2="40" y2="22" stroke="#303848" stroke-width="2"/>
+  <line x1="50" y1="0" x2="50" y2="22" stroke="#303848" stroke-width="2"/>
+  <line x1="60" y1="0" x2="60" y2="22" stroke="#303848" stroke-width="2"/>
 </g>
-<rect x="750" y="548" width="78" height="26" rx="3" fill="none" stroke="#8a9098" stroke-width="1"/>
+<rect x="750" y="548" width="78" height="26" rx="3" fill="none" stroke="#202838" stroke-width="1"/>
 
-<!-- Left vent cluster (near pillar) -->
-<g transform="translate(270,316)" opacity="0.55">
-  <line x1="0"  y1="0" x2="0"  y2="52" stroke="#9a9ea4" stroke-width="2.5"/>
-  <line x1="12" y1="0" x2="12" y2="52" stroke="#9a9ea4" stroke-width="2.5"/>
-  <line x1="24" y1="0" x2="24" y2="52" stroke="#9a9ea4" stroke-width="2.5"/>
-  <line x1="36" y1="0" x2="36" y2="52" stroke="#9a9ea4" stroke-width="2.5"/>
-  <rect x="-4" y="-3" width="48" height="58" rx="4" fill="none" stroke="#b0b4ba" stroke-width="1.5"/>
+<!-- Left vent cluster -->
+<g transform="translate(268,318)" opacity="0.48">
+  <line x1="0"  y1="0" x2="0"  y2="50" stroke="#242830" stroke-width="2.5"/>
+  <line x1="12" y1="0" x2="12" y2="50" stroke="#242830" stroke-width="2.5"/>
+  <line x1="24" y1="0" x2="24" y2="50" stroke="#242830" stroke-width="2.5"/>
+  <line x1="36" y1="0" x2="36" y2="50" stroke="#242830" stroke-width="2.5"/>
+  <rect x="-4" y="-3" width="48" height="56" rx="4" fill="none" stroke="#303440" stroke-width="1.5"/>
 </g>
 <!-- Right vent cluster -->
-<g transform="translate(1148,316)" opacity="0.55">
-  <line x1="0"  y1="0" x2="0"  y2="52" stroke="#9a9ea4" stroke-width="2.5"/>
-  <line x1="12" y1="0" x2="12" y2="52" stroke="#9a9ea4" stroke-width="2.5"/>
-  <line x1="24" y1="0" x2="24" y2="52" stroke="#9a9ea4" stroke-width="2.5"/>
-  <line x1="36" y1="0" x2="36" y2="52" stroke="#9a9ea4" stroke-width="2.5"/>
-  <rect x="-4" y="-3" width="48" height="58" rx="4" fill="none" stroke="#b0b4ba" stroke-width="1.5"/>
+<g transform="translate(1148,318)" opacity="0.48">
+  <line x1="0"  y1="0" x2="0"  y2="50" stroke="#242830" stroke-width="2.5"/>
+  <line x1="12" y1="0" x2="12" y2="50" stroke="#242830" stroke-width="2.5"/>
+  <line x1="24" y1="0" x2="24" y2="50" stroke="#242830" stroke-width="2.5"/>
+  <line x1="36" y1="0" x2="36" y2="50" stroke="#242830" stroke-width="2.5"/>
+  <rect x="-4" y="-3" width="48" height="56" rx="4" fill="none" stroke="#303440" stroke-width="1.5"/>
 </g>
 
-<!-- ═══ DRIVER SEAT (left) ═══ -->
-<polygon points="0,555 368,555 445,900 0,900" fill="url(#seatLGrad)"/>
-<rect x="0" y="547" width="362" height="13" rx="3" fill="#c2c6cb"/>
-<line x1="368" y1="555" x2="445" y2="900" stroke="#d4d8de" stroke-width="2"/>
-<polygon points="0,555 368,555 390,612 0,612" fill="rgba(0,0,0,0.1)"/>
-<!-- Seat stitching -->
-<line x1="28" y1="590" x2="335" y2="590" stroke="#bfc3c8" stroke-width="0.9" stroke-dasharray="9,5"/>
-<line x1="28" y1="638" x2="345" y2="648" stroke="#bfc3c8" stroke-width="0.9" stroke-dasharray="9,5"/>
-<line x1="28" y1="688" x2="360" y2="702" stroke="#bfc3c8" stroke-width="0.9" stroke-dasharray="9,5"/>
+<!-- ═══ DRIVER SEAT (light gray — contrasts dark interior) ═══ -->
+<polygon points="0,558 368,558 445,900 0,900" fill="url(#seatLGrad)"/>
+<rect x="0" y="550" width="362" height="14" rx="3" fill="#aab0b4"/>
+<polygon points="0,558 368,558 390,618 0,618" fill="rgba(0,0,0,0.15)"/>
+<line x1="26" y1="594" x2="334" y2="594" stroke="#c0c6ca" stroke-width="0.9" stroke-dasharray="9,5"/>
+<line x1="26" y1="648" x2="348" y2="660" stroke="#c0c6ca" stroke-width="0.9" stroke-dasharray="9,5"/>
+<line x1="26" y1="704" x2="362" y2="718" stroke="#c0c6ca" stroke-width="0.9" stroke-dasharray="9,5"/>
 
-<!-- ═══ PASSENGER SEAT (right) ═══ -->
-<polygon points="1072,555 1440,555 1440,900 995,900" fill="url(#seatRGrad)"/>
-<rect x="1078" y="547" width="362" height="13" rx="3" fill="#c2c6cb"/>
-<line x1="1072" y1="555" x2="995" y2="900" stroke="#d4d8de" stroke-width="2"/>
-<polygon points="1072,555 1440,555 1440,612 1050,612" fill="rgba(0,0,0,0.1)"/>
-<line x1="1105" y1="590" x2="1412" y2="590" stroke="#bfc3c8" stroke-width="0.9" stroke-dasharray="9,5"/>
-<line x1="1095" y1="638" x2="1395" y2="648" stroke="#bfc3c8" stroke-width="0.9" stroke-dasharray="9,5"/>
-<line x1="1080" y1="688" x2="1380" y2="702" stroke="#bfc3c8" stroke-width="0.9" stroke-dasharray="9,5"/>
+<!-- ═══ PASSENGER SEAT (right, light gray) ═══ -->
+<polygon points="1072,558 1440,558 1440,900 995,900" fill="url(#seatRGrad)"/>
+<rect x="1078" y="550" width="362" height="14" rx="3" fill="#aab0b4"/>
+<polygon points="1072,558 1440,558 1440,618 1050,618" fill="rgba(0,0,0,0.15)"/>
+<line x1="1106" y1="594" x2="1414" y2="594" stroke="#c0c6ca" stroke-width="0.9" stroke-dasharray="9,5"/>
+<line x1="1092" y1="648" x2="1394" y2="660" stroke="#c0c6ca" stroke-width="0.9" stroke-dasharray="9,5"/>
+<line x1="1078" y1="704" x2="1380" y2="718" stroke="#c0c6ca" stroke-width="0.9" stroke-dasharray="9,5"/>
 
-<!-- ═══ CENTER CONSOLE ═══ -->
-<polygon points="430,558 1010,558 980,900 460,900" fill="url(#consoleGrad)"/>
-<line x1="430" y1="558" x2="1010" y2="558" stroke="#d8dce2" stroke-width="2"/>
-<!-- Console armrest surface -->
-<rect x="488" y="605" width="464" height="96" rx="10" fill="#dadee2"/>
-<rect x="498" y="615" width="444" height="76" rx="7"  fill="#d0d4d8"/>
-<!-- Console touchpad -->
-<rect x="588" y="638" width="264" height="44" rx="6" fill="#c4c8ce" stroke="#b8bcC2" stroke-width="1"/>
+<!-- ═══ CENTER CONSOLE (dark) ═══ -->
+<polygon points="432,560 1008,560 978,900 462,900" fill="url(#consoleGrad)"/>
+<line x1="432" y1="560" x2="1008" y2="560" stroke="#202230" stroke-width="1.5"/>
+<!-- Armrest surface -->
+<rect x="490" y="608" width="460" height="92" rx="10" fill="#16181e"/>
+<rect x="500" y="618" width="440" height="72" rx="7" fill="#12141a"/>
+<!-- Wireless pad -->
+<rect x="592" y="642" width="256" height="40" rx="6" fill="#0c0e14" stroke="#1c1e28" stroke-width="1"/>
+<text x="720" y="666" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="8" fill="#182038" letter-spacing="1">WIRELESS CHARGING</text>
+<!-- Gear row -->
+<rect x="622" y="748" width="196" height="26" rx="6" fill="#0c0e14" stroke="#181c26" stroke-width="1"/>
+<text x="720" y="765" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="10" fill="#182040" letter-spacing="3">P R N D</text>
+<rect x="668" y="751" width="28" height="20" rx="4" fill="#1a2440" opacity="0.7"/>
 
-<!-- ═══ FLOOR (dark, left side visible) ═══ -->
-<rect x="0" y="730" width="450" height="170" fill="#141820"/>
-<!-- Brake pedal -->
-<rect x="58"  y="758" width="48" height="104" rx="4" fill="url(#pedalTex)"/>
-<rect x="60"  y="760" width="44" height="10"  rx="2" fill="#20262e"/>
-<rect x="118" y="780" width="38" height="80"  rx="4" fill="url(#pedalTex)"/>
-<rect x="120" y="782" width="34" height="10"  rx="2" fill="#20262e"/>
-<!-- Floor mat edge -->
-<line x1="0" y1="730" x2="450" y2="730" stroke="#1e2430" stroke-width="2"/>
+<!-- ═══ FLOOR (dark) ═══ -->
+<rect x="0" y="732" width="450" height="168" fill="#08090e"/>
+<rect x="58"  y="762" width="48" height="100" rx="4" fill="url(#pedalTex)"/>
+<rect x="60"  y="764" width="44" height="10"  rx="2" fill="#161e28"/>
+<rect x="118" y="780" width="38" height="78"  rx="4" fill="url(#pedalTex)"/>
+<rect x="120" y="782" width="34" height="10"  rx="2" fill="#161e28"/>
+<line x1="0" y1="732" x2="450" y2="732" stroke="#10121a" stroke-width="2"/>
 
 <!-- ═══ STEERING COLUMN ═══ -->
-<rect x="212" y="558" width="86" height="290" rx="5" fill="#1a1e26"/>
-<rect x="222" y="562" width="66" height="270" rx="3" fill="#141820"/>
+<rect x="212" y="560" width="86" height="286" rx="5" fill="#10121a"/>
+<rect x="220" y="564" width="70" height="270" rx="3" fill="#0c0e14"/>
 
-<!-- Wheel shadow on floor -->
-<ellipse cx="258" cy="912" rx="155" ry="18" fill="#000" opacity="0.2"/>
+<!-- Wheel floor shadow -->
+<ellipse cx="258" cy="912" rx="158" ry="16" fill="#000" opacity="0.38"/>
 
-<!-- ═══ TESLA YOKE ═══ -->
-<g id="yoke" transform="translate(258, 808)">
+<!-- ═══ ROUND STEERING WHEEL ═══ -->
+<g id="steeringWheel" transform="translate(258, 808)" filter="url(#wheelshadow)">
 
-  <!-- Drop shadow -->
-  <g opacity="0.3" transform="translate(5,8)">
-    <rect x="-136" y="-88" width="92"  height="136" rx="15" fill="#000"/>
-    <rect x="44"   y="-88" width="92"  height="136" rx="15" fill="#000"/>
-    <path d="M -136,42 Q -136,118 0,130 Q 136,118 136,42 L 124,42 Q 124,112 0,120 Q -124,112 -124,42 Z" fill="#000"/>
-    <rect x="-44" y="-20" width="88" height="62" fill="#000"/>
-  </g>
+  <!-- Rim — gradient shaded stroke (3D effect) -->
+  <circle cx="0" cy="0" r="175" fill="none" stroke="url(#wheelRimGrad)" stroke-width="30"/>
 
-  <!-- Left wing -->
-  <rect x="-136" y="-88" width="92"  height="136" rx="15" fill="#1c2028"/>
-  <!-- Right wing -->
-  <rect x="44"   y="-88" width="92"  height="136" rx="15" fill="#1c2028"/>
-  <!-- Bottom arc connector -->
-  <path d="M -136,42 Q -136,118 0,130 Q 136,118 136,42 L 124,42 Q 124,110 0,120 Q -124,110 -124,42 Z" fill="#1c2028"/>
-  <!-- Center fill (below gap, connects wings) -->
-  <rect x="-44" y="-20" width="88" height="62" fill="#1c2028"/>
+  <!-- Specular highlight: top of rim catches overhead light -->
+  <path d="M -120,-130 A 175,175 0 0,1 120,-130"
+        fill="none" stroke="#585c6c" stroke-width="6" opacity="0.45"/>
+  <path d="M -80,-160 A 175,175 0 0,1 80,-160"
+        fill="none" stroke="#6c7080" stroke-width="3" opacity="0.3"/>
 
-  <!-- Wing chrome edges -->
-  <rect x="-136" y="-88" width="92"  height="136" rx="15" fill="none" stroke="#363c4a" stroke-width="2"/>
-  <rect x="44"   y="-88" width="92"  height="136" rx="15" fill="none" stroke="#363c4a" stroke-width="2"/>
-  <path d="M -136,42 Q -136,120 0,132 Q 136,120 136,42" fill="none" stroke="#363c4a" stroke-width="2"/>
+  <!-- Bottom rim slight darkening -->
+  <path d="M -110,136 A 175,175 0 0,0 110,136"
+        fill="none" stroke="#0c0e14" stroke-width="6" opacity="0.55"/>
 
-  <!-- Top gap cutout highlight -->
-  <rect x="-44" y="-92" width="88" height="78" rx="8" fill="#101420"/>
-  <rect x="-40" y="-90" width="80" height="72" rx="6" fill="#0c1018"/>
+  <!-- Inner and outer edge definition -->
+  <circle cx="0" cy="0" r="160" fill="none" stroke="#14161e" stroke-width="1.5"/>
+  <circle cx="0" cy="0" r="190" fill="none" stroke="#0e1016" stroke-width="2" opacity="0.5"/>
 
-  <!-- Grip texture on left wing (subtle horizontal lines) -->
-  <rect x="-132" y="-60" width="84" height="4" rx="2" fill="#242a34"/>
-  <rect x="-132" y="-50" width="84" height="4" rx="2" fill="#242a34"/>
-  <rect x="-132" y="-40" width="84" height="4" rx="2" fill="#242a34"/>
-  <rect x="-132" y="-30" width="84" height="4" rx="2" fill="#242a34"/>
+  <!-- 3 SPOKES — upper-left, upper-right, straight down -->
+  <!-- Spoke bases (wider, dark) -->
+  <line x1="0" y1="0" x2="-152" y2="82" stroke="#1e2028" stroke-width="22" stroke-linecap="round"/>
+  <line x1="0" y1="0" x2="152"  y2="82" stroke="#1e2028" stroke-width="22" stroke-linecap="round"/>
+  <line x1="0" y1="0" x2="0"    y2="174" stroke="#1e2028" stroke-width="22" stroke-linecap="round"/>
 
-  <!-- Grip texture on right wing -->
-  <rect x="48" y="-60" width="84" height="4" rx="2" fill="#242a34"/>
-  <rect x="48" y="-50" width="84" height="4" rx="2" fill="#242a34"/>
-  <rect x="48" y="-40" width="84" height="4" rx="2" fill="#242a34"/>
-  <rect x="48" y="-30" width="84" height="4" rx="2" fill="#242a34"/>
+  <!-- Spoke faces (slightly lighter) -->
+  <line x1="0" y1="0" x2="-152" y2="82" stroke="#242630" stroke-width="14" stroke-linecap="round"/>
+  <line x1="0" y1="0" x2="152"  y2="82" stroke="#242630" stroke-width="14" stroke-linecap="round"/>
+  <line x1="0" y1="0" x2="0"    y2="174" stroke="#242630" stroke-width="14" stroke-linecap="round"/>
 
-  <!-- Left wing buttons -->
-  <circle cx="-90" cy="-76" r="8" fill="#20262e" stroke="#2e3440" stroke-width="1"/>
-  <circle cx="-90" cy="-56" r="6" fill="#20262e" stroke="#2e3440" stroke-width="1"/>
-  <circle cx="-70" cy="-70" r="6" fill="#20262e" stroke="#2e3440" stroke-width="1"/>
-  <!-- Left scroll wheel -->
-  <rect x="-115" y="4" width="22" height="16" rx="4" fill="#1e2430"/>
-  <line x1="-115" y1="9" x2="-93" y2="9" stroke="#2e3440" stroke-width="1"/>
-  <line x1="-115" y1="14" x2="-93" y2="14" stroke="#2e3440" stroke-width="1"/>
+  <!-- Spoke specular highlights (top edge of each spoke) -->
+  <line x1="0" y1="0" x2="-152" y2="82" stroke="rgba(255,255,255,0.05)" stroke-width="4" stroke-linecap="round"/>
+  <line x1="0" y1="0" x2="152"  y2="82" stroke="rgba(255,255,255,0.05)" stroke-width="4" stroke-linecap="round"/>
+  <line x1="0" y1="0" x2="0"    y2="174" stroke="rgba(255,255,255,0.04)" stroke-width="4" stroke-linecap="round"/>
 
-  <!-- Right wing buttons -->
-  <circle cx="90" cy="-76" r="8" fill="#20262e" stroke="#2e3440" stroke-width="1"/>
-  <circle cx="90" cy="-56" r="6" fill="#20262e" stroke="#2e3440" stroke-width="1"/>
-  <circle cx="70" cy="-70" r="6" fill="#20262e" stroke="#2e3440" stroke-width="1"/>
-  <!-- Right scroll wheel -->
-  <rect x="93" y="4" width="22" height="16" rx="4" fill="#1e2430"/>
-  <line x1="93" y1="9" x2="115" y2="9" stroke="#2e3440" stroke-width="1"/>
-  <line x1="93" y1="14" x2="115" y2="14" stroke="#2e3440" stroke-width="1"/>
+  <!-- Left control cluster -->
+  <path d="M -145,75 Q -168,50 -158,16 Q -153,-14 -132,-16 L -88,-14 Q -76,-12 -76,8 L -76,68 Q -76,88 -98,90 Z"
+        fill="#1c1e28" stroke="#242632" stroke-width="1.5"/>
+  <circle cx="-128" cy="20" r="7" fill="#14161e" stroke="#202232" stroke-width="1"/>
+  <circle cx="-108" cy="13" r="5" fill="#14161e" stroke="#202232" stroke-width="1"/>
+  <circle cx="-112" cy="36" r="5" fill="#14161e" stroke="#202232" stroke-width="1"/>
+  <rect x="-144" y="48" width="22" height="14" rx="4" fill="#12141c"/>
+  <line x1="-144" y1="53" x2="-122" y2="53" stroke="#1c1e28" stroke-width="1"/>
+  <line x1="-144" y1="57" x2="-122" y2="57" stroke="#1c1e28" stroke-width="1"/>
+
+  <!-- Right control cluster -->
+  <path d="M 145,75 Q 168,50 158,16 Q 153,-14 132,-16 L 88,-14 Q 76,-12 76,8 L 76,68 Q 76,88 98,90 Z"
+        fill="#1c1e28" stroke="#242632" stroke-width="1.5"/>
+  <circle cx="128" cy="20" r="7" fill="#14161e" stroke="#202232" stroke-width="1"/>
+  <circle cx="108" cy="13" r="5" fill="#14161e" stroke="#202232" stroke-width="1"/>
+  <circle cx="112" cy="36" r="5" fill="#14161e" stroke="#202232" stroke-width="1"/>
+  <rect x="122" y="48" width="22" height="14" rx="4" fill="#12141c"/>
+  <line x1="122" y1="53" x2="144" y2="53" stroke="#1c1e28" stroke-width="1"/>
+  <line x1="122" y1="57" x2="144" y2="57" stroke="#1c1e28" stroke-width="1"/>
 
   <!-- Hub -->
-  <rect x="-34" y="-30" width="68" height="68" rx="10" fill="#181c24"/>
-  <rect x="-28" y="-24" width="56" height="56" rx="8"  fill="#12161e"/>
-  <!-- T logo -->
-  <rect x="-20" y="-8" width="40" height="7"  rx="2" fill="#2c3240"/>
-  <rect x="-5"  y="-2" width="10" height="24" rx="2" fill="#2c3240"/>
+  <circle cx="0" cy="0" r="46" fill="#14161e" stroke="#20222e" stroke-width="2"/>
+  <circle cx="0" cy="0" r="38" fill="#0e1018"/>
+  <!-- Tesla T logo -->
+  <rect x="-18" y="-9"  width="36" height="7"  rx="2.5" fill="#282c3a"/>
+  <rect x="-5"  y="-3"  width="10" height="26" rx="2"   fill="#282c3a"/>
+  <rect x="-18" y="-9"  width="36" height="3"  rx="2"   fill="rgba(255,255,255,0.06)"/>
 
-  <!-- Left paddle -->
-  <rect x="-184" y="-30" width="36" height="58" rx="9" fill="#16191e" stroke="#2c3040" stroke-width="1.5"/>
-  <rect x="-180" y="-24" width="28" height="46" rx="7" fill="#12151a"/>
-  <!-- Right paddle -->
-  <rect x="148"  y="-30" width="36" height="58" rx="9" fill="#16191e" stroke="#2c3040" stroke-width="1.5"/>
-  <rect x="152"  y="-24" width="28" height="46" rx="7" fill="#12151a"/>
+  <!-- Paddle shifters -->
+  <rect x="-222" y="-30" width="40" height="58" rx="10" fill="#12141c" stroke="#1e2028" stroke-width="1.5"/>
+  <rect x="-218" y="-24" width="32" height="46" rx="8"  fill="#0e1018"/>
+  <rect x="-222" y="-30" width="40" height="5"  rx="3"  fill="rgba(255,255,255,0.04)"/>
+  <rect x="182"  y="-30" width="40" height="58" rx="10" fill="#12141c" stroke="#1e2028" stroke-width="1.5"/>
+  <rect x="186"  y="-24" width="32" height="46" rx="8"  fill="#0e1018"/>
+  <rect x="182"  y="-30" width="40" height="5"  rx="3"  fill="rgba(255,255,255,0.04)"/>
 
 </g>
 
