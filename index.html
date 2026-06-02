@@ -11,28 +11,143 @@
 </head>
 <body>
 
-  <!-- ── BOOT SEQUENCE ─────────────────────────────────────── -->
-  <div id="boot">
-    <div class="boot-logo">SN</div>
-    <div class="boot-lines">
-      <div class="boot-line" id="b1"><span class="bl-prompt">▸</span> SRINIDHI NARLA PORTFOLIO OS v2.0</div>
-      <div class="boot-line" id="b2"><span class="bl-prompt">▸</span> Loading profile data<span class="dots"></span><span class="bl-ok">OK</span></div>
-      <div class="boot-line" id="b3"><span class="bl-prompt">▸</span> Mounting project database<span class="dots"></span><span class="bl-ok">OK</span></div>
-      <div class="boot-line" id="b4"><span class="bl-prompt">▸</span> Initializing display systems<span class="dots"></span><span class="bl-ok">OK</span></div>
-      <div class="boot-line" id="b5"><span class="bl-prompt">▸</span> BOOT <span class="bl-arrow">→</span> HOME</div>
-    </div>
-    <div class="boot-bar-wrap">
-      <div class="boot-bar"><div class="boot-progress" id="boot-progress"></div></div>
-    </div>
-  </div>
+  <!-- ── LANDING: COCKPIT VIEW ──────────────────────────────── -->
+  <div id="landing">
 
-  <!-- ── DASHBOARD ─────────────────────────────────────────── -->
+    <!-- Windscreen area -->
+    <div id="windscreen">
+
+      <!-- A-pillar silhouettes -->
+      <div class="a-pillar left"></div>
+      <div class="a-pillar right"></div>
+
+      <!-- Perspective grid lines (ambient depth) -->
+      <div class="ws-grid">
+        <svg class="grid-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
+          <!-- Vanishing-point grid -->
+          <line x1="500" y1="250" x2="0"    y2="0"   class="gl"/>
+          <line x1="500" y1="250" x2="200"  y2="0"   class="gl"/>
+          <line x1="500" y1="250" x2="400"  y2="0"   class="gl"/>
+          <line x1="500" y1="250" x2="600"  y2="0"   class="gl"/>
+          <line x1="500" y1="250" x2="800"  y2="0"   class="gl"/>
+          <line x1="500" y1="250" x2="1000" y2="0"   class="gl"/>
+          <line x1="500" y1="250" x2="0"    y2="500" class="gl"/>
+          <line x1="500" y1="250" x2="1000" y2="500" class="gl"/>
+          <!-- Horizontal distance lines -->
+          <line x1="100" y1="300" x2="900" y2="300" class="gl h"/>
+          <line x1="200" y1="350" x2="800" y2="350" class="gl h"/>
+          <line x1="300" y1="400" x2="700" y2="400" class="gl h"/>
+          <line x1="350" y1="440" x2="650" y2="440" class="gl h"/>
+        </svg>
+      </div>
+
+      <!-- Center content (visible through windscreen) -->
+      <div class="ws-content">
+        <div class="ws-badge">
+          <span class="ws-dot"></span>PORTFOLIO OS v3.0
+        </div>
+        <h1 class="ws-name">Srinidhi<br/><span>Narla</span></h1>
+        <p class="ws-role">Data Engineering &nbsp;·&nbsp; Cybersecurity &nbsp;·&nbsp; Software</p>
+        <p class="ws-desc">CS Senior · UT Dallas · Building at the intersection of systems, data, and correctness</p>
+        <button id="enter-btn">
+          <span>ENTER VEHICLE</span>
+          <span class="btn-chevron">›</span>
+        </button>
+      </div>
+
+      <!-- Steering wheel (lower-center, partially in dashboard area) -->
+      <div id="steering-wrap">
+        <svg id="steering-wheel" viewBox="0 0 220 220">
+          <circle cx="110" cy="110" r="98" fill="none" stroke="#0e1c2c" stroke-width="20"/>
+          <circle cx="110" cy="110" r="98" fill="none" stroke="#162840" stroke-width="16"/>
+          <circle cx="110" cy="110" r="98" fill="none" stroke="rgba(0,180,232,0.05)" stroke-width="1"/>
+          <!-- Hub -->
+          <circle cx="110" cy="110" r="24" fill="#0a1620" stroke="#1e3040" stroke-width="3"/>
+          <text x="110" y="114" text-anchor="middle" dominant-baseline="middle"
+                font-family="'Inter',sans-serif" font-size="11" font-weight="800"
+                fill="#1e3a50" letter-spacing="-0.5">SN</text>
+          <!-- Spokes -->
+          <path d="M110 86 L110 30"     stroke="#0e1c2c" stroke-width="16" stroke-linecap="round" fill="none"/>
+          <path d="M93 130 L55 172"     stroke="#0e1c2c" stroke-width="16" stroke-linecap="round" fill="none"/>
+          <path d="M127 130 L165 172"   stroke="#0e1c2c" stroke-width="16" stroke-linecap="round" fill="none"/>
+          <!-- Subtle grip marks -->
+          <circle cx="110" cy="110" r="98" fill="none" stroke="rgba(0,180,232,0.03)" stroke-width="20"
+                  stroke-dasharray="8 12"/>
+        </svg>
+      </div>
+
+    </div><!-- /windscreen -->
+
+    <!-- Dashboard bar at bottom (preview of what's inside) -->
+    <div id="dash-bar">
+
+      <!-- Left gauge preview -->
+      <div class="db-gauge">
+        <svg viewBox="0 0 120 120">
+          <!-- track: r=48, circum=301.59, 240°=201.06 -->
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#0a1a28" stroke-width="10"
+                  stroke-dasharray="201.06 100.53" transform="rotate(150 60 60)"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#00b4e8" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="0 301.59"
+                  transform="rotate(150 60 60)" id="db-fill-left"
+                  style="transition: stroke-dasharray 1.2s cubic-bezier(0.22,1,0.36,1)"/>
+          <circle cx="60" cy="60" r="28" fill="#060e18"/>
+          <!-- needle -->
+          <line x1="60" y1="60" x2="60" y2="22" stroke="#00b4e8" stroke-width="2"
+                stroke-linecap="round" id="db-needle-left"
+                style="transform-origin:60px 60px; transform:rotate(150deg);
+                       transition: transform 1.2s cubic-bezier(0.22,1,0.36,1);
+                       filter: drop-shadow(0 0 3px #00b4e8)"/>
+          <circle cx="60" cy="60" r="4" fill="#00b4e8" style="filter:drop-shadow(0 0 3px #00b4e8)"/>
+          <text x="60" y="57" text-anchor="middle" dominant-baseline="middle"
+                font-family="'Share Tech Mono',monospace" font-size="13" fill="#00b4e8">87</text>
+          <text x="60" y="70" text-anchor="middle"
+                font-family="'Share Tech Mono',monospace" font-size="7" fill="#3a5a70">SKILLS</text>
+        </svg>
+      </div>
+
+      <!-- Center screen preview -->
+      <div id="db-screen">
+        <div class="dbs-line"><span class="dbs-cursor">▮</span> SYSTEM READY</div>
+        <div class="dbs-line dim">PRESS ENTER TO INITIALIZE</div>
+        <div class="dbs-line dim">SRINIDHI NARLA · PORTFOLIO v3.0</div>
+      </div>
+
+      <!-- Right gauge preview -->
+      <div class="db-gauge">
+        <svg viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#0a1a28" stroke-width="10"
+                  stroke-dasharray="201.06 100.53" transform="rotate(150 60 60)"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#00b4e8" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="0 301.59"
+                  transform="rotate(150 60 60)" id="db-fill-right"
+                  style="transition: stroke-dasharray 1.2s cubic-bezier(0.22,1,0.36,1)"/>
+          <circle cx="60" cy="60" r="28" fill="#060e18"/>
+          <line x1="60" y1="60" x2="60" y2="22" stroke="#00b4e8" stroke-width="2"
+                stroke-linecap="round" id="db-needle-right"
+                style="transform-origin:60px 60px; transform:rotate(150deg);
+                       transition: transform 1.2s cubic-bezier(0.22,1,0.36,1);
+                       filter: drop-shadow(0 0 3px #00b4e8)"/>
+          <circle cx="60" cy="60" r="4" fill="#00b4e8" style="filter:drop-shadow(0 0 3px #00b4e8)"/>
+          <text x="60" y="57" text-anchor="middle" dominant-baseline="middle"
+                font-family="'Share Tech Mono',monospace" font-size="13" fill="#00b4e8">3.7</text>
+          <text x="60" y="70" text-anchor="middle"
+                font-family="'Share Tech Mono',monospace" font-size="7" fill="#3a5a70">GPA</text>
+        </svg>
+      </div>
+
+    </div><!-- /dash-bar -->
+
+  </div><!-- /landing -->
+
+
+  <!-- ── FULL DASHBOARD ─────────────────────────────────────── -->
   <div id="dashboard">
 
     <!-- HUD top bar -->
     <div id="hud">
       <div class="hud-left">
-        <span class="hud-clock" id="hud-clock">00:00</span>
+        <span class="hud-clock" id="hud-clock">00:00:00</span>
         <span class="hud-sep">|</span>
         <span class="hud-status"><span class="status-dot"></span>SYSTEMS NOMINAL</span>
       </div>
@@ -40,57 +155,53 @@
       <div class="hud-right">
         <span class="hud-badge">UT DALLAS</span>
         <span class="hud-badge accent">OPEN TO WORK</span>
+        <button id="zoom-out-btn" onclick="zoomOutScreen()" title="Exit fullscreen">⊠</button>
       </div>
     </div>
 
-    <!-- Main dashboard body -->
+    <!-- Main body -->
     <div id="dash-body">
 
-      <!-- Left gauge -->
+      <!-- Left gauge (angled) -->
       <div class="gauge-panel" id="gauge-left">
         <div class="gauge-label-top">SKILL INDEX</div>
         <svg class="gauge-svg" viewBox="0 0 200 200">
-          <!-- Outer decorative ring -->
           <circle cx="100" cy="100" r="92" class="g-outer"/>
-          <!-- Tick marks -->
           <g class="g-ticks" id="ticks-left"></g>
-          <!-- Track arc -->
           <circle cx="100" cy="100" r="72" class="g-track"/>
-          <!-- Fill arc -->
           <circle cx="100" cy="100" r="72" class="g-fill" id="fill-left"/>
-          <!-- Inner circle -->
           <circle cx="100" cy="100" r="48" class="g-inner"/>
-          <!-- Needle -->
           <line x1="100" y1="100" x2="100" y2="36" class="g-needle" id="needle-left"/>
           <circle cx="100" cy="100" r="6" class="g-cap"/>
-          <!-- Value -->
-          <text x="100" y="104" class="g-value" id="val-left">87</text>
+          <text x="100" y="103" class="g-value">87</text>
           <text x="100" y="120" class="g-unit">/100</text>
         </svg>
         <div class="gauge-sublabel">FULL STACK</div>
       </div>
 
-      <!-- Center display -->
+      <!-- Center infotainment display -->
       <div id="center-display">
         <div class="display-bezel">
-          <!-- Display tab bar -->
+          <!-- Zoom-in button overlay (visible when not zoomed) -->
+          <button class="zoom-hint" id="zoom-hint-btn" onclick="zoomInScreen()" title="Expand display">⊞</button>
+          <!-- Tab bar -->
           <div class="display-tabs">
             <button class="d-tab active" data-panel="home">HOME</button>
             <button class="d-tab" data-panel="about">ABOUT</button>
             <button class="d-tab" data-panel="projects">PROJECTS</button>
-            <button class="d-tab" data-panel="experience">EXPERIENCE</button>
+            <button class="d-tab" data-panel="experience">EXP</button>
             <button class="d-tab" data-panel="skills">SKILLS</button>
             <button class="d-tab" data-panel="contact">CONTACT</button>
           </div>
-          <!-- Display screen -->
+          <!-- Screen -->
           <div class="display-screen">
 
-            <!-- HOME panel -->
+            <!-- HOME -->
             <div class="panel active" id="panel-home">
               <div class="home-content">
                 <p class="home-greeting">Hi, I'm</p>
-                <h1 class="home-name">Srinidhi<br/>Narla</h1>
-                <p class="home-sub">Data Engineering &nbsp;·&nbsp; Cybersecurity &nbsp;·&nbsp; Software Development</p>
+                <h1 class="home-name">Srinidhi<br/><span>Narla</span></h1>
+                <p class="home-sub">Data Engineering &nbsp;·&nbsp; Cybersecurity &nbsp;·&nbsp; Software</p>
                 <p class="home-desc">CS Senior at UT Dallas building secure, scalable systems — from safety-critical C++ state machines to fraud detection pipelines processing 284K+ transactions.</p>
                 <div class="home-stats">
                   <div class="stat-item"><span class="stat-val">3.7</span><span class="stat-key">GPA</span></div>
@@ -106,7 +217,7 @@
               </div>
             </div>
 
-            <!-- ABOUT panel -->
+            <!-- ABOUT -->
             <div class="panel" id="panel-about">
               <div class="panel-scroll">
                 <h2 class="panel-title">About</h2>
@@ -123,53 +234,49 @@
                     <div class="ac-row"><span class="ac-k">Minors</span><span class="ac-v">Cybersecurity · Finance</span></div>
                     <div class="ac-row"><span class="ac-k">Certified</span><span class="ac-v">AWS Cloud Practitioner</span></div>
                     <div class="ac-row"><span class="ac-k">Location</span><span class="ac-v">Dallas, TX</span></div>
-                    <div class="ac-row"><span class="ac-k">Status</span><span class="ac-v open">Open to Work</span></div>
+                    <div class="ac-row last"><span class="ac-k">Status</span><span class="ac-v open">● Open to Work</span></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- PROJECTS panel -->
+            <!-- PROJECTS -->
             <div class="panel" id="panel-projects">
               <div class="panel-scroll">
                 <h2 class="panel-title">Projects</h2>
                 <div class="projects-list">
 
-                  <div class="proj-card featured">
+                  <div class="proj-card featured" onclick="openProject('sfp')">
                     <div class="proj-top">
                       <span class="proj-badge">Featured</span>
-                      <a href="https://github.com/srinidhinarla-sudo/secure-financial-pipeline" target="_blank" class="proj-link">↗</a>
+                      <a href="https://github.com/srinidhinarla-sudo/secure-financial-pipeline" target="_blank" class="proj-link" onclick="event.stopPropagation()">↗</a>
                     </div>
                     <h3 class="proj-title">Secure Financial Data Pipeline</h3>
-                    <p class="proj-desc">Apache Airflow ETL processing 284K+ credit card transactions through a Bronze/Silver/Gold Delta Lake medallion architecture. Tamper-evident audit layer SHA-256 hashes every row and assembles a Merkle tree. Isolation Forest fraud detection across 29 features with no label leakage.</p>
+                    <p class="proj-desc">Apache Airflow ETL processing 284K+ credit card transactions through a Bronze/Silver/Gold Delta Lake medallion architecture. Tamper-evident audit layer with SHA-256 + Merkle tree. Isolation Forest fraud detection.</p>
                     <div class="proj-tags"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>scikit-learn</span><span>Docker</span></div>
                   </div>
 
-                  <div class="proj-card">
+                  <div class="proj-card" onclick="openProject('ava')">
                     <div class="proj-top">
                       <span class="proj-badge">Systems</span>
-                      <a href="https://github.com/srinidhinarla-sudo/autonomous-validation-agent" target="_blank" class="proj-link">↗</a>
+                      <a href="https://github.com/srinidhinarla-sudo/autonomous-validation-agent" target="_blank" class="proj-link" onclick="event.stopPropagation()">↗</a>
                     </div>
                     <h3 class="proj-title">Autonomous Validation Agent</h3>
-                    <p class="proj-desc">Validation platform for a 61-state C++ vehicle-infotainment state machine via pybind11. 100% transition coverage (217/217). Delta debugging reduces 250-step failures to 4-step repros. 92% mutation kill rate in CI.</p>
+                    <p class="proj-desc">Validation platform for a 61-state C++ vehicle-infotainment state machine via pybind11. 100% transition coverage. Delta debugging reduces 250-step failures to 4-step repros. 92% mutation kill rate in CI.</p>
                     <div class="proj-tags"><span>C++</span><span>Python</span><span>pybind11</span><span>FastAPI</span><span>pytest</span></div>
                   </div>
 
-                  <div class="proj-card">
-                    <div class="proj-top">
-                      <span class="proj-badge">Novelis</span>
-                    </div>
+                  <div class="proj-card" onclick="openProject('nov')">
+                    <div class="proj-top"><span class="proj-badge">Novelis</span></div>
                     <h3 class="proj-title">Multilingual Invoice Pipeline</h3>
-                    <p class="proj-desc">AI-powered ETL on Azure Databricks translating 5,000+ international invoices across 8 languages using Azure AI Services. Normalized currencies and dates for downstream finance reporting.</p>
+                    <p class="proj-desc">AI-powered ETL on Azure Databricks translating 5,000+ international invoices across 8 languages using Azure AI Services. Normalized currencies and dates for finance reporting.</p>
                     <div class="proj-tags"><span>Azure Databricks</span><span>PySpark</span><span>Delta Lake</span><span>Azure AI</span></div>
                   </div>
 
-                  <div class="proj-card">
-                    <div class="proj-top">
-                      <span class="proj-badge">Personal</span>
-                    </div>
+                  <div class="proj-card" onclick="openProject('fin')">
+                    <div class="proj-top"><span class="proj-badge">Personal</span></div>
                     <h3 class="proj-title">Personal Finance Intelligence Platform</h3>
-                    <p class="proj-desc">Secure Flask REST API with JWT auth and RBAC. Processes 10,000+ transactions. Isolation Forest anomaly detection, budget forecasting comparing snowball vs. avalanche strategies. Deployed on AWS.</p>
+                    <p class="proj-desc">Secure Flask REST API with JWT auth and RBAC. Processes 10,000+ transactions. Isolation Forest anomaly detection, budget forecasting with snowball vs. avalanche strategies. Deployed on AWS.</p>
                     <div class="proj-tags"><span>Flask</span><span>JWT</span><span>scikit-learn</span><span>AWS</span><span>Docker</span></div>
                   </div>
 
@@ -177,12 +284,11 @@
               </div>
             </div>
 
-            <!-- EXPERIENCE panel -->
+            <!-- EXPERIENCE -->
             <div class="panel" id="panel-experience">
               <div class="panel-scroll">
                 <h2 class="panel-title">Experience</h2>
                 <div class="exp-timeline">
-
                   <div class="exp-item">
                     <div class="exp-dot"></div>
                     <div class="exp-content">
@@ -194,14 +300,13 @@
                         <span class="exp-date">May – Aug 2025</span>
                       </div>
                       <ul class="exp-bullets">
-                        <li>Automated license validation and access governance for 500+ enterprise users using Alteryx, replacing a recurring manual audit and enforcing cybersecurity compliance.</li>
-                        <li>Built secure ETL pipelines on Azure Databricks (PySpark + Delta Lake) to ingest and transform 5,000+ multilingual invoices for the finance reporting team.</li>
-                        <li>Optimized Spark jobs via partitioning, broadcast joins, and AQE — cutting the largest transformation's runtime roughly in half on enterprise-scale datasets.</li>
-                        <li>Analyzed 75+ internal applications across SAP and non-SAP systems; built Oracle-based reports driving portfolio rationalization decisions.</li>
+                        <li>Automated license validation and access governance for 500+ enterprise users using Alteryx, replacing a recurring manual audit.</li>
+                        <li>Built secure ETL pipelines on Azure Databricks (PySpark + Delta Lake) ingesting and transforming 5,000+ multilingual invoices.</li>
+                        <li>Optimized Spark jobs via partitioning, broadcast joins, and AQE — cutting the largest transformation's runtime roughly in half.</li>
+                        <li>Analyzed 75+ internal applications across SAP and non-SAP systems; built Oracle-based reports for portfolio rationalization.</li>
                       </ul>
                     </div>
                   </div>
-
                   <div class="exp-item">
                     <div class="exp-dot"></div>
                     <div class="exp-content">
@@ -213,66 +318,56 @@
                         <span class="exp-date">Jan – May 2023</span>
                       </div>
                       <ul class="exp-bullets">
-                        <li>Audited 300+ internal finance policies for reporting accuracy and flagged inconsistencies to support compliance-ready workflows.</li>
-                        <li>Structured and processed 1,000+ financial records using pivot tables and reconciliation formulas to produce weekly audit-ready reports.</li>
+                        <li>Audited 300+ internal finance policies for reporting accuracy and flagged inconsistencies for compliance-ready workflows.</li>
+                        <li>Structured 1,000+ financial records using pivot tables and reconciliation formulas to produce weekly audit-ready reports.</li>
                       </ul>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
 
-            <!-- SKILLS panel -->
+            <!-- SKILLS -->
             <div class="panel" id="panel-skills">
               <div class="panel-scroll">
                 <h2 class="panel-title">Skills</h2>
                 <div class="skills-grid">
-                  <div class="sk-group">
-                    <h4>Languages</h4>
-                    <div class="sk-pills"><span>Python</span><span>C++</span><span>Java</span><span>SQL</span><span>JavaScript</span><span>Bash</span><span>HTML/CSS</span></div>
+                  <div class="sk-group"><h4>Languages</h4>
+                    <div class="sk-pills"><span>Python</span><span>C++</span><span>Java</span><span>SQL</span><span>JavaScript</span><span>Bash</span></div>
                   </div>
-                  <div class="sk-group">
-                    <h4>Data Engineering</h4>
-                    <div class="sk-pills"><span>PySpark</span><span>Apache Airflow</span><span>Delta Lake</span><span>Azure Databricks</span><span>Apache Iceberg</span></div>
+                  <div class="sk-group"><h4>Data Engineering</h4>
+                    <div class="sk-pills"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>Azure Databricks</span><span>Iceberg</span></div>
                   </div>
-                  <div class="sk-group">
-                    <h4>Security</h4>
-                    <div class="sk-pills"><span>Access Governance</span><span>JWT Auth</span><span>Tamper Detection</span><span>Merkle Auditing</span><span>Compliance</span></div>
+                  <div class="sk-group"><h4>Security</h4>
+                    <div class="sk-pills"><span>Access Governance</span><span>JWT Auth</span><span>Tamper Detection</span><span>Merkle Auditing</span></div>
                   </div>
-                  <div class="sk-group">
-                    <h4>Cloud & DevOps</h4>
-                    <div class="sk-pills"><span>AWS</span><span>Microsoft Azure</span><span>Docker</span><span>GitHub Actions</span><span>Linux</span><span>CMake</span></div>
+                  <div class="sk-group"><h4>Cloud & DevOps</h4>
+                    <div class="sk-pills"><span>AWS</span><span>Azure</span><span>Docker</span><span>GitHub Actions</span><span>Linux</span></div>
                   </div>
-                  <div class="sk-group">
-                    <h4>Backend & APIs</h4>
-                    <div class="sk-pills"><span>FastAPI</span><span>Flask</span><span>REST</span><span>WebSocket</span><span>pybind11</span><span>Spring Boot</span></div>
+                  <div class="sk-group"><h4>Backend & APIs</h4>
+                    <div class="sk-pills"><span>FastAPI</span><span>Flask</span><span>REST</span><span>WebSocket</span><span>pybind11</span></div>
                   </div>
-                  <div class="sk-group">
-                    <h4>AI & Analytics</h4>
-                    <div class="sk-pills"><span>scikit-learn</span><span>Anomaly Detection</span><span>Power BI</span><span>Tableau</span><span>Pandas</span></div>
+                  <div class="sk-group"><h4>AI & Analytics</h4>
+                    <div class="sk-pills"><span>scikit-learn</span><span>Anomaly Detection</span><span>Power BI</span><span>Pandas</span></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- CONTACT panel -->
+            <!-- CONTACT -->
             <div class="panel" id="panel-contact">
               <div class="contact-content">
                 <h2 class="panel-title">Contact</h2>
-                <p class="contact-desc">I'm actively looking for full-time roles in data engineering, software engineering, and information security. Feel free to reach out.</p>
+                <p class="contact-desc">I'm actively looking for full-time roles in data engineering, software engineering, and information security.</p>
                 <div class="contact-links">
                   <a href="mailto:srinidhi.narla@gmail.com" class="contact-item">
-                    <span class="ci-icon">✉</span>
-                    <span>srinidhi.narla@gmail.com</span>
+                    <span class="ci-icon">✉</span><span>srinidhi.narla@gmail.com</span>
                   </a>
                   <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" class="contact-item">
-                    <span class="ci-icon">in</span>
-                    <span>linkedin.com/in/srinidhinarla1352</span>
+                    <span class="ci-icon">in</span><span>linkedin.com/in/srinidhinarla1352</span>
                   </a>
                   <a href="https://github.com/srinidhinarla-sudo" target="_blank" class="contact-item">
-                    <span class="ci-icon">gh</span>
-                    <span>github.com/srinidhinarla-sudo</span>
+                    <span class="ci-icon">gh</span><span>github.com/srinidhinarla-sudo</span>
                   </a>
                 </div>
               </div>
@@ -293,7 +388,7 @@
           <circle cx="100" cy="100" r="48" class="g-inner"/>
           <line x1="100" y1="100" x2="100" y2="36" class="g-needle" id="needle-right"/>
           <circle cx="100" cy="100" r="6" class="g-cap"/>
-          <text x="100" y="104" class="g-value" id="val-right">3.7</text>
+          <text x="100" y="103" class="g-value">3.7</text>
           <text x="100" y="120" class="g-unit">GPA</text>
         </svg>
         <div class="gauge-sublabel">UT DALLAS</div>
@@ -301,29 +396,26 @@
 
     </div><!-- /dash-body -->
 
-    <!-- Bottom navigation strip -->
+    <!-- Bottom nav -->
     <div id="dash-nav">
-      <button class="nav-btn active" data-panel="home">
-        <span class="nb-icon">⌂</span><span class="nb-label">HOME</span>
-      </button>
-      <button class="nav-btn" data-panel="about">
-        <span class="nb-icon">◎</span><span class="nb-label">ABOUT</span>
-      </button>
-      <button class="nav-btn" data-panel="projects">
-        <span class="nb-icon">◈</span><span class="nb-label">PROJECTS</span>
-      </button>
-      <button class="nav-btn" data-panel="experience">
-        <span class="nb-icon">◷</span><span class="nb-label">EXPERIENCE</span>
-      </button>
-      <button class="nav-btn" data-panel="skills">
-        <span class="nb-icon">◧</span><span class="nb-label">SKILLS</span>
-      </button>
-      <button class="nav-btn" data-panel="contact">
-        <span class="nb-icon">◉</span><span class="nb-label">CONTACT</span>
-      </button>
+      <button class="nav-btn active" data-panel="home"><span class="nb-icon">⌂</span><span class="nb-label">HOME</span></button>
+      <button class="nav-btn" data-panel="about"><span class="nb-icon">◎</span><span class="nb-label">ABOUT</span></button>
+      <button class="nav-btn" data-panel="projects"><span class="nb-icon">◈</span><span class="nb-label">PROJECTS</span></button>
+      <button class="nav-btn" data-panel="experience"><span class="nb-icon">◷</span><span class="nb-label">EXP</span></button>
+      <button class="nav-btn" data-panel="skills"><span class="nb-icon">◧</span><span class="nb-label">SKILLS</span></button>
+      <button class="nav-btn" data-panel="contact"><span class="nb-icon">◉</span><span class="nb-label">CONTACT</span></button>
     </div>
 
   </div><!-- /dashboard -->
+
+
+  <!-- ── PROJECT DETAIL OVERLAY ────────────────────────────── -->
+  <div id="proj-overlay">
+    <button class="proj-close" onclick="closeProject()">← BACK</button>
+    <div class="proj-detail-content" id="proj-detail-content">
+      <!-- filled by JS -->
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
