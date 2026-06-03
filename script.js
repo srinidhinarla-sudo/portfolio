@@ -70,8 +70,8 @@ let camInitPos, camInitLook, camZoomPos, camZoomLook;
 let _lerpPos, _lerpLook, _raycaster, _mouse;
 let camAnimating = false, camAnimT = 0, camAnimDir = 1, _lastT = 0;
 
-const CAM_INIT_POS  = [0,    0.50, 3.0];
-const CAM_INIT_LOOK = [0.35, 0,    0];
+const CAM_INIT_POS  = [0,    0.65, 4.8];
+const CAM_INIT_LOOK = [0.20, -0.1, 0];
 const CAM_ZOOM_POS  = [0.36, 0.06, 1.55];
 const CAM_ZOOM_LOOK = [0.36, 0.02, 1.10];
 
