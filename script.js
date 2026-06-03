@@ -70,8 +70,8 @@ let camInitPos, camInitLook, camZoomPos, camZoomLook;
 let _lerpPos, _lerpLook, _raycaster, _mouse;
 let camAnimating = false, camAnimT = 0, camAnimDir = 1, _lastT = 0;
 
-const CAM_INIT_POS  = [0,    0.65, 4.8];
-const CAM_INIT_LOOK = [0.20, -0.1, 0];
+const CAM_INIT_POS  = [-0.45, 0.36, 3.4];
+const CAM_INIT_LOOK = [0.30, -0.08, 0];
 const CAM_ZOOM_POS  = [0.36, 0.06, 1.55];
 const CAM_ZOOM_LOOK = [0.36, 0.02, 1.10];
 
@@ -83,7 +83,7 @@ function initThree() {
   threeScene = new THREE.Scene();
   threeScene.background = new THREE.Color(0x0c0d12);
 
-  threeCamera = new THREE.PerspectiveCamera(72, W / H, 0.01, 50);
+  threeCamera = new THREE.PerspectiveCamera(68, W / H, 0.01, 50);
   threeCamera.position.set(...CAM_INIT_POS);
   threeCamera.lookAt(...CAM_INIT_LOOK);
 
@@ -128,34 +128,39 @@ function buildCarScene() {
   const s = threeScene;
 
   /* Lighting */
-  s.add(new THREE.HemisphereLight(0xd4e4f0, 0x06080e, 0.50));
-  const sun = new THREE.DirectionalLight(0xfff4e6, 0.90);
-  sun.position.set(0, 8, 4);
+  s.add(new THREE.HemisphereLight(0xd4e8f8, 0x060810, 0.75));
+  const sun = new THREE.DirectionalLight(0xfff4e6, 1.15);
+  sun.position.set(1, 8, 4);
   s.add(sun);
-  const fill = new THREE.DirectionalLight(0x507898, 0.14);
+  const fill = new THREE.DirectionalLight(0x4878a8, 0.22);
   fill.position.set(-4, 2, 2);
   s.add(fill);
+  /* Subtle screen glow lights the near dashboard */
+  const screenGlow = new THREE.PointLight(0x4878b0, 0.18, 2.5);
+  screenGlow.position.set(0.36, 0.10, 1.35);
+  s.add(screenGlow);
 
   /* Material factory */
   const mat = (c, r, m) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
 
-  const darkPlastic = mat(0x18191f, 0.90, 0.04);
-  const deepBlack   = mat(0x08090e, 0.92, 0.02);
-  const walnut      = mat(0x5a3212, 0.62, 0.10);
+  const darkPlastic = mat(0x1e2028, 0.88, 0.06);
+  const deepBlack   = mat(0x10121a, 0.92, 0.02);
+  const walnut      = mat(0x7a4820, 0.58, 0.12);
   const bezelMat    = mat(0x0d0e15, 0.70, 0.18);
   const rimMetal    = mat(0x28293a, 0.28, 0.78);
   const spokeMat    = mat(0x1b1c25, 0.82, 0.08);
   const leatherGray = mat(0x8c9298, 0.88, 0.00);
   const consoleMat  = mat(0x111318, 0.88, 0.05);
 
-  /* Screen uses CanvasTexture with portfolio info */
+  /* Screen: self-illuminated via emissiveMap so content is visible regardless of lighting */
+  const screenTex = makeScreenTexture();
   const screenMat = new THREE.MeshStandardMaterial({
-    color: 0x04080f,
+    color: 0x000000,
     roughness: 0.04,
-    metalness: 0.12,
-    emissive: new THREE.Color(0x020508),
-    emissiveIntensity: 0.20,
-    map: makeScreenTexture(),
+    metalness: 0.05,
+    emissive: new THREE.Color(0xffffff),
+    emissiveIntensity: 0.78,
+    emissiveMap: screenTex,
   });
 
   /* Mesh helper */
