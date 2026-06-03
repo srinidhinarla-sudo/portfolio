@@ -1,256 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Srinidhi Narla</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ══ CAR INTERIOR SCENE ══════════════════════════════════ -->
-<div id="car-scene">
-
-  <canvas id="three-canvas"></canvas>
-  <div id="tap-label">
-    <span class="tl-ring"></span>
-    <span class="tl-text">TOUCH SCREEN TO EXPLORE</span>
-  </div>
-
-
-</div><!-- /car-scene -->
-
-
-<!-- ══ INTERACTIVE DASHBOARD UI ══════════════════════════ -->
-<div id="dashboard-ui">
-
-  <div id="hud">
-    <div class="hud-l">
-      <span class="hclock" id="hud-clock">00:00:00</span>
-      <span class="hsep">|</span>
-      <span class="hstatus"><span class="hdot"></span>SYSTEMS NOMINAL</span>
+  <nav id="nav">
+    <div class="nav-inner">
+      <span class="nav-logo">SN</span>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
     </div>
-    <div class="hud-c">SRINIDHI NARLA</div>
-    <div class="hud-r">
-      <span class="hbadge">UT DALLAS</span>
-      <span class="hbadge accent">OPEN TO WORK</span>
-      <button id="exit-btn" onclick="exitDashboard()">⬡ EXIT</button>
+  </nav>
+
+  <section id="hero">
+    <div class="container">
+      <p class="hero-greeting">Available for full-time roles</p>
+      <h1 class="hero-name">Srinidhi<br><span>Narla</span></h1>
+      <h2 class="hero-sub">Data Engineering &nbsp;·&nbsp; Cybersecurity &nbsp;·&nbsp; Software Development</h2>
+      <p class="hero-desc">
+        CS Senior at UT Dallas · Cybersecurity & Finance minors · 3.7 GPA<br />
+        I build secure, scalable systems — from safety-critical C++ state machines to fraud detection pipelines processing 284K+ transactions.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
+        <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn</a>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <div id="dash-body">
-
-    <!-- Left gauge -->
-    <div class="gpanel" id="gauge-left">
-      <div class="glabel">SKILL INDEX</div>
-      <svg class="gsvg" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="92" class="go"/>
-        <g id="ticks-left"></g>
-        <circle cx="100" cy="100" r="72" class="gtrack"/>
-        <circle cx="100" cy="100" r="72" class="gfill" id="fill-left"/>
-        <circle cx="100" cy="100" r="48" class="ginner"/>
-        <line x1="100" y1="100" x2="100" y2="36" class="gneedle" id="needle-left"/>
-        <circle cx="100" cy="100" r="6" class="gcap"/>
-        <text x="100" y="101" class="gval">87</text>
-        <text x="100" y="118" class="gunit">/100</text>
-      </svg>
-      <div class="gsub">FULL STACK</div>
-    </div>
-
-    <!-- Center display -->
-    <div id="center-display">
-      <div class="dbezel">
-        <div class="dtabs">
-          <button class="dtab active" data-panel="home">HOME</button>
-          <button class="dtab" data-panel="about">ABOUT</button>
-          <button class="dtab" data-panel="projects">PROJECTS</button>
-          <button class="dtab" data-panel="experience">EXP</button>
-          <button class="dtab" data-panel="skills">SKILLS</button>
-          <button class="dtab" data-panel="contact">CONTACT</button>
+  <section id="about">
+    <div class="container">
+      <h2 class="section-label">About</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm a senior at the University of Texas at Dallas studying Computer Science with minors in
+            Cybersecurity and Business Finance. I'm interested in the intersection of data engineering
+            and information security — building pipelines that are not just fast and reliable, but
+            resilient to adversarial threats.
+          </p>
+          <p>
+            This past summer I interned at Novelis as an Enterprise Architect Intern, building ETL
+            pipelines on Azure Databricks and automating enterprise-wide access governance for 500+ users.
+            I'm actively seeking internship opportunities in data engineering and information security.
+          </p>
         </div>
-        <div class="dscreen">
-
-          <!-- HOME -->
-          <div class="panel active" id="panel-home">
-            <div class="hwrap">
-              <p class="hgreet">Hi, I'm</p>
-              <h1 class="hname">Srinidhi<br/><span>Narla</span></h1>
-              <p class="hsub">Data Engineering · Cybersecurity · Software</p>
-              <p class="hdesc">CS Senior at UT Dallas building secure, scalable systems — from safety-critical C++ state machines to fraud detection pipelines processing 284K+ transactions.</p>
-              <div class="hstats">
-                <div class="hstat"><span class="sv">3.7</span><span class="sk">GPA</span></div>
-                <div class="hstat"><span class="sv">2</span><span class="sk">Internships</span></div>
-                <div class="hstat"><span class="sv">5+</span><span class="sk">Projects</span></div>
-                <div class="hstat"><span class="sv">AWS</span><span class="sk">Certified</span></div>
-              </div>
-              <div class="hbtns">
-                <button class="btn primary" onclick="switchPanel('projects')">View Projects</button>
-                <a href="https://github.com/srinidhinarla-sudo" target="_blank" class="btn outline">GitHub ↗</a>
-                <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" class="btn outline">LinkedIn ↗</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- ABOUT -->
-          <div class="panel" id="panel-about">
-            <div class="pscroll">
-              <h2 class="ptitle">About</h2>
-              <div class="about-grid">
-                <div class="atext">
-                  <p>I'm a senior at UT Dallas studying Computer Science with minors in Cybersecurity and Business Finance. I'm drawn to problems at the intersection of systems, data, and security — where getting it wrong has real consequences.</p>
-                  <p>Last summer I interned at Novelis in Atlanta as an Enterprise Architect Intern, building ETL pipelines on Azure Databricks and automating access governance for 500+ enterprise users.</p>
-                  <p>Outside of work I'm into automotive technology, fintech, AI/ML, and sustainable tech.</p>
-                </div>
-                <div class="acard">
-                  <div class="arow"><span class="ak">School</span><span class="av">UT Dallas</span></div>
-                  <div class="arow"><span class="ak">GPA</span><span class="av">3.7 / 4.0</span></div>
-                  <div class="arow"><span class="ak">Graduating</span><span class="av">May 2027</span></div>
-                  <div class="arow"><span class="ak">Minors</span><span class="av">Cybersecurity · Finance</span></div>
-                  <div class="arow"><span class="ak">Certified</span><span class="av">AWS Cloud Practitioner</span></div>
-                  <div class="arow"><span class="ak">Location</span><span class="av">Dallas, TX</span></div>
-                  <div class="arow last"><span class="ak">Status</span><span class="av open">● Open to Work</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PROJECTS -->
-          <div class="panel" id="panel-projects">
-            <div class="pscroll">
-              <h2 class="ptitle">Projects</h2>
-              <div class="plist">
-                <div class="pcard featured" onclick="openProject('sfp')">
-                  <div class="ptop"><span class="pbadge">Featured</span><a href="https://github.com/srinidhinarla-sudo/secure-financial-pipeline" target="_blank" class="plink" onclick="event.stopPropagation()">↗</a></div>
-                  <h3 class="pname">Secure Financial Data Pipeline</h3>
-                  <p class="pdesc">Apache Airflow ETL processing 284K+ transactions through Bronze/Silver/Gold Delta Lake medallion architecture. SHA-256 + Merkle tree tamper-evident audit. Isolation Forest fraud detection.</p>
-                  <div class="ptags"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>scikit-learn</span><span>Docker</span></div>
-                </div>
-                <div class="pcard" onclick="openProject('ava')">
-                  <div class="ptop"><span class="pbadge">Systems</span><a href="https://github.com/srinidhinarla-sudo/autonomous-validation-agent" target="_blank" class="plink" onclick="event.stopPropagation()">↗</a></div>
-                  <h3 class="pname">Autonomous Validation Agent</h3>
-                  <p class="pdesc">Validation platform for a 61-state C++ vehicle-infotainment state machine via pybind11. 100% transition coverage. ddmin delta debugging. 92% mutation kill rate in CI.</p>
-                  <div class="ptags"><span>C++</span><span>Python</span><span>pybind11</span><span>FastAPI</span><span>pytest</span></div>
-                </div>
-                <div class="pcard" onclick="openProject('nov')">
-                  <div class="ptop"><span class="pbadge">Novelis</span></div>
-                  <h3 class="pname">Multilingual Invoice Pipeline</h3>
-                  <p class="pdesc">AI-powered ETL on Azure Databricks translating 5,000+ invoices across 8 languages. Currency and date normalization for finance reporting.</p>
-                  <div class="ptags"><span>Azure Databricks</span><span>PySpark</span><span>Delta Lake</span><span>Azure AI</span></div>
-                </div>
-                <div class="pcard" onclick="openProject('fin')">
-                  <div class="ptop"><span class="pbadge">Personal</span></div>
-                  <h3 class="pname">Personal Finance Intelligence Platform</h3>
-                  <p class="pdesc">Flask REST API with JWT auth and RBAC. Isolation Forest anomaly detection, snowball vs. avalanche budget forecasting. Deployed on AWS.</p>
-                  <div class="ptags"><span>Flask</span><span>JWT</span><span>scikit-learn</span><span>AWS</span><span>Docker</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- EXPERIENCE -->
-          <div class="panel" id="panel-experience">
-            <div class="pscroll">
-              <h2 class="ptitle">Experience</h2>
-              <div class="etl">
-                <div class="eitem">
-                  <div class="edot"></div>
-                  <div class="ebody">
-                    <div class="ehd"><div><h3 class="erole">Enterprise Architect Intern</h3><p class="eco">Novelis · Atlanta, GA</p></div><span class="edate">May – Aug 2025</span></div>
-                    <ul class="ebullets">
-                      <li>Automated license validation and access governance for 500+ enterprise users using Alteryx.</li>
-                      <li>Built secure ETL pipelines on Azure Databricks (PySpark + Delta Lake) ingesting 5,000+ multilingual invoices.</li>
-                      <li>Optimized Spark jobs via partitioning, broadcast joins, and AQE — cutting largest job runtime roughly in half.</li>
-                      <li>Analyzed 75+ internal applications; built Oracle-based reports for portfolio rationalization decisions.</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="eitem">
-                  <div class="edot"></div>
-                  <div class="ebody">
-                    <div class="ehd"><div><h3 class="erole">Finance & Data Analytics Intern</h3><p class="eco">State Farm · Dallas, TX</p></div><span class="edate">Jan – May 2023</span></div>
-                    <ul class="ebullets">
-                      <li>Audited 300+ internal finance policies for reporting accuracy and compliance readiness.</li>
-                      <li>Structured 1,000+ financial records with pivot tables to produce weekly audit-ready reports.</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- SKILLS -->
-          <div class="panel" id="panel-skills">
-            <div class="pscroll">
-              <h2 class="ptitle">Skills</h2>
-              <div class="skgrid">
-                <div class="skg"><h4>Languages</h4><div class="skp"><span>Python</span><span>C++</span><span>Java</span><span>SQL</span><span>JavaScript</span><span>Bash</span></div></div>
-                <div class="skg"><h4>Data Engineering</h4><div class="skp"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>Azure Databricks</span><span>Iceberg</span></div></div>
-                <div class="skg"><h4>Security</h4><div class="skp"><span>Access Governance</span><span>JWT Auth</span><span>Tamper Detection</span><span>Merkle Auditing</span></div></div>
-                <div class="skg"><h4>Cloud & DevOps</h4><div class="skp"><span>AWS</span><span>Azure</span><span>Docker</span><span>GitHub Actions</span><span>Linux</span></div></div>
-                <div class="skg"><h4>Backend & APIs</h4><div class="skp"><span>FastAPI</span><span>Flask</span><span>REST</span><span>WebSocket</span><span>pybind11</span></div></div>
-                <div class="skg"><h4>AI & Analytics</h4><div class="skp"><span>scikit-learn</span><span>Anomaly Detection</span><span>Power BI</span><span>Pandas</span></div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- CONTACT -->
-          <div class="panel" id="panel-contact">
-            <div class="cwrap">
-              <h2 class="ptitle">Contact</h2>
-              <p class="cdesc">Actively looking for full-time roles in data engineering, software engineering, and information security.</p>
-              <div class="clinks">
-                <a href="mailto:srinidhi.narla@gmail.com" class="citem"><span class="cico">✉</span><span>srinidhi.narla@gmail.com</span></a>
-                <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" class="citem"><span class="cico">in</span><span>linkedin.com/in/srinidhinarla1352</span></a>
-                <a href="https://github.com/srinidhinarla-sudo" target="_blank" class="citem"><span class="cico">gh</span><span>github.com/srinidhinarla-sudo</span></a>
-              </div>
-            </div>
-          </div>
-
-        </div><!-- /dscreen -->
-      </div><!-- /dbezel -->
-    </div><!-- /center-display -->
-
-    <!-- Right gauge -->
-    <div class="gpanel" id="gauge-right">
-      <div class="glabel">ACADEMIC</div>
-      <svg class="gsvg" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="92" class="go"/>
-        <g id="ticks-right"></g>
-        <circle cx="100" cy="100" r="72" class="gtrack"/>
-        <circle cx="100" cy="100" r="72" class="gfill" id="fill-right"/>
-        <circle cx="100" cy="100" r="48" class="ginner"/>
-        <line x1="100" y1="100" x2="100" y2="36" class="gneedle" id="needle-right"/>
-        <circle cx="100" cy="100" r="6" class="gcap"/>
-        <text x="100" y="101" class="gval">3.7</text>
-        <text x="100" y="118" class="gunit">GPA</text>
-      </svg>
-      <div class="gsub">UT DALLAS</div>
+        <div class="about-meta">
+          <div class="meta-row"><span class="meta-key">School</span><span class="meta-val">UT Dallas</span></div>
+          <div class="meta-row"><span class="meta-key">GPA</span><span class="meta-val">3.7 / 4.0</span></div>
+          <div class="meta-row"><span class="meta-key">Graduating</span><span class="meta-val">May 2027</span></div>
+          <div class="meta-row"><span class="meta-key">Minors</span><span class="meta-val">Cybersecurity · Business Finance</span></div>
+          <div class="meta-row"><span class="meta-key">Certified</span><span class="meta-val">AWS Cloud Practitioner</span></div>
+          <div class="meta-row"><span class="meta-key">Location</span><span class="meta-val">Dallas, TX</span></div>
+          <div class="meta-row"><span class="meta-key">Status</span><span class="meta-val" style="color:var(--accent);font-weight:600;">Open to opportunities</span></div>
+        </div>
+      </div>
     </div>
+  </section>
 
-  </div><!-- /dash-body -->
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-label">Experience</h2>
+      <div class="timeline">
 
-  <div id="dash-nav">
-    <button class="nb active" data-panel="home"><span class="ni">⌂</span><span class="nl">HOME</span></button>
-    <button class="nb" data-panel="about"><span class="ni">◎</span><span class="nl">ABOUT</span></button>
-    <button class="nb" data-panel="projects"><span class="ni">◈</span><span class="nl">PROJECTS</span></button>
-    <button class="nb" data-panel="experience"><span class="ni">◷</span><span class="nl">EXP</span></button>
-    <button class="nb" data-panel="skills"><span class="ni">◧</span><span class="nl">SKILLS</span></button>
-    <button class="nb" data-panel="contact"><span class="ni">◉</span><span class="nl">CONTACT</span></button>
-  </div>
+        <div class="timeline-item">
+          <div class="tl-header">
+            <div>
+              <h3 class="tl-role">Enterprise Architect Intern</h3>
+              <p class="tl-company">Novelis &nbsp;·&nbsp; Atlanta, GA</p>
+            </div>
+            <span class="tl-date">May – Aug 2025</span>
+          </div>
+          <ul class="tl-bullets">
+            <li>Automated license validation and access governance for 500+ enterprise users using Alteryx workflows, replacing a recurring manual audit and enforcing cybersecurity compliance.</li>
+            <li>Built secure ETL pipelines on Azure Databricks (PySpark + Delta Lake) to ingest and transform 5,000+ multilingual invoices for the finance reporting team.</li>
+            <li>Optimized Spark jobs via partitioning, broadcast joins, and adaptive query execution — cutting the largest transformation's runtime roughly in half on enterprise-scale datasets.</li>
+            <li>Analyzed 75+ internal applications across SAP and non-SAP systems; built Oracle-based reports that drove portfolio rationalization decisions.</li>
+          </ul>
+        </div>
 
-</div><!-- /dashboard-ui -->
+        <div class="timeline-item">
+          <div class="tl-header">
+            <div>
+              <h3 class="tl-role">Finance &amp; Data Analytics Intern</h3>
+              <p class="tl-company">State Farm &nbsp;·&nbsp; Dallas, TX</p>
+            </div>
+            <span class="tl-date">Jan – May 2023</span>
+          </div>
+          <ul class="tl-bullets">
+            <li>Audited 300+ internal finance policies for reporting accuracy and flagged inconsistencies to support compliance-ready workflows.</li>
+            <li>Structured and processed 1,000+ financial records using pivot tables and reconciliation formulas to produce weekly audit-ready reports.</li>
+          </ul>
+        </div>
 
+      </div>
+    </div>
+  </section>
 
-<!-- ══ PROJECT OVERLAY ═══════════════════════════════════ -->
-<div id="proj-overlay">
-  <button class="pback" onclick="closeProject()">← BACK TO DASHBOARD</button>
-  <div id="proj-detail"></div>
-</div>
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-label">Projects</h2>
+      <div class="projects-grid">
 
-<script src="script.js"></script>
+        <div class="project-card featured">
+          <div class="card-top">
+            <span class="card-badge">Featured</span>
+            <a href="https://github.com/srinidhinarla-sudo/secure-financial-pipeline" target="_blank" rel="noopener" class="card-link" aria-label="View on GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <h3 class="card-title">Secure Financial Data Pipeline</h3>
+          <p class="card-desc">
+            Apache Airflow ETL processing 284K+ credit card transactions through a Bronze/Silver/Gold
+            medallion architecture in Delta Lake. Built a tamper-evident audit layer that SHA-256 hashes
+            every row, assembles a Merkle tree, and fires Slack alerts if any Parquet file is modified
+            on disk — catching attacks that bypass Delta Lake's own transaction log. Includes an
+            unsupervised Isolation Forest model for fraud anomaly detection across 29 features with no
+            label leakage during training.
+          </p>
+          <div class="card-tags">
+            <span>PySpark</span><span>Apache Airflow</span><span>Delta Lake</span><span>scikit-learn</span><span>Docker</span><span>GitHub Actions</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-top">
+            <span class="card-badge">Systems</span>
+            <a href="https://github.com/srinidhinarla-sudo/autonomous-validation-agent" target="_blank" rel="noopener" class="card-link" aria-label="View on GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <h3 class="card-title">Autonomous Validation Agent</h3>
+          <p class="card-desc">
+            Validation platform for a 61-state C++ vehicle-infotainment state machine exposed to Python via pybind11. Model-based test generator achieves 100% transition coverage (217/217). Adversarial fuzzer with delta debugging reduces 250-step failures to 4-step minimal repros. Mutation testing gate at 92% kill rate enforced in CI. Includes a live FastAPI dashboard with WebSocket feed and SQLite transition log.
+          </p>
+          <div class="card-tags">
+            <span>C++</span><span>Python</span><span>pybind11</span><span>FastAPI</span><span>pytest</span><span>GitHub Actions</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-top">
+            <span class="card-badge">Personal</span>
+          </div>
+          <h3 class="card-title">Personal Finance Intelligence Platform</h3>
+          <p class="card-desc">
+            Secure REST API in Flask with JWT authentication and role-based access control exposing
+            6 endpoints for transaction ingestion, querying, and forecasting. ETL pipelines process
+            10,000+ transactions; an Isolation Forest flags anomalous spending with precision/recall
+            evaluation on the minority class. Budget forecasting model compares snowball vs. avalanche
+            debt repayment strategies. Deployed on AWS with GitHub Actions CI/CD.
+          </p>
+          <div class="card-tags">
+            <span>Python</span><span>Flask</span><span>JWT</span><span>scikit-learn</span><span>AWS</span><span>Docker</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-top">
+            <span class="card-badge">Novelis</span>
+          </div>
+          <h3 class="card-title">Multilingual Invoice Translation Pipeline</h3>
+          <p class="card-desc">
+            AI-powered ETL pipeline on Azure Databricks integrating Azure AI Services to translate
+            5,000+ international invoices across 8 languages with automatic language detection.
+            Normalized currencies and date formats for downstream finance reporting using PySpark
+            and Delta Lake for scalable, auditable storage.
+          </p>
+          <div class="card-tags">
+            <span>Azure Databricks</span><span>PySpark</span><span>Delta Lake</span><span>Azure AI Services</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-label">Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h4>Languages</h4>
+          <div class="skill-pills"><span>Python</span><span>Java</span><span>SQL</span><span>JavaScript</span><span>C++</span><span>Bash</span><span>HTML/CSS</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>Data Engineering</h4>
+          <div class="skill-pills"><span>PySpark</span><span>Apache Airflow</span><span>Delta Lake</span><span>Azure Databricks</span><span>Apache Iceberg</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>Security</h4>
+          <div class="skill-pills"><span>Cybersecurity Compliance</span><span>Access Governance</span><span>JWT Auth</span><span>Tamper Detection</span><span>Merkle Auditing</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>Cloud &amp; DevOps</h4>
+          <div class="skill-pills"><span>AWS</span><span>Microsoft Azure</span><span>Docker</span><span>GitHub Actions</span><span>Linux</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>Backend &amp; APIs</h4>
+          <div class="skill-pills"><span>Flask</span><span>FastAPI</span><span>Spring Boot</span><span>REST API</span></div>
+        </div>
+        <div class="skill-group">
+          <h4>AI &amp; Analytics</h4>
+          <div class="skill-pills"><span>scikit-learn</span><span>Anomaly Detection</span><span>Power BI</span><span>Tableau</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container contact-inner">
+      <h2 class="section-label">Contact</h2>
+      <p class="contact-desc">
+        I'm actively looking for full-time roles in data engineering, software engineering, and information security.<br />
+        Feel free to reach out.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:srinidhi.narla@gmail.com" class="contact-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          srinidhi.narla@gmail.com
+        </a>
+        <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="contact-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          linkedin.com/in/srinidhinarla1352
+        </a>
+        <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="contact-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          github.com/srinidhinarla-sudo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Srinidhi Narla &nbsp;·&nbsp; Dallas, TX</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
