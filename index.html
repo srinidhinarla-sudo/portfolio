@@ -1,257 +1,882 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Srinidhi Narla</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:   #000000;
+      --bg:      #121212;
+      --s1:      #181818;
+      --s2:      #282828;
+      --s3:      #3e3e3e;
+      --text:    #ffffff;
+      --muted:   #a7a7a7;
+      --dim:     #6a6a6a;
+      --acc:     #8fa3b8;
+      --acc2:    #b0c4d4;
+    }
+    html, body { height: 100%; overflow: hidden; background: var(--black); font-family: 'Inter', system-ui, sans-serif; color: var(--text); -webkit-font-smoothing: antialiased; }
+
+    /* ── Layout ─────────────────────────────────────── */
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      grid-template-rows: 1fr 90px;
+      height: 100vh;
+      gap: 8px;
+      padding: 8px;
+      padding-bottom: 0;
+      background: var(--black);
+    }
+
+    /* ── Sidebar ────────────────────────────────────── */
+    .sidebar {
+      grid-row: 1; grid-column: 1;
+      background: var(--black);
+      border-radius: 8px;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .sb-nav {
+      background: var(--black);
+      border-radius: 8px;
+      padding: 6px 8px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+    .sbn-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 11px 10px; border-radius: 6px;
+      font-size: 14px; font-weight: 700; color: var(--muted);
+      cursor: pointer; transition: color .15s, background .15s;
+    }
+    .sbn-item:hover { color: var(--text); }
+    .sbn-item.on { color: var(--text); }
+    .sbn-ico { font-size: 22px; }
+
+    .sb-lib {
+      background: var(--black);
+      border-radius: 8px;
+      flex: 1; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .lib-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 16px 10px;
+    }
+    .lib-label { font-size: 14px; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+    .lib-label svg { width: 20px; height: 20px; }
+    .lib-plus {
+      width: 32px; height: 32px; border-radius: 50%; border: none;
+      background: transparent; color: var(--muted); font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .15s, color .15s;
+    }
+    .lib-plus:hover { background: var(--s2); color: var(--text); }
+
+    .lib-filter {
+      display: flex; gap: 6px; padding: 0 8px 10px;
+    }
+    .lib-chip {
+      font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 99px;
+      background: var(--s2); color: var(--text); cursor: pointer;
+      transition: background .15s; white-space: nowrap;
+    }
+    .lib-chip:hover { background: var(--s3); }
+    .lib-chip.on { background: var(--text); color: var(--black); }
+
+    .lib-list { flex: 1; overflow-y: auto; padding: 4px 8px 12px; scrollbar-width: none; }
+    .lib-list::-webkit-scrollbar { display: none; }
+
+    .pl-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 8px; border-radius: 6px;
+      cursor: pointer; transition: background .15s;
+    }
+    .pl-row:hover { background: var(--s2); }
+    .pl-row.on { background: var(--s2); }
+    .pl-img {
+      width: 44px; height: 44px; border-radius: 4px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .pl-img.circle { border-radius: 50%; }
+    .pl-info { flex: 1; min-width: 0; }
+    .pl-name { font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pl-row.on .pl-name { color: var(--acc); }
+    .pl-type { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Main ───────────────────────────────────────── */
+    .main {
+      grid-row: 1; grid-column: 2;
+      background: var(--bg);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px;
+      background: rgba(18,18,18,0);
+      transition: background .3s;
+      flex-shrink: 0;
+    }
+    .topbar.scrolled { background: rgba(18,18,18,.98); }
+    .tb-arrows { display: flex; gap: 8px; }
+    .tb-arrow {
+      width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer;
+      background: rgba(0,0,0,.7); color: var(--muted); font-size: 18px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s, color .15s;
+    }
+    .tb-arrow:hover { color: var(--text); background: rgba(0,0,0,.9); }
+    .tb-arrow:disabled { opacity: 0.4; cursor: default; }
+    .tb-right { display: flex; align-items: center; gap: 8px; }
+    .tb-pill {
+      padding: 6px 16px; border-radius: 99px; border: 1px solid rgba(255,255,255,.2);
+      background: transparent; color: var(--text); font-size: 13px; font-weight: 700;
+      cursor: pointer; letter-spacing: .02em; transition: border-color .15s, background .15s;
+    }
+    .tb-pill:hover { border-color: white; background: rgba(255,255,255,.05); }
+    .tb-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, #1e2e40, #3a5570);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,.5);
+    }
+
+    /* Main scroll area */
+    .main-scroll {
+      flex: 1; overflow-y: auto; overflow-x: hidden;
+      scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent;
+    }
+    .main-scroll::-webkit-scrollbar { width: 6px; }
+    .main-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+
+    /* Sections */
+    .sec { display: none; }
+    .sec.on { display: block; }
+
+    /* ── Artist header ───────────────────────────────── */
+    .artist-hd {
+      min-height: 340px; position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 24px 24px; margin-top: -1px;
+      background: linear-gradient(160deg, #1a2535 0%, #1e3048 50%, #253a55 100%);
+    }
+    .hd-bg-img { display: none; }
+    .hd-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.1) 0%, rgba(18,18,18,.55) 55%, rgba(18,18,18,.97) 100%);
+    }
+    .profile-photo {
+      width: 192px; height: 192px; border-radius: 50%; flex-shrink: 0;
+      object-fit: cover; object-position: center 8%;
+      box-shadow: 0 4px 60px rgba(0,0,0,.5);
+      border: 2px solid rgba(255,255,255,.1);
+    }
+    .hd-bottom {
+      position: absolute; bottom: 24px; left: 24px; right: 24px; z-index: 1;
+    }
+    .hd-verified {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700; color: white;
+      margin-bottom: 10px; letter-spacing: .02em;
+    }
+    .hd-check {
+      width: 22px; height: 22px; border-radius: 50%; background: var(--acc);
+      display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;
+    }
+    .hd-name {
+      font-size: clamp(52px, 7vw, 96px); font-weight: 900;
+      letter-spacing: -.04em; line-height: .92; color: white;
+      margin-bottom: 14px;
+    }
+    .hd-stats { font-size: 14px; color: rgba(255,255,255,.7); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .hd-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,.4); }
+
+    /* Artist actions row */
+    .artist-acts {
+      display: flex; align-items: center; gap: 20px;
+      padding: 24px 24px 0;
+    }
+    .btn-play {
+      width: 56px; height: 56px; border-radius: 50%; border: none; cursor: pointer;
+      background: var(--acc); color: white; font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(96,165,250,.5);
+      transition: transform .15s, background .15s;
+    }
+    .btn-play:hover { transform: scale(1.06); background: var(--acc2); }
+    .btn-follow {
+      padding: 7px 20px; border-radius: 99px;
+      border: 1px solid rgba(255,255,255,.3); background: transparent;
+      color: white; font-size: 13px; font-weight: 700; cursor: pointer;
+      letter-spacing: .06em; text-transform: uppercase; transition: border-color .15s;
+    }
+    .btn-follow:hover { border-color: white; }
+    .btn-more { background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; transition: color .15s; }
+    .btn-more:hover { color: white; }
+
+    /* Content padding */
+    .cp { padding: 20px 24px; }
+
+    /* Section heading */
+    .sh { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 4px; }
+    .sh-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+    .sh-link { float: right; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); cursor: pointer; margin-top: 4px; transition: color .15s; }
+    .sh-link:hover { color: white; text-decoration: underline; }
+
+    /* Track list */
+    .tlist-hd {
+      display: grid; padding: 0 16px 8px;
+      border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 4px;
+    }
+    .th { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+    .track {
+      display: grid; padding: 8px 16px; border-radius: 6px; align-items: center;
+      cursor: pointer; transition: background .15s;
+    }
+    .track:hover { background: rgba(255,255,255,.07); }
+    .track:hover .t-num { display: none; }
+    .track:hover .t-play { display: flex; }
+    .t-num  { font-size: 16px; color: var(--dim); font-weight: 500; text-align: center; }
+    .t-play { display: none; color: white; font-size: 14px; justify-content: center; }
+    .t-title  { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+    .t-artist { font-size: 12px; color: var(--muted); }
+    .t-dur    { font-size: 13px; color: var(--dim); font-variant-numeric: tabular-nums; text-align: right; }
+    .t-now { color: var(--acc); }
+
+    /* Album grid */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); gap: 16px; }
+    .acard {
+      background: var(--s1); border-radius: 8px; padding: 16px; cursor: pointer;
+      transition: background .2s; position: relative;
+    }
+    .acard:hover { background: var(--s2); }
+    .acard:hover .acard-play { opacity: 1; transform: translateY(0); }
+    .acover {
+      width: 100%; aspect-ratio: 1; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 52px; margin-bottom: 14px; position: relative;
+      box-shadow: 0 8px 24px rgba(0,0,0,.5);
+    }
+    .acover.circle { border-radius: 50%; }
+    .acard-play {
+      position: absolute; bottom: 8px; right: 8px;
+      width: 44px; height: 44px; border-radius: 50%; border: none;
+      background: var(--acc); color: white; font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity .2s, transform .2s, background .15s;
+      cursor: pointer; box-shadow: 0 6px 20px rgba(96,165,250,.5);
+    }
+    .acard-play:hover { background: var(--acc2); }
+    .atag {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 3px; margin-bottom: 8px; display: inline-block;
+    }
+    .atitle { font-size: 14px; font-weight: 700; margin-bottom: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .adesc  { font-size: 12.5px; color: var(--muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .apills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .apills span { font-size: 10.5px; color: #535353; background: rgba(255,255,255,.05); padding: 2px 7px; border-radius: 3px; }
+
+    /* Playlist hero */
+    .pl-hd {
+      min-height: 260px; display: flex; align-items: flex-end;
+      padding: 80px 24px 24px; position: relative; overflow: hidden;
+    }
+    .pl-hd-bg { position: absolute; inset: 0; }
+    .pl-hd-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 30%, rgba(18,18,18,.85)); }
+    .pl-hd-inner { position: relative; z-index: 1; }
+    .pl-hd-type { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: white; margin-bottom: 6px; opacity: .8; }
+    .pl-hd-title { font-size: 52px; font-weight: 900; letter-spacing: -.03em; line-height: .95; color: white; margin-bottom: 10px; }
+    .pl-hd-meta  { font-size: 13px; color: rgba(255,255,255,.65); }
+
+    /* About bio */
+    .bio-card { background: var(--s1); border-radius: 10px; padding: 20px 22px; margin-bottom: 8px; }
+    .bio-h { font-size: 20px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 12px; }
+    .bio-p { font-size: 14px; color: var(--muted); line-height: 1.78; margin-bottom: 16px; }
+    .bio-stats { display: flex; gap: 28px; flex-wrap: wrap; }
+    .bstat-v { font-size: 26px; font-weight: 800; letter-spacing: -.02em; color: var(--text); }
+    .bstat-k { font-size: 11.5px; color: var(--dim); font-weight: 500; margin-top: 2px; text-transform: uppercase; letter-spacing: .06em; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .chip { font-size: 11.5px; font-weight: 600; padding: 4px 12px; border-radius: 99px; background: var(--s2); color: var(--muted); }
+    .chip.live { background: rgba(143,163,184,.15); color: var(--acc); }
+
+    /* Genre cards (skills) */
+    .genres { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 10px; }
+    .gcard { border-radius: 8px; padding: 16px; cursor: pointer; overflow: hidden; min-height: 110px; position: relative; display: flex; flex-direction: column; justify-content: space-between; transition: transform .15s; }
+    .gcard:hover { transform: scale(1.02); }
+    .gcard-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+    .gcard-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+    .gcard-pill { font-size: 11px; color: rgba(255,255,255,.75); background: rgba(0,0,0,.3); padding: 2px 8px; border-radius: 4px; }
+
+    /* Contact */
+    .ct-top { text-align: center; padding: 32px 24px 20px; }
+    .ct-top h2 { font-size: 32px; font-weight: 900; letter-spacing: -.03em; margin-bottom: 8px; }
+    .ct-top p  { font-size: 14px; color: var(--muted); }
+    .ct-links { display: flex; flex-direction: column; gap: 8px; max-width: 500px; margin: 0 auto; padding: 0 24px 32px; }
+    .ctlnk {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 18px; border-radius: 8px; background: var(--s1);
+      text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 600;
+      transition: background .15s, color .15s;
+    }
+    .ctlnk:hover { background: var(--s2); color: white; }
+    .ctlnk-ico { font-size: 18px; min-width: 22px; text-align: center; }
+
+    /* ── Player bar ─────────────────────────────────── */
+    .player {
+      grid-column: 1 / -1;
+      height: 90px;
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,255,255,.08);
+      display: grid; grid-template-columns: 1fr 2fr 1fr;
+      align-items: center; padding: 0 16px; gap: 12px;
+    }
+    .np { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .np-img {
+      width: 56px; height: 56px; border-radius: 6px; flex-shrink: 0;
+      object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,.5);
+    }
+    .np-img-placeholder {
+      width: 56px; height: 56px; border-radius: 6px; flex-shrink: 0;
+      background: linear-gradient(135deg, #1e2e40, #3a5570);
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+    }
+    .np-info { min-width: 0; flex: 1; }
+    .np-title  { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .np-artist { font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .np-heart { background: none; border: none; cursor: pointer; color: var(--acc); font-size: 18px; padding: 0 8px; flex-shrink: 0; }
+
+    .pctrl { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .ctrl-btns { display: flex; align-items: center; gap: 16px; }
+    .cbtn { background: none; border: none; cursor: pointer; color: var(--dim); font-size: 17px; transition: color .15s; }
+    .cbtn:hover { color: white; }
+    .cbtn-play {
+      width: 36px; height: 36px; border-radius: 50%; border: none;
+      background: white; color: black; font-size: 15px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .12s; flex-shrink: 0;
+    }
+    .cbtn-play:hover { transform: scale(1.07); }
+    .prog { width: 100%; display: flex; align-items: center; gap: 8px; }
+    .prog-t { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; min-width: 34px; }
+    .prog-t.r { text-align: right; }
+    .prog-bar { flex: 1; height: 4px; background: var(--s3); border-radius: 2px; cursor: pointer; position: relative; }
+    .prog-fill { height: 100%; border-radius: 2px; background: white; width: 0%; transition: background .15s; }
+    .prog-bar:hover .prog-fill { background: var(--acc); }
+    .prog-bar:hover .prog-thumb { opacity: 1; }
+    .prog-thumb { position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; border-radius: 50%; background: white; opacity: 0; transition: opacity .15s; }
+
+    .p-right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+    .p-vol-ico { background: none; border: none; cursor: pointer; color: var(--dim); font-size: 16px; transition: color .15s; }
+    .p-vol-ico:hover { color: white; }
+    .vol { width: 80px; height: 4px; background: var(--s3); border-radius: 2px; position: relative; }
+    .vol-fill { height: 100%; width: 65%; border-radius: 2px; background: white; }
+
+    /* Equalizer */
+    .eq { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
+    .eq-b { width: 3px; border-radius: 1px; background: var(--acc); animation: eq .75s ease-in-out infinite; }
+    .eq-b:nth-child(1) { height: 6px;  animation-delay: 0s; }
+    .eq-b:nth-child(2) { height: 13px; animation-delay: .14s; }
+    .eq-b:nth-child(3) { height: 8px;  animation-delay: .28s; }
+    .eq-b:nth-child(4) { height: 14px; animation-delay: .07s; }
+    .eq-b:nth-child(5) { height: 5px;  animation-delay: .21s; }
+    @keyframes eq { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(.3)} }
+
+    /* Typewriter cursor */
+    .cursor { display: inline-block; width: 2px; height: 1em; background: var(--acc); margin-left: 2px; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  </style>
 </head>
 <body>
+<div class="app">
 
-  <nav id="nav">
-    <div class="nav-inner">
-      <span class="nav-logo">SN</span>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
+  <!-- ── Sidebar ── -->
+  <div class="sidebar">
+    <div class="sb-nav">
+      <div class="sbn-item on" data-sec="about">
+        <span class="sbn-ico">🏠</span>Home
       </div>
-      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
-    </div>
-  </nav>
-
-  <section id="hero">
-    <div class="container">
-      <p class="hero-greeting">Available for full-time roles</p>
-      <h1 class="hero-name">Srinidhi<br><span>Narla</span></h1>
-      <h2 class="hero-sub">Data Engineering &nbsp;·&nbsp; Cybersecurity &nbsp;·&nbsp; Software Development</h2>
-      <p class="hero-desc">
-        CS Senior at UT Dallas · Cybersecurity & Finance minors · 3.7 GPA<br />
-        I build secure, scalable systems — from safety-critical C++ state machines to fraud detection pipelines processing 284K+ transactions.
-      </p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="btn btn-outline">GitHub</a>
-        <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn</a>
+      <div class="sbn-item" data-sec="projects">
+        <span class="sbn-ico">🔍</span>Search
       </div>
     </div>
-  </section>
 
-  <section id="about">
-    <div class="container">
-      <h2 class="section-label">About</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            I'm a senior at the University of Texas at Dallas studying Computer Science with minors in
-            Cybersecurity and Business Finance. I'm interested in the intersection of data engineering
-            and information security — building pipelines that are not just fast and reliable, but
-            resilient to adversarial threats.
-          </p>
-          <p>
-            This past summer I interned at Novelis as an Enterprise Architect Intern, building ETL
-            pipelines on Azure Databricks and automating enterprise-wide access governance for 500+ users.
-            I'm actively seeking internship opportunities in data engineering and information security.
-          </p>
-        </div>
-        <div class="about-meta">
-          <div class="meta-row"><span class="meta-key">School</span><span class="meta-val">UT Dallas</span></div>
-          <div class="meta-row"><span class="meta-key">GPA</span><span class="meta-val">3.7 / 4.0</span></div>
-          <div class="meta-row"><span class="meta-key">Graduating</span><span class="meta-val">May 2027</span></div>
-          <div class="meta-row"><span class="meta-key">Minors</span><span class="meta-val">Cybersecurity · Business Finance</span></div>
-          <div class="meta-row"><span class="meta-key">Certified</span><span class="meta-val">AWS Cloud Practitioner</span></div>
-          <div class="meta-row"><span class="meta-key">Location</span><span class="meta-val">Dallas, TX</span></div>
-          <div class="meta-row"><span class="meta-key">Status</span><span class="meta-val" style="color:var(--accent);font-weight:600;">Open to opportunities</span></div>
-        </div>
+    <div class="sb-lib">
+      <div class="lib-top">
+        <span class="lib-label">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--muted)"><path d="M3 18v-2h18v2H3zm0-5v-2h18v2H3zm0-5V6h18v2H3z"/></svg>
+          Your Library
+        </span>
+        <button class="lib-plus">+</button>
       </div>
-    </div>
-  </section>
-
-  <section id="experience">
-    <div class="container">
-      <h2 class="section-label">Experience</h2>
-      <div class="timeline">
-
-        <div class="timeline-item">
-          <div class="tl-header">
-            <div>
-              <h3 class="tl-role">Enterprise Architect Intern</h3>
-              <p class="tl-company">Novelis &nbsp;·&nbsp; Atlanta, GA</p>
+      <div class="lib-filter">
+        <span class="lib-chip on">Playlists</span>
+        <span class="lib-chip">Artists</span>
+        <span class="lib-chip">Albums</span>
+      </div>
+      <div class="lib-list">
+        <div class="pl-row on" data-sec="about">
+          <div class="pl-img circle" style="overflow:hidden;padding:0;"><img src="photo.png" style="width:100%;height:100%;object-fit:cover;object-position:center 8%;border-radius:50%;"></div>
+          <div class="pl-info">
+            <div class="pl-name">Srinidhi Narla</div>
+            <div class="pl-type" style="display:flex;align-items:center;gap:5px;">
+              <div class="eq" style="height:10px;">
+                <div class="eq-b" style="height:4px;"></div>
+                <div class="eq-b" style="height:8px;"></div>
+                <div class="eq-b" style="height:6px;"></div>
+                <div class="eq-b" style="height:10px;"></div>
+                <div class="eq-b" style="height:4px;"></div>
+              </div>
+              Artist
             </div>
-            <span class="tl-date">May – Aug 2025</span>
           </div>
-          <ul class="tl-bullets">
-            <li>Automated license validation and access governance for 500+ enterprise users using Alteryx workflows, replacing a recurring manual audit and enforcing cybersecurity compliance.</li>
-            <li>Built secure ETL pipelines on Azure Databricks (PySpark + Delta Lake) to ingest and transform 5,000+ multilingual invoices for the finance reporting team.</li>
-            <li>Optimized Spark jobs via partitioning, broadcast joins, and adaptive query execution — cutting the largest transformation's runtime roughly in half on enterprise-scale datasets.</li>
-            <li>Analyzed 75+ internal applications across SAP and non-SAP systems; built Oracle-based reports that drove portfolio rationalization decisions.</li>
-          </ul>
         </div>
+        <div class="pl-row" data-sec="projects">
+          <div class="pl-img" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">💻</div>
+          <div class="pl-info"><div class="pl-name">Projects</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
+        </div>
+        <div class="pl-row" data-sec="exp">
+          <div class="pl-img" style="background:linear-gradient(135deg,#221c32,#3d2f52);">📋</div>
+          <div class="pl-info"><div class="pl-name">Experience</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
+        </div>
+        <div class="pl-row" data-sec="skills">
+          <div class="pl-img" style="background:linear-gradient(135deg,#2a2010,#48361a);">⚡</div>
+          <div class="pl-info"><div class="pl-name">Skills</div><div class="pl-type">Compilation · Srinidhi Narla</div></div>
+        </div>
+        <div class="pl-row" data-sec="contact">
+          <div class="pl-img" style="background:linear-gradient(135deg,#152030,#254055);">✉️</div>
+          <div class="pl-info"><div class="pl-name">Contact</div><div class="pl-type">Single · Srinidhi Narla</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="timeline-item">
-          <div class="tl-header">
+  <!-- ── Main ── -->
+  <div class="main">
+    <div class="topbar" id="topbar">
+      <div class="tb-arrows">
+        <button class="tb-arrow" id="btn-back" onclick="goBack()">‹</button>
+        <button class="tb-arrow" id="btn-fwd"  onclick="goFwd()">›</button>
+      </div>
+      <div class="tb-right">
+        <button class="tb-pill">Premium</button>
+        <button class="tb-pill" onclick="navigateTo('contact')">Contact</button>
+        <div class="tb-avatar">SN</div>
+      </div>
+    </div>
+
+    <div class="main-scroll" id="mainScroll">
+
+      <!-- ── About / Artist page ── -->
+      <div class="sec on" id="sec-about">
+        <div class="artist-hd">
+          <img src="photo.png" class="hd-bg-img" alt="">
+          <div class="hd-inner" style="position:relative;z-index:1;display:flex;align-items:flex-end;gap:24px;padding-top:80px;">
+            <img src="photo.png" class="profile-photo" alt="Srinidhi Narla">
             <div>
-              <h3 class="tl-role">Finance &amp; Data Analytics Intern</h3>
-              <p class="tl-company">State Farm &nbsp;·&nbsp; Dallas, TX</p>
+              <div class="hd-verified"><div class="hd-check">✓</div>VERIFIED ENGINEER</div>
+              <div class="hd-name">Srinidhi Narla</div>
+              <div class="hd-stats">
+                <span>284K+ records processed</span>
+                <div class="hd-dot"></div>
+                <span>500+ users governed</span>
+                <div class="hd-dot"></div>
+                <span>3.7 GPA</span>
+              </div>
             </div>
-            <span class="tl-date">Jan – May 2023</span>
-          </div>
-          <ul class="tl-bullets">
-            <li>Audited 300+ internal finance policies for reporting accuracy and flagged inconsistencies to support compliance-ready workflows.</li>
-            <li>Structured and processed 1,000+ financial records using pivot tables and reconciliation formulas to produce weekly audit-ready reports.</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="container">
-      <h2 class="section-label">Projects</h2>
-      <div class="projects-grid">
-
-        <div class="project-card featured">
-          <div class="card-top">
-            <span class="card-badge">Featured</span>
-            <a href="https://github.com/srinidhinarla-sudo/secure-financial-pipeline" target="_blank" rel="noopener" class="card-link" aria-label="View on GitHub">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </a>
-          </div>
-          <h3 class="card-title">Secure Financial Data Pipeline</h3>
-          <p class="card-desc">
-            Apache Airflow ETL processing 284K+ credit card transactions through a Bronze/Silver/Gold
-            medallion architecture in Delta Lake. Built a tamper-evident audit layer that SHA-256 hashes
-            every row, assembles a Merkle tree, and fires Slack alerts if any Parquet file is modified
-            on disk — catching attacks that bypass Delta Lake's own transaction log. Includes an
-            unsupervised Isolation Forest model for fraud anomaly detection across 29 features with no
-            label leakage during training.
-          </p>
-          <div class="card-tags">
-            <span>PySpark</span><span>Apache Airflow</span><span>Delta Lake</span><span>scikit-learn</span><span>Docker</span><span>GitHub Actions</span>
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="card-top">
-            <span class="card-badge">Systems</span>
-            <a href="https://github.com/srinidhinarla-sudo/autonomous-validation-agent" target="_blank" rel="noopener" class="card-link" aria-label="View on GitHub">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </a>
-          </div>
-          <h3 class="card-title">Autonomous Validation Agent</h3>
-          <p class="card-desc">
-            Validation platform for a 61-state C++ vehicle-infotainment state machine exposed to Python via pybind11. Model-based test generator achieves 100% transition coverage (217/217). Adversarial fuzzer with delta debugging reduces 250-step failures to 4-step minimal repros. Mutation testing gate at 92% kill rate enforced in CI. Includes a live FastAPI dashboard with WebSocket feed and SQLite transition log.
-          </p>
-          <div class="card-tags">
-            <span>C++</span><span>Python</span><span>pybind11</span><span>FastAPI</span><span>pytest</span><span>GitHub Actions</span>
-          </div>
+        <div class="artist-acts">
+          <button class="btn-play">▶</button>
+          <button class="btn-follow" id="follow-btn" onclick="toggleFollow()">Follow</button>
+          <button class="btn-more">···</button>
         </div>
 
-        <div class="project-card">
-          <div class="card-top">
-            <span class="card-badge">Personal</span>
+        <div class="cp">
+          <div style="overflow:hidden;">
+            <span class="sh">Popular</span>
+            <span class="sh-link" onclick="navigateTo('projects')">Show all</span>
           </div>
-          <h3 class="card-title">Personal Finance Intelligence Platform</h3>
-          <p class="card-desc">
-            Secure REST API in Flask with JWT authentication and role-based access control exposing
-            6 endpoints for transaction ingestion, querying, and forecasting. ETL pipelines process
-            10,000+ transactions; an Isolation Forest flags anomalous spending with precision/recall
-            evaluation on the minority class. Budget forecasting model compares snowball vs. avalanche
-            debt repayment strategies. Deployed on AWS with GitHub Actions CI/CD.
-          </p>
-          <div class="card-tags">
-            <span>Python</span><span>Flask</span><span>JWT</span><span>scikit-learn</span><span>AWS</span><span>Docker</span>
+          <div style="margin-bottom:28px;">
+            <div class="tlist-hd" style="display:grid;grid-template-columns:40px 1fr auto;padding:0 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:4px;">
+              <div class="th">#</div><div class="th">Title</div><div class="th" style="text-align:right;">🕐</div>
+            </div>
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
+              <span class="t-num t-now">♪</span><span class="t-play">▶</span>
+              <div><div class="t-title t-now">Secure Financial Data Pipeline</div><div class="t-artist">Featured · PySpark, Airflow, Delta Lake</div></div>
+              <span class="t-dur">3:47</span>
+            </div>
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
+              <span class="t-num">2</span><span class="t-play">▶</span>
+              <div><div class="t-title">Autonomous Validation Agent</div><div class="t-artist">Systems · C++, pybind11, FastAPI</div></div>
+              <span class="t-dur">2:31</span>
+            </div>
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
+              <span class="t-num">3</span><span class="t-play">▶</span>
+              <div><div class="t-title">Multilingual Invoice Pipeline</div><div class="t-artist">Novelis · Azure Databricks, PySpark</div></div>
+              <span class="t-dur">4:12</span>
+            </div>
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
+              <span class="t-num">4</span><span class="t-play">▶</span>
+              <div><div class="t-title">Finance Intelligence Platform</div><div class="t-artist">Personal · Flask, JWT, AWS</div></div>
+              <span class="t-dur">1:58</span>
+            </div>
           </div>
-        </div>
 
-        <div class="project-card">
-          <div class="card-top">
-            <span class="card-badge">Novelis</span>
+          <div class="sh">About</div>
+          <div class="bio-card">
+            <div class="bio-h">Srinidhi Narla</div>
+            <div class="bio-p">Senior at UT Dallas studying Computer Science with minors in Cybersecurity and Business Finance. I build systems where data engineering meets information security — fast, reliable, and resilient to adversarial threats.<br><br>Interned at Novelis building ETL pipelines on Azure Databricks and automating enterprise-wide access governance for 500+ users. Long-term goal: engineering at the intersection of software and sustainability.</div>
+            <div class="bio-stats">
+              <div><div class="bstat-v">3.7</div><div class="bstat-k">GPA / 4.0</div></div>
+              <div><div class="bstat-v">2</div><div class="bstat-k">Internships</div></div>
+              <div><div class="bstat-v">4</div><div class="bstat-k">Projects</div></div>
+              <div><div class="bstat-v">2027</div><div class="bstat-k">Graduating</div></div>
+            </div>
+            <div class="chip-row">
+              <span class="chip live">● Open to Opportunities</span>
+              <span class="chip">AWS Certified</span>
+              <span class="chip">UT Dallas</span>
+              <span class="chip">Dallas, TX</span>
+            </div>
           </div>
-          <h3 class="card-title">Multilingual Invoice Translation Pipeline</h3>
-          <p class="card-desc">
-            AI-powered ETL pipeline on Azure Databricks integrating Azure AI Services to translate
-            5,000+ international invoices across 8 languages with automatic language detection.
-            Normalized currencies and date formats for downstream finance reporting using PySpark
-            and Delta Lake for scalable, auditable storage.
-          </p>
-          <div class="card-tags">
-            <span>Azure Databricks</span><span>PySpark</span><span>Delta Lake</span><span>Azure AI Services</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section id="skills">
-    <div class="container">
-      <h2 class="section-label">Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-group">
-          <h4>Languages</h4>
-          <div class="skill-pills"><span>Python</span><span>Java</span><span>SQL</span><span>JavaScript</span><span>C++</span><span>Bash</span><span>HTML/CSS</span></div>
-        </div>
-        <div class="skill-group">
-          <h4>Data Engineering</h4>
-          <div class="skill-pills"><span>PySpark</span><span>Apache Airflow</span><span>Delta Lake</span><span>Azure Databricks</span><span>Apache Iceberg</span></div>
-        </div>
-        <div class="skill-group">
-          <h4>Security</h4>
-          <div class="skill-pills"><span>Cybersecurity Compliance</span><span>Access Governance</span><span>JWT Auth</span><span>Tamper Detection</span><span>Merkle Auditing</span></div>
-        </div>
-        <div class="skill-group">
-          <h4>Cloud &amp; DevOps</h4>
-          <div class="skill-pills"><span>AWS</span><span>Microsoft Azure</span><span>Docker</span><span>GitHub Actions</span><span>Linux</span></div>
-        </div>
-        <div class="skill-group">
-          <h4>Backend &amp; APIs</h4>
-          <div class="skill-pills"><span>Flask</span><span>FastAPI</span><span>Spring Boot</span><span>REST API</span></div>
-        </div>
-        <div class="skill-group">
-          <h4>AI &amp; Analytics</h4>
-          <div class="skill-pills"><span>scikit-learn</span><span>Anomaly Detection</span><span>Power BI</span><span>Tableau</span></div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section id="contact">
-    <div class="container contact-inner">
-      <h2 class="section-label">Contact</h2>
-      <p class="contact-desc">
-        I'm actively looking for full-time roles in data engineering, software engineering, and information security.<br />
-        Feel free to reach out.
-      </p>
-      <div class="contact-links">
-        <a href="mailto:srinidhi.narla@gmail.com" class="contact-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          srinidhi.narla@gmail.com
-        </a>
-        <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="contact-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          linkedin.com/in/srinidhinarla1352
-        </a>
-        <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="contact-item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          github.com/srinidhinarla-sudo
-        </a>
+      <!-- ── Projects ── -->
+      <div class="sec" id="sec-projects">
+        <div class="pl-hd">
+          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#1a2e28,#253e32);"></div>
+          <div class="pl-hd-inner">
+            <div class="pl-hd-type">Discography</div>
+            <div class="pl-hd-title">Projects</div>
+            <div class="pl-hd-meta">Srinidhi Narla · 4 releases</div>
+          </div>
+        </div>
+        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#2d4a3e,#304860);box-shadow:0 6px 20px rgba(45,74,62,.5);">▶</button></div>
+        <div class="cp">
+          <div class="grid">
+            <div class="acard">
+              <div class="acover" style="background:linear-gradient(135deg,#1a2a3a,#2a4258);">🔐<button class="acard-play">▶</button></div>
+              <div class="atag" style="background:rgba(143,163,184,.1);color:#b0c4d4;border:1px solid rgba(143,163,184,.2);">Featured</div>
+              <div class="atitle">Secure Financial Pipeline</div>
+              <div class="adesc">284K+ transactions · SHA-256 Merkle tamper detection · Isolation Forest fraud detection</div>
+              <div class="apills"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>Docker</span></div>
+            </div>
+            <div class="acard">
+              <div class="acover" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">🤖<button class="acard-play">▶</button></div>
+              <div class="atag" style="background:rgba(100,140,120,.1);color:#9ab8a8;border:1px solid rgba(100,140,120,.2);">Systems</div>
+              <div class="atitle">Autonomous Validation Agent</div>
+              <div class="adesc">61-state C++ FSM · 100% transition coverage · 92% mutation kill rate</div>
+              <div class="apills"><span>C++</span><span>pybind11</span><span>FastAPI</span><span>pytest</span></div>
+            </div>
+            <div class="acard">
+              <div class="acover" style="background:linear-gradient(135deg,#221c32,#3d2f52);">💰<button class="acard-play">▶</button></div>
+              <div class="atag" style="background:rgba(130,115,160,.1);color:#b0a0c8;border:1px solid rgba(130,115,160,.2);">Personal</div>
+              <div class="atitle">Finance Intelligence Platform</div>
+              <div class="adesc">JWT + RBAC REST API · Anomaly detection · Deployed on AWS</div>
+              <div class="apills"><span>Flask</span><span>scikit-learn</span><span>AWS</span></div>
+            </div>
+            <div class="acard">
+              <div class="acover" style="background:linear-gradient(135deg,#2a2010,#48361a);">🌍<button class="acard-play">▶</button></div>
+              <div class="atag" style="background:rgba(160,130,80,.1);color:#c8aa70;border:1px solid rgba(160,130,80,.2);">Novelis</div>
+              <div class="atitle">Multilingual Invoice Pipeline</div>
+              <div class="adesc">5,000+ invoices · 8 languages · Spark runtime cut ~50%</div>
+              <div class="apills"><span>Databricks</span><span>PySpark</span><span>Azure AI</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Experience ── -->
+      <div class="sec" id="sec-exp">
+        <div class="pl-hd">
+          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#221c32,#352848);"></div>
+          <div class="pl-hd-inner">
+            <div class="pl-hd-type">Playlist</div>
+            <div class="pl-hd-title">Experience</div>
+            <div class="pl-hd-meta">Srinidhi Narla · 2 roles · 8 months</div>
+          </div>
+        </div>
+        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#352848,#4a3860);box-shadow:0 6px 20px rgba(53,40,72,.5);">▶</button></div>
+        <div class="cp">
+          <div style="display:grid;grid-template-columns:40px 1fr auto;padding:0 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:4px;">
+            <div class="th">#</div><div class="th">Role</div><div class="th" style="text-align:right;">Tenure</div>
+          </div>
+          <div id="xp1">
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="toggleXP('xp1')">
+              <span class="t-num">1</span><span class="t-play">▶</span>
+              <div><div class="t-title">Enterprise Architect Intern</div><div class="t-artist">Novelis · Atlanta, GA</div></div>
+              <span class="t-dur">3 mo</span>
+            </div>
+            <div id="xp1-body" style="max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;">
+              <ul style="list-style:none;padding:8px 16px 12px 56px;display:flex;flex-direction:column;gap:7px;">
+                <li style="font-size:13.5px;color:var(--muted);line-height:1.65;padding-left:14px;position:relative;"><span style="position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--dim);display:block;"></span>Automated license validation and access governance for 500+ enterprise users via Alteryx, replacing a recurring manual audit.</li>
+                <li style="font-size:13.5px;color:var(--muted);line-height:1.65;padding-left:14px;position:relative;"><span style="position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--dim);display:block;"></span>Built ETL pipelines on Azure Databricks (PySpark + Delta Lake) ingesting 5,000+ multilingual invoices.</li>
+                <li style="font-size:13.5px;color:var(--muted);line-height:1.65;padding-left:14px;position:relative;"><span style="position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--dim);display:block;"></span>Cut largest Spark job ~50% runtime via partitioning, broadcast joins, and adaptive query execution.</li>
+                <li style="font-size:13.5px;color:var(--muted);line-height:1.65;padding-left:14px;position:relative;"><span style="position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--dim);display:block;"></span>Analyzed 75+ applications; built Oracle-based reports driving portfolio rationalization decisions.</li>
+              </ul>
+            </div>
+          </div>
+          <div id="xp2">
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="toggleXP('xp2')">
+              <span class="t-num">2</span><span class="t-play">▶</span>
+              <div><div class="t-title">Finance &amp; Data Analytics Intern</div><div class="t-artist">State Farm · Dallas, TX</div></div>
+              <span class="t-dur">5 mo</span>
+            </div>
+            <div id="xp2-body" style="max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;">
+              <ul style="list-style:none;padding:8px 16px 12px 56px;display:flex;flex-direction:column;gap:7px;">
+                <li style="font-size:13.5px;color:var(--muted);line-height:1.65;padding-left:14px;position:relative;"><span style="position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--dim);display:block;"></span>Audited 300+ internal finance policies for reporting accuracy and flagged inconsistencies.</li>
+                <li style="font-size:13.5px;color:var(--muted);line-height:1.65;padding-left:14px;position:relative;"><span style="position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--dim);display:block;"></span>Processed 1,000+ financial records via pivot tables and reconciliation formulas for weekly audit-ready reports.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Skills ── -->
+      <div class="sec" id="sec-skills">
+        <div class="pl-hd">
+          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#28200e,#3e3018);"></div>
+          <div class="pl-hd-inner">
+            <div class="pl-hd-type">Compilation</div>
+            <div class="pl-hd-title">Skills</div>
+            <div class="pl-hd-meta">Srinidhi Narla · 6 categories</div>
+          </div>
+        </div>
+        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#483618,#5a3520);box-shadow:0 6px 20px rgba(72,54,24,.5);">▶</button></div>
+        <div class="cp">
+          <div class="genres">
+            <div class="gcard" style="background:linear-gradient(135deg,#1a2535,#253a50);">
+              <div class="gcard-title">Languages</div>
+              <div class="gcard-pills"><span class="gcard-pill">Python</span><span class="gcard-pill">Java</span><span class="gcard-pill">SQL</span><span class="gcard-pill">JavaScript</span><span class="gcard-pill">C++</span><span class="gcard-pill">Bash</span></div>
+            </div>
+            <div class="gcard" style="background:linear-gradient(135deg,#1a2e28,#253e32);">
+              <div class="gcard-title">Data Engineering</div>
+              <div class="gcard-pills"><span class="gcard-pill">PySpark</span><span class="gcard-pill">Airflow</span><span class="gcard-pill">Delta Lake</span><span class="gcard-pill">Databricks</span></div>
+            </div>
+            <div class="gcard" style="background:linear-gradient(135deg,#152030,#204050);">
+              <div class="gcard-title">Security</div>
+              <div class="gcard-pills"><span class="gcard-pill">Compliance</span><span class="gcard-pill">Access Gov.</span><span class="gcard-pill">JWT/RBAC</span><span class="gcard-pill">Merkle Audit</span></div>
+            </div>
+            <div class="gcard" style="background:linear-gradient(135deg,#1a1a2e,#2a2840);">
+              <div class="gcard-title">Cloud &amp; DevOps</div>
+              <div class="gcard-pills"><span class="gcard-pill">AWS</span><span class="gcard-pill">Azure</span><span class="gcard-pill">Docker</span><span class="gcard-pill">GitHub Actions</span></div>
+            </div>
+            <div class="gcard" style="background:linear-gradient(135deg,#221c32,#352848);">
+              <div class="gcard-title">Backend</div>
+              <div class="gcard-pills"><span class="gcard-pill">Flask</span><span class="gcard-pill">FastAPI</span><span class="gcard-pill">Spring Boot</span><span class="gcard-pill">REST</span></div>
+            </div>
+            <div class="gcard" style="background:linear-gradient(135deg,#2a2010,#453520);">
+              <div class="gcard-title">AI &amp; Analytics</div>
+              <div class="gcard-pills"><span class="gcard-pill">scikit-learn</span><span class="gcard-pill">Anomaly Detection</span><span class="gcard-pill">Power BI</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Contact ── -->
+      <div class="sec" id="sec-contact">
+        <div class="pl-hd">
+          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#152030,#204050);"></div>
+          <div class="pl-hd-inner">
+            <div class="pl-hd-type">Single</div>
+            <div class="pl-hd-title">Let's Connect</div>
+            <div class="pl-hd-meta">Open to all opportunities</div>
+          </div>
+        </div>
+        <div class="ct-top"><h2>Get in Touch</h2><p>Open to any opportunities — let's connect.</p></div>
+        <div class="ct-links">
+          <a href="mailto:srinidhi.narla@gmail.com" class="ctlnk"><span class="ctlnk-ico">✉</span>srinidhi.narla@gmail.com</a>
+          <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="ctlnk"><span class="ctlnk-ico">in</span>linkedin.com/in/srinidhinarla1352</a>
+          <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="ctlnk"><span class="ctlnk-ico">◈</span>github.com/srinidhinarla-sudo</a>
+        </div>
+      </div>
+
+    </div><!-- /main-scroll -->
+  </div><!-- /main -->
+
+  <!-- ── Player bar ── -->
+  <div class="player">
+    <div class="np">
+      <img src="photo.png" class="np-img" id="np-ico" alt="Srinidhi Narla">
+      <div class="np-info">
+        <div class="np-title"><span id="np-tw"></span><span class="cursor"></span></div>
+        <div class="np-artist">Srinidhi Narla</div>
+      </div>
+      <button class="np-heart">♥</button>
+    </div>
+    <div class="pctrl">
+      <div class="ctrl-btns">
+        <button class="cbtn">⇄</button>
+        <button class="cbtn">⏮</button>
+        <button class="cbtn-play">▶</button>
+        <button class="cbtn">⏭</button>
+        <button class="cbtn">↻</button>
+      </div>
+      <div class="prog">
+        <span class="prog-t" id="prog-cur">0:00</span>
+        <div class="prog-bar"><div class="prog-fill" id="prog-fill"><div class="prog-thumb"></div></div></div>
+        <span class="prog-t r" id="prog-dur">3:47</span>
       </div>
     </div>
-  </section>
-
-  <footer>
-    <div class="container">
-      <p>Srinidhi Narla &nbsp;·&nbsp; Dallas, TX</p>
+    <div class="p-right">
+      <div class="eq"><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div></div>
+      <button class="p-vol-ico">🔊</button>
+      <div class="vol"><div class="vol-fill"></div></div>
     </div>
-  </footer>
+  </div>
 
-  <script src="script.js"></script>
+</div>
+
+<script>
+(function () {
+
+  /* ── Navigation ── */
+  var hist = ['about'], hIdx = 0;
+  var trackData = {
+    about:    { ico: '👤', title: 'Data Engineer',               dur: 227 },
+    projects: { ico: '💻', title: 'Secure Financial Pipeline',   dur: 227 },
+    exp:      { ico: '📋', title: 'Enterprise Architect Intern', dur: 183 },
+    skills:   { ico: '⚡', title: 'Tech Stack Compilation',      dur: 252 },
+    contact:  { ico: '✉️', title: "Let's Connect",               dur: 195 }
+  };
+
+  function showSec(id) {
+    document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
+    document.getElementById('sec-' + id).classList.add('on');
+    document.querySelectorAll('[data-sec]').forEach(function(el){ el.classList.remove('on'); });
+    document.querySelectorAll('[data-sec="' + id + '"]').forEach(function(el){ el.classList.add('on'); });
+    document.getElementById('mainScroll').scrollTo({ top: 0, behavior: 'smooth' });
+
+    var td = trackData[id] || trackData.about;
+    document.getElementById('np-ico').textContent = td.ico;
+    trackDur = td.dur;
+    trackStart = Date.now();
+    startTypewriter(td.title);
+
+    var durEl = document.getElementById('prog-dur');
+    var m = Math.floor(td.dur / 60), s = td.dur % 60;
+    durEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function navigateTo(id) {
+    hist = hist.slice(0, hIdx + 1);
+    hist.push(id); hIdx++;
+    showSec(id);
+    updateArrows();
+  }
+
+  function goBack() {
+    if (hIdx > 0) { hIdx--; showSec(hist[hIdx]); updateArrows(); }
+  }
+  function goFwd() {
+    if (hIdx < hist.length - 1) { hIdx++; showSec(hist[hIdx]); updateArrows(); }
+  }
+  function updateArrows() {
+    document.getElementById('btn-back').disabled = hIdx <= 0;
+    document.getElementById('btn-fwd').disabled  = hIdx >= hist.length - 1;
+  }
+
+  document.querySelectorAll('[data-sec]').forEach(function(el) {
+    el.addEventListener('click', function(){ navigateTo(el.dataset.sec); });
+  });
+
+  /* ── Topbar tint on scroll ── */
+  document.getElementById('mainScroll').addEventListener('scroll', function() {
+    document.getElementById('topbar').classList.toggle('scrolled', this.scrollTop > 60);
+  });
+
+  /* ── Experience expand ── */
+  function toggleXP(id) {
+    var body = document.getElementById(id + '-body');
+    var open = body.style.maxHeight && body.style.maxHeight !== '0px';
+    body.style.maxHeight = open ? '0px' : '400px';
+  }
+
+  /* ── Typewriter ── */
+  var twEl = document.getElementById('np-tw');
+  var twTimer = null;
+
+  function startTypewriter(text) {
+    if (twTimer) clearTimeout(twTimer);
+    var phrases = [text, 'Data Engineer', 'Cybersecurity Specialist', 'Software Developer'];
+    var pIdx = 0, cIdx = 0, deleting = false;
+
+    function type() {
+      var current = phrases[pIdx];
+      if (!deleting) {
+        twEl.textContent = current.slice(0, ++cIdx);
+        if (cIdx === current.length) {
+          deleting = true;
+          twTimer = setTimeout(type, 1800);
+          return;
+        }
+      } else {
+        twEl.textContent = current.slice(0, --cIdx);
+        if (cIdx === 0) {
+          deleting = false;
+          pIdx = (pIdx + 1) % phrases.length;
+          twTimer = setTimeout(type, 300);
+          return;
+        }
+      }
+      twTimer = setTimeout(type, deleting ? 45 : 75);
+    }
+    type();
+  }
+
+  /* ── Progress bar ── */
+  var trackStart = Date.now(), trackDur = 227;
+
+  function fmt(s) {
+    var m = Math.floor(s / 60), r = Math.floor(s % 60);
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+
+  setInterval(function() {
+    var elapsed = (Date.now() - trackStart) / 1000;
+    var cur = elapsed % trackDur;
+    var pct = (cur / trackDur) * 100;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-cur').textContent  = fmt(cur);
+  }, 250);
+
+  /* ── Follow toggle ── */
+  function toggleFollow() {
+    var btn = document.getElementById('follow-btn');
+    var following = btn.textContent === 'Following';
+    btn.textContent = following ? 'Follow' : 'Following';
+    btn.style.color = following ? 'white' : 'var(--acc)';
+    btn.style.borderColor = following ? 'rgba(255,255,255,.3)' : 'var(--acc)';
+  }
+  window.toggleFollow = toggleFollow;
+
+  /* ── Expose globals ── */
+  window.navigateTo = navigateTo;
+  window.goBack     = goBack;
+  window.goFwd      = goFwd;
+  window.toggleXP   = toggleXP;
+  updateArrows();
+
+  /* ── Start ── */
+  showSec('about');
+
+}());
+</script>
 </body>
 </html>
