@@ -503,7 +503,19 @@
         <div class="artist-acts">
           <button class="btn-play">▶</button>
           <button class="btn-follow" id="follow-btn" onclick="toggleFollow()">Follow</button>
-          <button class="btn-follow" onclick="sharePortfolio()">Share</button>
+          <div style="position:relative;">
+            <button class="btn-more" id="dots-btn" onclick="toggleMenu()">···</button>
+            <div id="dots-menu" style="display:none;position:absolute;top:calc(100% + 8px);left:0;
+              background:#282828;border-radius:6px;padding:4px;min-width:160px;
+              box-shadow:0 8px 24px rgba(0,0,0,.6);z-index:200;">
+              <div onclick="sharePortfolio()" style="display:flex;align-items:center;gap:12px;
+                padding:10px 14px;border-radius:4px;cursor:pointer;font-size:14px;font-weight:500;
+                color:#fff;transition:background .15s;" onmouseenter="this.style.background='#3e3e3e'"
+                onmouseleave="this.style.background='transparent'">
+                <span style="font-size:16px;">↗</span> Share
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="cp">
@@ -855,6 +867,17 @@
     document.getElementById('prog-fill').style.width = pct + '%';
     document.getElementById('prog-cur').textContent  = fmt(cur);
   }, 250);
+
+  /* ── Dots menu ── */
+  function toggleMenu() {
+    var menu = document.getElementById('dots-menu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+  document.addEventListener('click', function(e) {
+    if (!document.getElementById('dots-btn').contains(e.target)) {
+      document.getElementById('dots-menu').style.display = 'none';
+    }
+  });
 
   /* ── Share ── */
   function sharePortfolio() {
