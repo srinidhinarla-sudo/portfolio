@@ -504,15 +504,17 @@
           <button class="btn-play">▶</button>
           <button class="btn-follow" id="follow-btn" onclick="toggleFollow()">Follow</button>
           <div style="position:relative;">
-            <button class="btn-more" id="dots-btn" onclick="toggleMenu()">···</button>
+            <button class="btn-more" id="dots-btn">···</button>
             <div id="dots-menu" style="display:none;position:absolute;top:calc(100% + 8px);left:0;
-              background:#282828;border-radius:6px;padding:4px;min-width:160px;
-              box-shadow:0 8px 24px rgba(0,0,0,.6);z-index:200;">
-              <div onclick="sharePortfolio()" style="display:flex;align-items:center;gap:12px;
-                padding:10px 14px;border-radius:4px;cursor:pointer;font-size:14px;font-weight:500;
-                color:#fff;transition:background .15s;" onmouseenter="this.style.background='#3e3e3e'"
-                onmouseleave="this.style.background='transparent'">
-                <span style="font-size:16px;">↗</span> Share
+              background:#282828;border-radius:8px;padding:4px;min-width:200px;
+              box-shadow:0 8px 32px rgba(0,0,0,.7);z-index:999;">
+              <div id="menu-share" style="display:flex;align-items:center;gap:12px;
+                padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
+                <span>↗</span>Share
+              </div>
+              <div id="menu-about" style="display:flex;align-items:center;gap:12px;
+                padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
+                <span>👤</span>About the Artist
               </div>
             </div>
           </div>
@@ -869,14 +871,37 @@
   }, 250);
 
   /* ── Dots menu ── */
-  function toggleMenu() {
-    var menu = document.getElementById('dots-menu');
-    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-  }
-  document.addEventListener('click', function(e) {
-    if (!document.getElementById('dots-btn').contains(e.target)) {
-      document.getElementById('dots-menu').style.display = 'none';
-    }
+  var dotsBtn  = document.getElementById('dots-btn');
+  var dotsMenu = document.getElementById('dots-menu');
+
+  dotsBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open = dotsMenu.style.display === 'block';
+    dotsMenu.style.display = open ? 'none' : 'block';
+  });
+
+  document.getElementById('menu-share').addEventListener('click', function() {
+    dotsMenu.style.display = 'none';
+    sharePortfolio();
+  });
+
+  document.getElementById('menu-about').addEventListener('click', function() {
+    dotsMenu.style.display = 'none';
+    navigateTo('about');
+    setTimeout(function() {
+      var bio = document.querySelector('.bio-card');
+      if (bio) bio.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  });
+
+  ['menu-share','menu-about'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.addEventListener('mouseenter', function() { el.style.background = '#3e3e3e'; });
+    el.addEventListener('mouseleave', function() { el.style.background = 'transparent'; });
+  });
+
+  document.addEventListener('click', function() {
+    dotsMenu.style.display = 'none';
   });
 
   /* ── Share ── */
