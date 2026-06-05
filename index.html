@@ -503,7 +503,7 @@
         <div class="artist-acts">
           <button class="btn-play">▶</button>
           <button class="btn-follow" id="follow-btn" onclick="toggleFollow()">Follow</button>
-          <button class="btn-more">···</button>
+          <button class="btn-more" onclick="sharePortfolio()">···</button>
         </div>
 
         <div class="cp">
@@ -855,6 +855,34 @@
     document.getElementById('prog-fill').style.width = pct + '%';
     document.getElementById('prog-cur').textContent  = fmt(cur);
   }, 250);
+
+  /* ── Share ── */
+  function sharePortfolio() {
+    var url   = window.location.href;
+    var title = 'Srinidhi Narla — Portfolio';
+    var text  = 'Check out Srinidhi Narla\'s portfolio!';
+
+    if (navigator.share) {
+      navigator.share({ title: title, text: text, url: url });
+    } else {
+      navigator.clipboard.writeText(url).then(function () {
+        showToast('Link copied to clipboard!');
+      });
+    }
+  }
+
+  function showToast(msg) {
+    var t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:106px;left:50%;transform:translateX(-50%);' +
+      'background:#1e2e40;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;' +
+      'font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.5);' +
+      'transition:opacity .3s;pointer-events:none;';
+    document.body.appendChild(t);
+    setTimeout(function () { t.style.opacity = '0'; }, 2000);
+    setTimeout(function () { t.remove(); }, 2400);
+  }
+  window.sharePortfolio = sharePortfolio;
 
   /* ── Follow toggle ── */
   function toggleFollow() {
