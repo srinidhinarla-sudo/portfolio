@@ -101,11 +101,11 @@
     .pl-row:hover { background: var(--s2); }
     .pl-row.on { background: var(--s2); }
     .pl-img {
-      width: 44px; height: 44px; border-radius: 4px; flex-shrink: 0;
+      width: 44px; height: 44px; border-radius: 6px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 800; color: rgba(255,255,255,.7); letter-spacing: -.03em;
     }
     .pl-img.circle { border-radius: 50%; }
+    .pl-img > svg { width: 52%; height: 52%; opacity: .85; }
     .pl-info { flex: 1; min-width: 0; }
     .pl-name { font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .pl-row.on .pl-name { color: var(--acc); }
@@ -649,19 +649,27 @@
           </div>
         </div>
         <div class="pl-row" data-sec="projects" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#1c2c22,#243a2c);">Pr</div>
+          <div class="pl-img" style="background:linear-gradient(145deg,#1e2540,#28304e);color:#8eaad4;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
           <div class="pl-info"><div class="pl-name">Projects</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="exp" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#221c30,#2e2440);">Ex</div>
+          <div class="pl-img" style="background:linear-gradient(145deg,#281838,#332045);color:#b898cc;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12.01" y2="12"/><path d="M2 12h20"/></svg>
+          </div>
           <div class="pl-info"><div class="pl-name">Experience</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="skills" data-lib-type="album">
-          <div class="pl-img" style="background:linear-gradient(135deg,#281e10,#342818);">Sk</div>
+          <div class="pl-img" style="background:linear-gradient(145deg,#301828,#3e2035);color:#c898b0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
           <div class="pl-info"><div class="pl-name">Skills</div><div class="pl-type">Compilation · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="contact" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#141e2a,#1c2c3e);">Co</div>
+          <div class="pl-img" style="background:linear-gradient(145deg,#1c2038,#252845);color:#9898c8;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
           <div class="pl-info"><div class="pl-name">Contact</div><div class="pl-type">Single · Srinidhi Narla</div></div>
         </div>
       </div>
