@@ -603,6 +603,33 @@
     .pd-gh-full:hover { background: var(--s2); border-color: var(--acc); }
     .pd-gh-full-ico { font-size: 20px; }
 
+    /* Skill detail section */
+    .sd-hd { position: relative; min-height: 220px; display: flex; align-items: flex-end; overflow: hidden; }
+    .sd-hd-bg { position: absolute; inset: 0; }
+    .sd-hd-inner { position: relative; z-index: 1; padding: 24px 32px 36px; width: 100%; }
+    .sd-hd-cat { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 8px; }
+    .sd-hd-title { font-size: 46px; font-weight: 900; letter-spacing: -.03em; line-height: 1; margin-bottom: 12px; }
+    .sd-hd-desc { font-size: 13px; color: rgba(255,255,255,.5); max-width: 480px; line-height: 1.65; }
+    .sd-skills { display: flex; flex-wrap: wrap; gap: 12px; padding: 32px; }
+    .sd-skill {
+      border-radius: 10px; padding: 16px 20px; cursor: default;
+      display: flex; flex-direction: column; gap: 8px;
+      position: relative; overflow: hidden;
+    }
+    .sd-skill.primary   { background: rgba(255,255,255,.10); flex: 1 1 160px; }
+    .sd-skill.secondary { background: rgba(255,255,255,.065); flex: 1 1 130px; }
+    .sd-skill.familiar  { background: rgba(255,255,255,.04); flex: 1 1 110px; }
+    .sd-skill-name  { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+    .sd-skill-label { font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .48; }
+    .sd-skill-bar   { height: 2.5px; border-radius: 2px; background: rgba(255,255,255,.1); margin-top: 2px; }
+    .sd-skill-fill  { height: 100%; border-radius: 2px; background: currentColor; width: 0; transition: width 1.1s cubic-bezier(.22,.61,.36,1); }
+    @keyframes skillBounce { from{opacity:0;transform:translateY(16px) scale(.9)} to{opacity:1;transform:translateY(0) scale(1)} }
+    @keyframes sdHeroIn { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    #sec-skill-detail.on .sd-hd-cat   { animation: sdHeroIn .35s ease .04s both; }
+    #sec-skill-detail.on .sd-hd-title { animation: sdHeroIn .45s cubic-bezier(.22,.61,.36,1) .09s both; }
+    #sec-skill-detail.on .sd-hd-desc  { animation: sdHeroIn .35s ease .16s both; }
+    #sec-skill-detail.on .sd-skill    { animation: skillBounce .42s cubic-bezier(.34,1.56,.64,1) both; }
+
     /* ═══ ANIMATIONS ═══════════════════════════════════════════════ */
 
     /* Section entrance / exit */
@@ -1035,32 +1062,46 @@
         <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#483618,#5a3520);box-shadow:0 6px 20px rgba(72,54,24,.5);" onclick="openSearch()">▶</button></div>
         <div class="cp">
           <div class="genres">
-            <div class="gcard" style="background:linear-gradient(135deg,#1a2535,#253a50);" onclick="openSearch('python')">
+            <div class="gcard" style="background:linear-gradient(135deg,#1a2535,#253a50);" onclick="openSkill('languages')">
               <div class="gcard-title">Languages</div>
-              <div class="gcard-pills"><span class="gcard-pill">Python</span><span class="gcard-pill">Java</span><span class="gcard-pill">SQL</span><span class="gcard-pill">JavaScript</span><span class="gcard-pill">C++</span><span class="gcard-pill">C#</span><span class="gcard-pill">Bash</span></div>
+              <div class="gcard-pills"><span class="gcard-pill">Python</span><span class="gcard-pill">SQL</span><span class="gcard-pill">C#</span><span class="gcard-pill">Java</span><span class="gcard-pill">JavaScript</span><span class="gcard-pill">VBA</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#1a2e28,#253e32);" onclick="openSearch('pyspark')">
+            <div class="gcard" style="background:linear-gradient(135deg,#1a2e28,#253e32);" onclick="openSkill('data-engineering')">
               <div class="gcard-title">Data Engineering</div>
               <div class="gcard-pills"><span class="gcard-pill">PySpark</span><span class="gcard-pill">Airflow</span><span class="gcard-pill">Delta Lake</span><span class="gcard-pill">Databricks</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#152030,#204050);" onclick="openSearch('compliance')">
+            <div class="gcard" style="background:linear-gradient(135deg,#152030,#204050);" onclick="openSkill('security')">
               <div class="gcard-title">Security</div>
-              <div class="gcard-pills"><span class="gcard-pill">Compliance</span><span class="gcard-pill">Access Gov.</span><span class="gcard-pill">JWT/RBAC</span><span class="gcard-pill">Merkle Audit</span></div>
+              <div class="gcard-pills"><span class="gcard-pill">Compliance</span><span class="gcard-pill">JWT/RBAC</span><span class="gcard-pill">Access Gov.</span><span class="gcard-pill">Merkle Audit</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#1a1a2e,#2a2840);" onclick="openSearch('aws')">
+            <div class="gcard" style="background:linear-gradient(135deg,#1a1a2e,#2a2840);" onclick="openSkill('cloud-devops')">
               <div class="gcard-title">Cloud &amp; DevOps</div>
-              <div class="gcard-pills"><span class="gcard-pill">AWS</span><span class="gcard-pill">Azure</span><span class="gcard-pill">Docker</span><span class="gcard-pill">GitHub Actions</span></div>
+              <div class="gcard-pills"><span class="gcard-pill">AWS</span><span class="gcard-pill">Docker</span><span class="gcard-pill">GitHub Actions</span><span class="gcard-pill">Azure</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#221c32,#352848);" onclick="openSearch('fastapi')">
+            <div class="gcard" style="background:linear-gradient(135deg,#221c32,#352848);" onclick="openSkill('backend')">
               <div class="gcard-title">Backend</div>
-              <div class="gcard-pills"><span class="gcard-pill">Flask</span><span class="gcard-pill">FastAPI</span><span class="gcard-pill">Spring Boot</span><span class="gcard-pill">REST</span></div>
+              <div class="gcard-pills"><span class="gcard-pill">FastAPI</span><span class="gcard-pill">Flask</span><span class="gcard-pill">Spring Boot</span><span class="gcard-pill">REST</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#2a2010,#453520);" onclick="openSearch('power bi')">
+            <div class="gcard" style="background:linear-gradient(135deg,#2a2010,#453520);" onclick="openSkill('ai-analytics')">
               <div class="gcard-title">AI &amp; Analytics</div>
               <div class="gcard-pills"><span class="gcard-pill">scikit-learn</span><span class="gcard-pill">Anomaly Detection</span><span class="gcard-pill">Power BI</span></div>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- ── Skill Detail ── -->
+      <div class="sec" id="sec-skill-detail">
+        <div class="sd-hd">
+          <div class="sd-hd-bg" id="sd-hd-bg"></div>
+          <div class="sd-hd-inner">
+            <button class="pd-back" onclick="goBack()">&#8249; Back to Skills</button>
+            <div class="sd-hd-cat">Skill Category</div>
+            <div class="sd-hd-title" id="sd-title"></div>
+            <div class="sd-hd-desc" id="sd-desc"></div>
+          </div>
+        </div>
+        <div id="sd-skills" class="sd-skills"></div>
       </div>
 
       <!-- ── Contact ── -->
@@ -1189,9 +1230,94 @@
     about:           { title: 'Data Engineer',               dur: 227 },
     projects:        { title: 'Secure Financial Pipeline',   dur: 227 },
     'project-detail':{ title: 'Project Deep Dive',           dur: 300 },
+    'skill-detail':  { title: 'Skills Deep Dive',            dur: 252 },
     exp:             { title: 'Enterprise Architect Intern',  dur: 183 },
     skills:          { title: 'Tech Stack Compilation',      dur: 252 },
     contact:         { title: "Let's Connect",               dur: 195 }
+  };
+
+  /* ─── Skill category data ──────────────────────────── */
+  var SKILL_CATS = {
+    'languages': {
+      title: 'Languages',
+      desc: 'Core programming languages across data pipelines, systems engineering, and web development',
+      bg: 'linear-gradient(160deg,#0e1820,#1a2535,#253a50)', color: '#8eaad4',
+      skills: [
+        {name:'Python',     level:'primary'},
+        {name:'SQL',        level:'primary'},
+        {name:'C#',         level:'primary'},
+        {name:'Java',       level:'secondary'},
+        {name:'JavaScript', level:'secondary'},
+        {name:'VBA',        level:'secondary'},
+        {name:'C++',        level:'familiar'},
+        {name:'Bash',       level:'familiar'}
+      ]
+    },
+    'data-engineering': {
+      title: 'Data Engineering',
+      desc: 'Distributed pipeline tooling, medallion architecture, and lakehouse data platforms',
+      bg: 'linear-gradient(160deg,#0e1a16,#1a2e28,#253e32)', color: '#80aa90',
+      skills: [
+        {name:'PySpark',      level:'primary'},
+        {name:'Apache Airflow',level:'primary'},
+        {name:'Delta Lake',   level:'secondary'},
+        {name:'Databricks',   level:'secondary'},
+        {name:'Snowflake',    level:'familiar'},
+        {name:'dbt',          level:'familiar'}
+      ]
+    },
+    'security': {
+      title: 'Security',
+      desc: 'Compliance frameworks, identity governance, cryptographic auditing, and access control',
+      bg: 'linear-gradient(160deg,#0e1620,#152030,#204050)', color: '#8ab0c8',
+      skills: [
+        {name:'Compliance',        level:'primary'},
+        {name:'JWT / RBAC',        level:'primary'},
+        {name:'Access Governance', level:'secondary'},
+        {name:'Merkle Audit',      level:'secondary'},
+        {name:'GDPR / DSGVO',      level:'familiar'},
+        {name:'ISO 27001',         level:'familiar'}
+      ]
+    },
+    'cloud-devops': {
+      title: 'Cloud & DevOps',
+      desc: 'Cloud infrastructure, CI/CD automation, and containerised deployment pipelines',
+      bg: 'linear-gradient(160deg,#10101e,#1a1a2e,#2a2840)', color: '#9898c8',
+      skills: [
+        {name:'AWS',             level:'primary'},
+        {name:'Docker',          level:'primary'},
+        {name:'GitHub Actions',  level:'primary'},
+        {name:'Azure',           level:'secondary'},
+        {name:'Kubernetes',      level:'familiar'},
+        {name:'Terraform',       level:'familiar'}
+      ]
+    },
+    'backend': {
+      title: 'Backend',
+      desc: 'RESTful APIs, microservices, and server-side application frameworks',
+      bg: 'linear-gradient(160deg,#140e20,#221c32,#352848)', color: '#b898cc',
+      skills: [
+        {name:'FastAPI',     level:'primary'},
+        {name:'REST APIs',   level:'primary'},
+        {name:'Flask',       level:'primary'},
+        {name:'Spring Boot', level:'secondary'},
+        {name:'PostgreSQL',  level:'secondary'},
+        {name:'Redis',       level:'familiar'}
+      ]
+    },
+    'ai-analytics': {
+      title: 'AI & Analytics',
+      desc: 'Machine learning models, anomaly detection systems, and business intelligence tooling',
+      bg: 'linear-gradient(160deg,#181006,#2a2010,#453520)', color: '#c8a870',
+      skills: [
+        {name:'Pandas / NumPy',      level:'primary'},
+        {name:'scikit-learn',        level:'primary'},
+        {name:'Anomaly Detection',   level:'primary'},
+        {name:'Plotly Dash',         level:'secondary'},
+        {name:'Power BI',            level:'secondary'},
+        {name:'Transformer Models',  level:'familiar'}
+      ]
+    }
   };
 
   /* ─── Project data ─────────────────────────────────── */
@@ -1850,6 +1976,36 @@
     navigateTo('project-detail');
   }
 
+  /* ─── Skill detail ──────────────────────────────────── */
+  function openSkill(id) {
+    var cat = SKILL_CATS[id];
+    if (!cat) { navigateTo('skills'); return; }
+
+    document.getElementById('sd-hd-bg').style.background = cat.bg;
+    document.getElementById('sd-title').style.color = cat.color;
+    document.getElementById('sd-title').textContent = cat.title;
+    document.getElementById('sd-desc').textContent  = cat.desc;
+
+    var pct   = { primary: '88%', secondary: '62%', familiar: '38%' };
+    var label = { primary: 'Core', secondary: 'Proficient', familiar: 'Familiar' };
+
+    document.getElementById('sd-skills').innerHTML = cat.skills.map(function(s, i) {
+      return '<div class="sd-skill ' + s.level + '" style="color:' + cat.color + ';animation-delay:' + (0.06 + i * 0.065) + 's">' +
+        '<div class="sd-skill-name">' + s.name + '</div>' +
+        '<div class="sd-skill-label">' + label[s.level] + '</div>' +
+        '<div class="sd-skill-bar"><div class="sd-skill-fill" data-pct="' + pct[s.level] + '"></div></div>' +
+        '</div>';
+    }).join('');
+
+    setTimeout(function() {
+      document.querySelectorAll('.sd-skill-fill').forEach(function(el) {
+        el.style.width = el.getAttribute('data-pct');
+      });
+    }, 500);
+
+    navigateTo('skill-detail');
+  }
+
   /* ─── Expose globals ─────────────────────────────────── */
   window.navigateTo      = navigateTo;
   window.goBack          = goBack;
@@ -1859,6 +2015,7 @@
   window.closeSearch     = closeSearch;
   window.closePremiumModal = closePremiumModal;
   window.openProject     = openProject;
+  window.openSkill       = openSkill;
   window.searchNavigateTo = function(id) {
     closeSearch();
     if (id.indexOf('proj:') === 0) {
