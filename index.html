@@ -884,7 +884,7 @@
           <div class="sh">About</div>
           <div class="bio-card">
             <div class="bio-h">Srinidhi Narla</div>
-            <div class="bio-p">Senior at UT Dallas studying Computer Science with minors in Cybersecurity and Business Finance. I build systems where data engineering meets information security — fast, reliable, and resilient to adversarial threats.<br><br>Interned at Novelis building ETL pipelines on Azure Databricks and automating enterprise-wide access governance for 500+ users. Long-term goal: engineering at the intersection of software and sustainability.</div>
+            <div class="bio-p">Hi, I'm Srinidhi! I'm a senior at UT Dallas studying Computer Science, with minors in Cybersecurity and Business Finance. I love building things at the intersection of data engineering and security, systems that are fast, reliable, and actually hold up under pressure.<br><br>At Novelis I built ETL pipelines on Azure Databricks, processed thousands of multilingual invoices, and automated access governance for 500+ users. Outside of internships I'm always working on something, whether it's a fraud detection pipeline, neural network research, or tools that solve real problems. Based in Dallas, graduating in 2027, and always open to interesting opportunities.</div>
             <div class="bio-stats">
               <div><div class="bstat-v">3.7</div><div class="bstat-k">GPA / 4.0</div></div>
               <div><div class="bstat-v">2</div><div class="bstat-k">Internships</div></div>
@@ -1123,7 +1123,7 @@
             <div class="pl-hd-meta">Open to all opportunities</div>
           </div>
         </div>
-        <div class="ct-top"><h2>Get in Touch</h2><p>Open to any opportunities — let's connect.</p></div>
+        <div class="ct-top"><h2>Get in Touch</h2><p>Open to any opportunities. Let's connect.</p></div>
         <div class="ct-links">
           <a href="mailto:srinidhi.narla@gmail.com" class="ctlnk"><span class="ctlnk-ico">@</span>srinidhi.narla@gmail.com</a>
           <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="ctlnk"><span class="ctlnk-ico" style="font-style:normal;font-size:11px;font-weight:800;">in</span>linkedin.com/in/srinidhinarla1352</a>
@@ -1208,7 +1208,7 @@
   <div class="modal-box">
     <button class="modal-close" id="modal-close-btn">✕</button>
     <div class="modal-title">Premium Access</div>
-    <div class="modal-sub">Full picture — resume, LinkedIn, and everything in between.</div>
+    <div class="modal-sub">Full picture: resume, LinkedIn, and everything in between.</div>
     <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="modal-btn modal-btn-primary">
       <span class="modal-btn-ico">&#8675;</span>Download Resume via LinkedIn
     </a>
@@ -1344,7 +1344,7 @@
       title:      'Secure Financial Data Pipeline',
       meta:       'Data Engineering · Personal Project',
       github:     'https://github.com/srinidhinarla-sudo/secure-financial-pipeline',
-      about:      'A production-grade Apache Airflow ETL pipeline that ingests 284,000+ synthetic credit card transactions through a three-tier Delta Lake medallion architecture (Bronze → Silver → Gold). Tamper detection is implemented via SHA-256 Merkle trees — any row-level change invalidates its branch hash. An Isolation Forest model flags statistically anomalous transactions for review. The entire stack runs in Docker with automated Airflow DAG scheduling and email alerting on failure.',
+      about:      'A production-grade Apache Airflow ETL pipeline that ingests 284,000+ synthetic credit card transactions through a three-tier Delta Lake medallion architecture (Bronze, Silver, Gold). Tamper detection is implemented via SHA-256 Merkle trees, so any row-level change invalidates its branch hash. An Isolation Forest model flags statistically anomalous transactions for review. The entire stack runs in Docker with automated Airflow DAG scheduling and email alerting on failure.',
       stats: [
         { v: '284K+', k: 'Transactions' },
         { v: '3-Tier', k: 'Architecture' },
@@ -1354,7 +1354,7 @@
       tools: ['Python', 'Apache Airflow', 'PySpark', 'Delta Lake', 'Docker', 'SHA-256', 'Isolation Forest', 'pandas', 'pytest'],
       bullets: [
         'Designed a Bronze/Silver/Gold medallion lakehouse: raw ingestion → deduplication + schema validation → aggregated fraud metrics.',
-        'Built a SHA-256 Merkle tree audit layer — any tampered row is detected at reconciliation time with O(log n) hash traversal.',
+        'Built a SHA-256 Merkle tree audit layer. Any tampered row is detected at reconciliation time with O(log n) hash traversal.',
         'Trained an Isolation Forest anomaly detector on engineered features (velocity, geo-delta, hour-of-day) achieving high precision on injected fraud scenarios.',
         'Packaged all services in Docker Compose; Airflow DAGs trigger ingestion, detection, and report generation on a configurable schedule.',
         'Added a pytest suite covering pipeline idempotency, Merkle tamper detection, and anomaly detection thresholds.'
@@ -1379,7 +1379,7 @@
       bullets: [
         'Implemented a 61-state C++ infotainment FSM with 73 events and 217 transitions covering Boot, Media, Navigation, Phone, Settings, and Error Recovery.',
         'Built a model-based BFS test generator that discovers every reachable transition and synthesizes minimal covering test sequences.',
-        'Developed an adversarial fuzzer (500 campaigns × 250 steps) with delta debugging — automatically reduces failure traces from 250 steps to ≤ 4 (98.4% reduction).',
+        'Developed an adversarial fuzzer (500 campaigns × 250 steps) with delta debugging that automatically reduces failure traces from 250 steps to 4 or fewer (98.4% reduction).',
         'Wired mutmut mutation testing into CI/CD: 92% kill rate, with an 88% gate blocking merges that weaken test coverage.',
         'FastAPI REST service persists every run to SQLite; Plotly dashboard shows per-state coverage heat map and failure-frequency distribution.'
       ]
@@ -1425,7 +1425,7 @@
       ],
       tools: ['Python', 'Flask', 'scikit-learn', 'JWT', 'PostgreSQL', 'AWS EC2', 'AWS RDS', 'Docker', 'pytest'],
       bullets: [
-        'Implemented JWT-based authentication with refresh token rotation and RBAC middleware — admins, analysts, and read-only roles enforced at the route level.',
+        'Implemented JWT-based authentication with refresh token rotation and RBAC middleware, with admins, analysts, and read-only roles enforced at the route level.',
         'Integrated Isolation Forest anomaly detection trained on per-user spending history; real-time scoring on each transaction POST.',
         'Deployed on AWS (EC2 + RDS PostgreSQL) behind an ALB; Docker containerisation ensures environment parity between local and production.',
         'Automated CI/CD pipeline: pytest + Bandit security linting gate on every PR; zero-downtime blue-green deploys to EC2.',
@@ -1440,7 +1440,7 @@
       title:      'CNN Architecture Benchmark',
       meta:       'Machine Learning · CS 4375 Course Project',
       github:     'https://github.com/srinidhinarla-sudo/CS4375-ML-Project',
-      about:      'A PyTorch implementation and systematic comparison of 7 neural network architectures — MLP, SimpleCNN, LeNet-5, AlexNet, VGG-11, ResNet-18, and a novel SE-ResNet-Lite (Squeeze-and-Excitation residual network) — evaluated on MNIST and CIFAR-10. The custom SE-ResNet-Lite outperformed all baselines, achieving 92.67% test accuracy on CIFAR-10. Results were compiled into an IEEE two-column report with training curves, confusion matrices, and t-SNE embeddings.',
+      about:      'A PyTorch implementation and systematic comparison of 7 neural network architectures: MLP, SimpleCNN, LeNet-5, AlexNet, VGG-11, ResNet-18, and a novel SE-ResNet-Lite (Squeeze-and-Excitation residual network), all evaluated on MNIST and CIFAR-10. The custom SE-ResNet-Lite outperformed all baselines, achieving 92.67% test accuracy on CIFAR-10. Results were compiled into an IEEE two-column report with training curves, confusion matrices, and t-SNE embeddings.',
       stats: [
         { v: '7',      k: 'Architectures' },
         { v: '92.67%', k: 'Best Accuracy (CIFAR-10)' },
@@ -1449,7 +1449,7 @@
       ],
       tools: ['Python', 'PyTorch', 'scikit-learn', 'NumPy', 'Matplotlib', 'LaTeX', 'Shell'],
       bullets: [
-        'Designed a novel SE-ResNet-Lite architecture using Squeeze-and-Excitation blocks on top of ResNet-18 residual connections, achieving 92.67% on CIFAR-10 — outperforming the ResNet-18 baseline (91.38%).',
+        'Designed a novel SE-ResNet-Lite architecture using Squeeze-and-Excitation blocks on top of ResNet-18 residual connections, achieving 92.67% on CIFAR-10 and outperforming the ResNet-18 baseline (91.38%).',
         'Benchmarked all 7 architectures across accuracy, precision, recall, F1, and AUROC on both MNIST and CIFAR-10; full training curves and confusion matrices generated programmatically.',
         'Built an end-to-end training pipeline with CLI flags (--model, --dataset, --epochs), checkpoint saving, and early stopping based on validation accuracy.',
         'Generated t-SNE visualisations of learned embeddings to compare feature separability between architectures.',
@@ -1655,7 +1655,7 @@
     if (shuffleOn) {
       var others = SECTIONS.filter(function(s){ return s !== hist[hIdx]; });
       navigateTo(others[Math.floor(Math.random() * others.length)]);
-      showToast('Shuffle on — jumped to random section');
+      showToast('Shuffle on. Jumped to random section.');
     }
   });
 
@@ -1804,7 +1804,7 @@
     dotsMenu.style.display = 'none';
     var url = window.location.href;
     if (navigator.share) {
-      navigator.share({ title: 'Srinidhi Narla — Portfolio', url: url });
+      navigator.share({ title: 'Srinidhi Narla Portfolio', url: url });
     } else {
       navigator.clipboard.writeText(url).then(function(){ showToast('Link copied to clipboard!'); });
     }
