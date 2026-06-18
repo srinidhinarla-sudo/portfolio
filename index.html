@@ -603,6 +603,27 @@
     .pd-gh-full:hover { background: var(--s2); border-color: var(--acc); }
     .pd-gh-full-ico { font-size: 20px; }
 
+    /* ── Custom cursor ── */
+    body, a, button, [onclick], .acard, .gcard, .track, .pl-row, .ctlnk, .sd-skill, .result-item { cursor: none !important; }
+    #cursor-dot {
+      position: fixed; width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,.92); pointer-events: none; z-index: 999999;
+      transform: translate(-50%,-50%);
+      transition: width .18s ease, height .18s ease, opacity .18s ease;
+      mix-blend-mode: difference;
+    }
+    #cursor-dot.grow  { width: 32px; height: 32px; opacity: .55; }
+    #cursor-dot.press { width: 18px; height: 18px; opacity: 1; }
+
+    /* ── Noise grain on gradient surfaces ── */
+    .acover::after, .pd-hd-bg::after, .sd-hd-bg::after, .pl-hd-bg::after, .pl-img::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      opacity: .06; mix-blend-mode: soft-light;
+    }
+
     /* Skill detail section */
     .sd-hd { position: relative; min-height: 220px; display: flex; align-items: flex-end; overflow: hidden; }
     .sd-hd-bg { position: absolute; inset: 0; }
@@ -798,7 +819,7 @@
         <button class="tb-arrow" id="btn-fwd">›</button>
       </div>
       <div class="tb-right">
-        <button class="tb-pill" id="btn-premium">Premium</button>
+        <button class="tb-pill" id="btn-premium">Connect</button>
         <button class="tb-pill" onclick="navigateTo('contact')">Contact</button>
         <div class="tb-avatar" title="Profile" onclick="navigateTo('about')">SN</div>
       </div>
@@ -838,11 +859,7 @@
                 padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
                 Share
               </div>
-              <div id="menu-resume" style="display:flex;align-items:center;gap:12px;
-                padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
-                View Resume
-              </div>
-              <div id="menu-about" style="display:flex;align-items:center;gap:12px;
+<div id="menu-about" style="display:flex;align-items:center;gap:12px;
                 padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
                 About
               </div>
@@ -1207,12 +1224,9 @@
 <div id="premium-modal" class="modal-backdrop">
   <div class="modal-box">
     <button class="modal-close" id="modal-close-btn">✕</button>
-    <div class="modal-title">Premium Access</div>
-    <div class="modal-sub">Full picture: resume, LinkedIn, and everything in between.</div>
+    <div class="modal-title">Let's Connect</div>
+    <div class="modal-sub">Find me on LinkedIn, GitHub, or send a message directly.</div>
     <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="modal-btn modal-btn-primary">
-      <span class="modal-btn-ico">&#8675;</span>Download Resume via LinkedIn
-    </a>
-    <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="modal-btn">
       <span class="modal-btn-ico" style="font-size:11px;font-weight:900;">in</span>Connect on LinkedIn
     </a>
     <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="modal-btn">
@@ -1794,7 +1808,7 @@
     dotsMenu.style.display = dotsMenu.style.display === 'block' ? 'none' : 'block';
   });
 
-  ['menu-share','menu-about','menu-resume'].forEach(function(id) {
+  ['menu-share','menu-about'].forEach(function(id) {
     var el = document.getElementById(id);
     el.addEventListener('mouseenter', function() { el.style.background = '#3e3e3e'; });
     el.addEventListener('mouseleave', function() { el.style.background = 'transparent'; });
@@ -1808,11 +1822,6 @@
     } else {
       navigator.clipboard.writeText(url).then(function(){ showToast('Link copied to clipboard!'); });
     }
-  });
-
-  document.getElementById('menu-resume').addEventListener('click', function() {
-    dotsMenu.style.display = 'none';
-    openPremiumModal();
   });
 
   document.getElementById('menu-about').addEventListener('click', function() {
@@ -2071,6 +2080,83 @@
       navigateTo(id);
     }
   };
+
+  /* ─── Custom cursor ─────────────────────────────────── */
+  var cursorDot = document.createElement('div');
+  cursorDot.id = 'cursor-dot';
+  document.body.appendChild(cursorDot);
+
+  document.addEventListener('mousemove', function(e) {
+    cursorDot.style.left = e.clientX + 'px';
+    cursorDot.style.top  = e.clientY + 'px';
+  });
+  document.addEventListener('mousedown', function() { cursorDot.classList.add('press'); });
+  document.addEventListener('mouseup',   function() { cursorDot.classList.remove('press'); });
+
+  function attachCursorHover(selector) {
+    document.querySelectorAll(selector).forEach(function(el) {
+      el.addEventListener('mouseenter', function() { cursorDot.classList.add('grow'); });
+      el.addEventListener('mouseleave', function() { cursorDot.classList.remove('grow'); });
+    });
+  }
+  attachCursorHover('a, button, [onclick], .acard, .gcard, .track, .pl-row, .ctlnk, .sd-skill, .result-item, .tb-pill, .tb-arrow');
+
+  /* ─── 3-D card tilt ─────────────────────────────────── */
+  document.querySelectorAll('.acard').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var r  = card.getBoundingClientRect();
+      var dx = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+      var dy = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+      card.style.transition = 'box-shadow .1s, background .2s';
+      card.style.transform  = 'perspective(700px) rotateY(' + (dx * 10) + 'deg) rotateX(' + (-dy * 10) + 'deg) translateY(-6px)';
+      card.style.boxShadow  = '0 22px 55px rgba(0,0,0,.65)';
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transition = 'transform .45s ease, box-shadow .45s ease, background .2s';
+      card.style.transform  = '';
+      card.style.boxShadow  = '';
+    });
+  });
+
+  /* ─── Magnetic buttons ──────────────────────────────── */
+  document.querySelectorAll('.tb-pill').forEach(function(btn) {
+    btn.addEventListener('mousemove', function(e) {
+      var r  = btn.getBoundingClientRect();
+      var dx = (e.clientX - r.left - r.width  / 2) * 0.32;
+      var dy = (e.clientY - r.top  - r.height / 2) * 0.38;
+      btn.style.transition = 'transform .1s ease';
+      btn.style.transform  = 'translate(' + dx + 'px,' + dy + 'px)';
+    });
+    btn.addEventListener('mouseleave', function() {
+      btn.style.transition = 'transform .4s cubic-bezier(.22,.61,.36,1)';
+      btn.style.transform  = '';
+    });
+  });
+
+  /* ─── Text scramble on name ─────────────────────────── */
+  var SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  function scrambleText(el, finalText, duration) {
+    var steps = 22, i = 0, interval = duration / steps;
+    var timer = setInterval(function() {
+      var p = i / steps;
+      var revealed = Math.floor(p * finalText.length);
+      var out = '';
+      for (var j = 0; j < finalText.length; j++) {
+        if (finalText[j] === ' ' || j < revealed) {
+          out += finalText[j];
+        } else {
+          out += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        }
+      }
+      el.textContent = out;
+      i++;
+      if (i > steps) { el.textContent = finalText; clearInterval(timer); }
+    }, interval);
+  }
+  setTimeout(function() {
+    var nameEl = document.querySelector('.hd-name');
+    if (nameEl) scrambleText(nameEl, 'Srinidhi Narla', 900);
+  }, 400);
 
   /* ─── Init ───────────────────────────────────────────── */
   updateArrows();
