@@ -603,8 +603,11 @@
     .pd-gh-full:hover { background: var(--s2); border-color: var(--acc); }
     .pd-gh-full-ico { font-size: 20px; }
 
-    /* ── Particle canvas ── */
-    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    /* ── Star canvases ── */
+    #hero-canvas, .star-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
 
     /* ── Noise grain on gradient surfaces ── */
     .acover::after, .pd-hd-bg::after, .sd-hd-bg::after, .pl-hd-bg::after, .pl-img::after {
@@ -913,7 +916,7 @@
       <!-- ── Projects ── -->
       <div class="sec" id="sec-projects">
         <div class="pl-hd">
-          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#1a2e28,#253e32);"></div>
+          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#1a2e28,#253e32);"><canvas class="star-canvas" id="sc-projects"></canvas></div>
           <div class="pl-hd-inner">
             <div class="pl-hd-type">Discography</div>
             <div class="pl-hd-title">Projects</div>
@@ -990,7 +993,7 @@
       <!-- ── Project Detail ── -->
       <div class="sec" id="sec-project-detail">
         <div class="pd-hd" id="pd-hd">
-          <div class="pd-hd-bg" id="pd-hd-bg"></div>
+          <div class="pd-hd-bg" id="pd-hd-bg"><canvas class="star-canvas" id="sc-pd"></canvas></div>
           <div class="pd-hd-inner">
             <span class="pd-icon" id="pd-icon"></span>
             <div class="pd-tag" id="pd-tag"></div>
@@ -1025,7 +1028,7 @@
       <!-- ── Experience ── -->
       <div class="sec" id="sec-exp">
         <div class="pl-hd">
-          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#221c32,#352848);"></div>
+          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#221c32,#352848);"><canvas class="star-canvas" id="sc-exp"></canvas></div>
           <div class="pl-hd-inner">
             <div class="pl-hd-type">Playlist</div>
             <div class="pl-hd-title">Experience</div>
@@ -1071,7 +1074,7 @@
       <!-- ── Skills ── -->
       <div class="sec" id="sec-skills">
         <div class="pl-hd">
-          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#28200e,#3e3018);"></div>
+          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#28200e,#3e3018);"><canvas class="star-canvas" id="sc-skills"></canvas></div>
           <div class="pl-hd-inner">
             <div class="pl-hd-type">Compilation</div>
             <div class="pl-hd-title">Skills</div>
@@ -1112,7 +1115,7 @@
       <!-- ── Skill Detail ── -->
       <div class="sec" id="sec-skill-detail">
         <div class="sd-hd">
-          <div class="sd-hd-bg" id="sd-hd-bg"></div>
+          <div class="sd-hd-bg" id="sd-hd-bg"><canvas class="star-canvas" id="sc-sd"></canvas></div>
           <div class="sd-hd-inner">
             <div class="sd-hd-cat">Skill Category</div>
             <div class="sd-hd-title" id="sd-title"></div>
@@ -1125,7 +1128,7 @@
       <!-- ── Contact ── -->
       <div class="sec" id="sec-contact">
         <div class="pl-hd">
-          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#152030,#204050);"></div>
+          <div class="pl-hd-bg" style="background:linear-gradient(160deg,#152030,#204050);"><canvas class="star-canvas" id="sc-contact"></canvas></div>
           <div class="pl-hd-inner">
             <div class="pl-hd-type">Single</div>
             <div class="pl-hd-title">Let's Connect</div>
@@ -2073,28 +2076,37 @@
     }
   };
 
-  /* ─── Hero particle canvas ──────────────────────────── */
-  (function() {
-    var canvas = document.getElementById('hero-canvas');
+  /* ─── Star field utility ────────────────────────────── */
+  function initStarField(canvas, opts) {
     if (!canvas) return;
     var ctx = canvas.getContext('2d');
-    var pts = [];
-    var N = 55;
+    var o = opts || {};
+    var N       = o.count       || 45;
+    var spd     = o.speed       || 0.25;
+    var rgb     = o.color       || '255,255,255';
+    var doLines = !!o.lines;
+    var doTwink = !!o.twinkle;
+    var lineOp  = o.lineOpacity || 0.09;
+    var dist    = o.lineDist    || 130;
+    var pts     = [];
 
     function resize() {
-      canvas.width  = canvas.offsetWidth  || canvas.parentElement.offsetWidth;
-      canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight;
+      var p = canvas.parentElement;
+      canvas.width  = (p ? p.offsetWidth  : 0) || canvas.offsetWidth  || 400;
+      canvas.height = (p ? p.offsetHeight : 0) || canvas.offsetHeight || 200;
     }
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', function() { setTimeout(resize, 120); });
 
     for (var i = 0; i < N; i++) {
       pts.push({
-        x:  Math.random() * canvas.width,
-        y:  Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.38,
-        vy: (Math.random() - 0.5) * 0.38,
-        r:  Math.random() * 1.4 + 0.4
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * spd,
+        vy: (Math.random() - 0.5) * spd,
+        r:  Math.random() * 1.3 + 0.35,
+        ph: Math.random() * Math.PI * 2,
+        fr: 0.014 + Math.random() * 0.024
       });
     }
 
@@ -2108,29 +2120,54 @@
         if (p.y < 0) p.y = canvas.height;
         if (p.y > canvas.height) p.y = 0;
 
+        var a = doTwink ? (0.14 + Math.abs(Math.sin(p.ph += p.fr)) * 0.46) : 0.28;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,.32)';
+        ctx.fillStyle = 'rgba(' + rgb + ',' + a + ')';
         ctx.fill();
 
-        for (var j = i + 1; j < N; j++) {
-          var q = pts[j];
-          var dx = p.x - q.x, dy = p.y - q.y;
-          var d  = Math.sqrt(dx * dx + dy * dy);
-          if (d < 130) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(255,255,255,' + ((1 - d / 130) * 0.1) + ')';
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
+        if (doLines) {
+          for (var j = i + 1; j < N; j++) {
+            var q = pts[j];
+            var dx = p.x - q.x, dy = p.y - q.y;
+            var d  = Math.sqrt(dx * dx + dy * dy);
+            if (d < dist) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = 'rgba(' + rgb + ',' + ((1 - d / dist) * lineOp) + ')';
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
           }
         }
       }
       requestAnimationFrame(tick);
     }
     tick();
-  }());
+  }
+
+  /* About hero — constellation + lines */
+  initStarField(document.getElementById('hero-canvas'),
+    { count:55, speed:.38, lines:true,  twinkle:false, color:'255,255,255', lineOpacity:.10 });
+  /* Projects — twinkling starfield */
+  initStarField(document.getElementById('sc-projects'),
+    { count:55, speed:.14, lines:false, twinkle:true,  color:'255,255,255' });
+  /* Experience — slow drift + faint lines */
+  initStarField(document.getElementById('sc-exp'),
+    { count:40, speed:.17, lines:true,  twinkle:true,  color:'255,255,255', lineOpacity:.055 });
+  /* Skills — blue-purple tinted */
+  initStarField(document.getElementById('sc-skills'),
+    { count:50, speed:.20, lines:false, twinkle:true,  color:'160,170,220' });
+  /* Contact — sparse, very slow */
+  initStarField(document.getElementById('sc-contact'),
+    { count:35, speed:.11, lines:false, twinkle:true,  color:'255,255,255' });
+  /* Project detail */
+  initStarField(document.getElementById('sc-pd'),
+    { count:45, speed:.15, lines:false, twinkle:true,  color:'255,255,255' });
+  /* Skill detail */
+  initStarField(document.getElementById('sc-sd'),
+    { count:40, speed:.15, lines:false, twinkle:true,  color:'255,255,255' });
 
   /* ─── 3-D card tilt ─────────────────────────────────── */
   document.querySelectorAll('.acard').forEach(function(card) {
