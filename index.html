@@ -603,17 +603,8 @@
     .pd-gh-full:hover { background: var(--s2); border-color: var(--acc); }
     .pd-gh-full-ico { font-size: 20px; }
 
-    /* ── Custom cursor ── */
-    body, a, button, [onclick], .acard, .gcard, .track, .pl-row, .ctlnk, .sd-skill, .result-item { cursor: none !important; }
-    #cursor-dot {
-      position: fixed; width: 10px; height: 10px; border-radius: 50%;
-      background: rgba(255,255,255,.92); pointer-events: none; z-index: 999999;
-      transform: translate(-50%,-50%);
-      transition: width .18s ease, height .18s ease, opacity .18s ease;
-      mix-blend-mode: difference;
-    }
-    #cursor-dot.grow  { width: 32px; height: 32px; opacity: .55; }
-    #cursor-dot.press { width: 18px; height: 18px; opacity: 1; }
+    /* ── Particle canvas ── */
+    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
     /* ── Noise grain on gradient surfaces ── */
     .acover::after, .pd-hd-bg::after, .sd-hd-bg::after, .pl-hd-bg::after, .pl-img::after {
@@ -830,6 +821,7 @@
       <!-- ── About / Artist page ── -->
       <div class="sec on" id="sec-about">
         <div class="artist-hd">
+          <canvas id="hero-canvas"></canvas>
           <img src="photo.png" class="hd-bg-img" alt="">
           <div class="hd-inner" style="position:relative;z-index:1;display:flex;align-items:flex-end;gap:24px;padding-top:80px;">
             <img src="photo.png" class="profile-photo" alt="Srinidhi Narla">
@@ -2081,25 +2073,64 @@
     }
   };
 
-  /* ─── Custom cursor ─────────────────────────────────── */
-  var cursorDot = document.createElement('div');
-  cursorDot.id = 'cursor-dot';
-  document.body.appendChild(cursorDot);
+  /* ─── Hero particle canvas ──────────────────────────── */
+  (function() {
+    var canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var pts = [];
+    var N = 55;
 
-  document.addEventListener('mousemove', function(e) {
-    cursorDot.style.left = e.clientX + 'px';
-    cursorDot.style.top  = e.clientY + 'px';
-  });
-  document.addEventListener('mousedown', function() { cursorDot.classList.add('press'); });
-  document.addEventListener('mouseup',   function() { cursorDot.classList.remove('press'); });
+    function resize() {
+      canvas.width  = canvas.offsetWidth  || canvas.parentElement.offsetWidth;
+      canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
 
-  function attachCursorHover(selector) {
-    document.querySelectorAll(selector).forEach(function(el) {
-      el.addEventListener('mouseenter', function() { cursorDot.classList.add('grow'); });
-      el.addEventListener('mouseleave', function() { cursorDot.classList.remove('grow'); });
-    });
-  }
-  attachCursorHover('a, button, [onclick], .acard, .gcard, .track, .pl-row, .ctlnk, .sd-skill, .result-item, .tb-pill, .tb-arrow');
+    for (var i = 0; i < N; i++) {
+      pts.push({
+        x:  Math.random() * canvas.width,
+        y:  Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.38,
+        vy: (Math.random() - 0.5) * 0.38,
+        r:  Math.random() * 1.4 + 0.4
+      });
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < N; i++) {
+        var p = pts[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width)  p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,.32)';
+        ctx.fill();
+
+        for (var j = i + 1; j < N; j++) {
+          var q = pts[j];
+          var dx = p.x - q.x, dy = p.y - q.y;
+          var d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < 130) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = 'rgba(255,255,255,' + ((1 - d / 130) * 0.1) + ')';
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+  }());
 
   /* ─── 3-D card tilt ─────────────────────────────────── */
   document.querySelectorAll('.acard').forEach(function(card) {
@@ -2132,31 +2163,6 @@
       btn.style.transform  = '';
     });
   });
-
-  /* ─── Text scramble on name ─────────────────────────── */
-  var SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-  function scrambleText(el, finalText, duration) {
-    var steps = 22, i = 0, interval = duration / steps;
-    var timer = setInterval(function() {
-      var p = i / steps;
-      var revealed = Math.floor(p * finalText.length);
-      var out = '';
-      for (var j = 0; j < finalText.length; j++) {
-        if (finalText[j] === ' ' || j < revealed) {
-          out += finalText[j];
-        } else {
-          out += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-        }
-      }
-      el.textContent = out;
-      i++;
-      if (i > steps) { el.textContent = finalText; clearInterval(timer); }
-    }, interval);
-  }
-  setTimeout(function() {
-    var nameEl = document.querySelector('.hd-name');
-    if (nameEl) scrambleText(nameEl, 'Srinidhi Narla', 900);
-  }, 400);
 
   /* ─── Init ───────────────────────────────────────────── */
   updateArrows();
