@@ -610,15 +610,15 @@
     .sd-hd-cat { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 8px; }
     .sd-hd-title { font-size: 46px; font-weight: 900; letter-spacing: -.03em; line-height: 1; margin-bottom: 12px; }
     .sd-hd-desc { font-size: 13px; color: rgba(255,255,255,.5); max-width: 480px; line-height: 1.65; }
-    .sd-skills { display: flex; flex-wrap: wrap; gap: 12px; padding: 32px; }
+    .sd-skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px,1fr)); gap: 12px; padding: 32px; }
     .sd-skill {
       border-radius: 10px; padding: 16px 20px; cursor: default;
       display: flex; flex-direction: column; gap: 8px;
       position: relative; overflow: hidden;
     }
-    .sd-skill.primary   { background: rgba(255,255,255,.10); flex: 1 1 160px; }
-    .sd-skill.secondary { background: rgba(255,255,255,.065); flex: 1 1 130px; }
-    .sd-skill.familiar  { background: rgba(255,255,255,.04); flex: 1 1 110px; }
+    .sd-skill.primary   { background: rgba(255,255,255,.10); }
+    .sd-skill.secondary { background: rgba(255,255,255,.065); }
+    .sd-skill.familiar  { background: rgba(255,255,255,.04); }
     .sd-skill-name  { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
     .sd-skill-label { font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .48; }
     .sd-skill-bar   { height: 2.5px; border-radius: 2px; background: rgba(255,255,255,.1); margin-top: 2px; }
@@ -1095,7 +1095,6 @@
         <div class="sd-hd">
           <div class="sd-hd-bg" id="sd-hd-bg"></div>
           <div class="sd-hd-inner">
-            <button class="pd-back" onclick="goBack()">&#8249; Back to Skills</button>
             <div class="sd-hd-cat">Skill Category</div>
             <div class="sd-hd-title" id="sd-title"></div>
             <div class="sd-hd-desc" id="sd-desc"></div>
@@ -1992,7 +1991,6 @@
     document.getElementById('sd-skills').innerHTML = cat.skills.map(function(s, i) {
       return '<div class="sd-skill ' + s.level + '" style="color:' + cat.color + ';animation-delay:' + (0.06 + i * 0.065) + 's">' +
         '<div class="sd-skill-name">' + s.name + '</div>' +
-        '<div class="sd-skill-label">' + label[s.level] + '</div>' +
         '<div class="sd-skill-bar"><div class="sd-skill-fill" data-pct="' + pct[s.level] + '"></div></div>' +
         '</div>';
     }).join('');
