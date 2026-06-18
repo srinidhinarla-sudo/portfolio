@@ -57,7 +57,7 @@
     }
     .sbn-item:hover { color: var(--text); }
     .sbn-item.on { color: var(--text); }
-    .sbn-ico { font-size: 22px; }
+    .sbn-ico { width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 
     .sb-lib {
       background: var(--black);
@@ -102,7 +102,8 @@
     .pl-row.on { background: var(--s2); }
     .pl-img {
       width: 44px; height: 44px; border-radius: 4px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; color: rgba(255,255,255,.7); letter-spacing: -.03em;
     }
     .pl-img.circle { border-radius: 50%; }
     .pl-info { flex: 1; min-width: 0; }
@@ -269,7 +270,8 @@
     .acover {
       width: 100%; aspect-ratio: 1; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 52px; margin-bottom: 14px; position: relative;
+      font-size: 15px; font-weight: 900; letter-spacing: -.04em; color: rgba(255,255,255,.6);
+      margin-bottom: 14px; position: relative;
       box-shadow: 0 8px 24px rgba(0,0,0,.5);
     }
     .acover.circle { border-radius: 50%; }
@@ -459,7 +461,8 @@
     .result-ico {
       width: 40px; height: 40px; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; background: var(--s2); flex-shrink: 0;
+      font-size: 11px; font-weight: 800; letter-spacing: -.04em;
+      color: rgba(255,255,255,.7); background: var(--s2); flex-shrink: 0;
     }
     .result-ico.circle { border-radius: 50%; }
     .result-lbl { font-size: 14px; font-weight: 600; }
@@ -517,7 +520,11 @@
     }
     .pd-hd-bg { position: absolute; inset: 0; }
     .pd-hd-inner { position: relative; z-index: 1; }
-    .pd-icon { font-size: 72px; display: block; margin-bottom: 14px; line-height: 1; }
+    .pd-icon {
+      display: inline-block; margin-bottom: 16px;
+      font-size: 22px; font-weight: 900; letter-spacing: -.04em; color: rgba(255,255,255,.9);
+      background: rgba(255,255,255,.1); border-radius: 8px; padding: 8px 16px; line-height: 1;
+    }
     .pd-tag {
       font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
       padding: 3px 10px; border-radius: 4px; display: inline-block; margin-bottom: 10px;
@@ -598,10 +605,10 @@
   <div class="sidebar">
     <div class="sb-nav">
       <div class="sbn-item on" id="nav-home" data-sec="about">
-        <span class="sbn-ico">🏠</span>Home
+        <span class="sbn-ico"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>Home
       </div>
       <div class="sbn-item" id="nav-search">
-        <span class="sbn-ico">🔍</span>Search
+        <span class="sbn-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>Search
       </div>
     </div>
 
@@ -636,19 +643,19 @@
           </div>
         </div>
         <div class="pl-row" data-sec="projects" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">💻</div>
+          <div class="pl-img" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">Pr</div>
           <div class="pl-info"><div class="pl-name">Projects</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="exp" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#221c32,#3d2f52);">📋</div>
+          <div class="pl-img" style="background:linear-gradient(135deg,#221c32,#3d2f52);">Ex</div>
           <div class="pl-info"><div class="pl-name">Experience</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="skills" data-lib-type="album">
-          <div class="pl-img" style="background:linear-gradient(135deg,#2a2010,#48361a);">⚡</div>
+          <div class="pl-img" style="background:linear-gradient(135deg,#2a2010,#48361a);">Sk</div>
           <div class="pl-info"><div class="pl-name">Skills</div><div class="pl-type">Compilation · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="contact" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#152030,#254055);">✉️</div>
+          <div class="pl-img" style="background:linear-gradient(135deg,#152030,#254055);">Co</div>
           <div class="pl-info"><div class="pl-name">Contact</div><div class="pl-type">Single · Srinidhi Narla</div></div>
         </div>
       </div>
@@ -701,15 +708,15 @@
               box-shadow:0 8px 32px rgba(0,0,0,.7);z-index:999;">
               <div id="menu-share" style="display:flex;align-items:center;gap:12px;
                 padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
-                <span>↗</span>Share
+                Share
               </div>
               <div id="menu-resume" style="display:flex;align-items:center;gap:12px;
                 padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
-                <span>📄</span>View Resume
+                View Resume
               </div>
               <div id="menu-about" style="display:flex;align-items:center;gap:12px;
                 padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
-                <span>👤</span>About the Artist
+                About
               </div>
             </div>
           </div>
@@ -722,10 +729,10 @@
           </div>
           <div style="margin-bottom:28px;">
             <div class="tlist-hd" style="display:grid;grid-template-columns:40px 1fr auto;padding:0 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:4px;">
-              <div class="th">#</div><div class="th">Title</div><div class="th" style="text-align:right;">🕐</div>
+              <div class="th">#</div><div class="th">Title</div><div class="th" style="text-align:right;">Time</div>
             </div>
             <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="openProject('secure-financial-pipeline')">
-              <span class="t-num t-now">♪</span><span class="t-play">▶</span>
+              <span class="t-num t-now" style="font-size:11px;">&#9646;&#9646;</span><span class="t-play">▶</span>
               <div><div class="t-title t-now">Secure Financial Data Pipeline</div><div class="t-artist">Featured · PySpark, Airflow, Delta Lake</div></div>
               <span class="t-dur">3:47</span>
             </div>
@@ -780,35 +787,35 @@
         <div class="cp">
           <div class="grid">
             <div class="acard" onclick="openProject('secure-financial-pipeline')">
-              <div class="acover" style="background:linear-gradient(135deg,#1a2a3a,#2a4258);">🔐<button class="acard-play" onclick="event.stopPropagation();openProject('secure-financial-pipeline')">▶</button></div>
+              <div class="acover" style="background:linear-gradient(135deg,#1a2a3a,#2a4258);">SFP<button class="acard-play" onclick="event.stopPropagation();openProject('secure-financial-pipeline')">&#9654;</button></div>
               <div class="atag" style="background:rgba(143,163,184,.1);color:#b0c4d4;border:1px solid rgba(143,163,184,.2);">Featured</div>
               <div class="atitle">Secure Financial Pipeline</div>
               <div class="adesc">284K+ transactions · SHA-256 Merkle tamper detection · Isolation Forest fraud detection</div>
               <div class="apills"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>Docker</span></div>
             </div>
             <div class="acard" onclick="openProject('autonomous-validation-agent')">
-              <div class="acover" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">🤖<button class="acard-play" onclick="event.stopPropagation();openProject('autonomous-validation-agent')">▶</button></div>
+              <div class="acover" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">AVA<button class="acard-play" onclick="event.stopPropagation();openProject('autonomous-validation-agent')">&#9654;</button></div>
               <div class="atag" style="background:rgba(100,140,120,.1);color:#9ab8a8;border:1px solid rgba(100,140,120,.2);">Systems</div>
               <div class="atitle">Autonomous Validation Agent</div>
               <div class="adesc">61-state C++ FSM · 100% transition coverage · 92% mutation kill rate</div>
               <div class="apills"><span>C++</span><span>pybind11</span><span>FastAPI</span><span>pytest</span></div>
             </div>
             <div class="acard" onclick="openProject('obd-compliance-platform')">
-              <div class="acover" style="background:linear-gradient(135deg,#1e2a1e,#2a3e2a);">⚙️<button class="acard-play" onclick="event.stopPropagation();openProject('obd-compliance-platform')">▶</button></div>
+              <div class="acover" style="background:linear-gradient(135deg,#1e2a1e,#2a3e2a);">OBD<button class="acard-play" onclick="event.stopPropagation();openProject('obd-compliance-platform')">&#9654;</button></div>
               <div class="atag" style="background:rgba(100,160,100,.1);color:#90c890;border:1px solid rgba(100,160,100,.2);">Automotive</div>
               <div class="atitle">OBD Compliance Platform</div>
               <div class="adesc">SAE J1979 parser · Fleet readiness dashboard · VBA agency reports</div>
               <div class="apills"><span>C#</span><span>Python</span><span>Plotly Dash</span><span>VBA</span></div>
             </div>
             <div class="acard" onclick="openProject('finance-intelligence-platform')">
-              <div class="acover" style="background:linear-gradient(135deg,#221c32,#3d2f52);">💰<button class="acard-play" onclick="event.stopPropagation();openProject('finance-intelligence-platform')">▶</button></div>
+              <div class="acover" style="background:linear-gradient(135deg,#221c32,#3d2f52);">FIP<button class="acard-play" onclick="event.stopPropagation();openProject('finance-intelligence-platform')">&#9654;</button></div>
               <div class="atag" style="background:rgba(130,115,160,.1);color:#b0a0c8;border:1px solid rgba(130,115,160,.2);">Personal</div>
               <div class="atitle">Finance Intelligence Platform</div>
               <div class="adesc">JWT + RBAC REST API · Anomaly detection · Deployed on AWS</div>
               <div class="apills"><span>Flask</span><span>scikit-learn</span><span>AWS</span></div>
             </div>
             <div class="acard" onclick="openProject('multilingual-invoice-pipeline')">
-              <div class="acover" style="background:linear-gradient(135deg,#2a2010,#48361a);">🌍<button class="acard-play" onclick="event.stopPropagation();openProject('multilingual-invoice-pipeline')">▶</button></div>
+              <div class="acover" style="background:linear-gradient(135deg,#2a2010,#48361a);">MIP<button class="acard-play" onclick="event.stopPropagation();openProject('multilingual-invoice-pipeline')">&#9654;</button></div>
               <div class="atag" style="background:rgba(160,130,80,.1);color:#c8aa70;border:1px solid rgba(160,130,80,.2);">Novelis</div>
               <div class="atitle">Multilingual Invoice Pipeline</div>
               <div class="adesc">5,000+ invoices · 8 languages · Spark runtime cut ~50%</div>
@@ -952,9 +959,9 @@
         </div>
         <div class="ct-top"><h2>Get in Touch</h2><p>Open to any opportunities — let's connect.</p></div>
         <div class="ct-links">
-          <a href="mailto:srinidhi.narla@gmail.com" class="ctlnk"><span class="ctlnk-ico">✉</span>srinidhi.narla@gmail.com</a>
-          <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="ctlnk"><span class="ctlnk-ico">in</span>linkedin.com/in/srinidhinarla1352</a>
-          <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="ctlnk"><span class="ctlnk-ico">◈</span>github.com/srinidhinarla-sudo</a>
+          <a href="mailto:srinidhi.narla@gmail.com" class="ctlnk"><span class="ctlnk-ico">@</span>srinidhi.narla@gmail.com</a>
+          <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="ctlnk"><span class="ctlnk-ico" style="font-style:normal;font-size:11px;font-weight:800;">in</span>linkedin.com/in/srinidhinarla1352</a>
+          <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="ctlnk"><span class="ctlnk-ico" style="font-size:15px;">&#9670;</span>github.com/srinidhinarla-sudo</a>
         </div>
       </div>
 
@@ -963,7 +970,7 @@
     <!-- ── Search overlay (inside .main, covers it fully) ── -->
     <div id="search-overlay" class="search-overlay">
       <div class="search-bar-wrap">
-        <span class="sico">🔍</span>
+        <span class="sico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" style="display:block;"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         <input type="text" id="search-input" class="search-input" placeholder="What do you want to find?" autocomplete="off" spellcheck="false">
         <button class="search-close-btn" id="search-close-btn">✕ Close</button>
       </div>
@@ -972,19 +979,19 @@
           <div class="search-section-lbl">Browse all</div>
           <div class="browse-grid">
             <div class="browse-card" style="background:linear-gradient(135deg,#1a2535,#253a50);" onclick="searchNavigateTo('about')">
-              <div class="browse-card-title">Home</div><div class="browse-card-ico">🏠</div>
+              <div class="browse-card-title">Home</div>
             </div>
             <div class="browse-card" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);" onclick="searchNavigateTo('projects')">
-              <div class="browse-card-title">Projects</div><div class="browse-card-ico">💻</div>
+              <div class="browse-card-title">Projects</div>
             </div>
             <div class="browse-card" style="background:linear-gradient(135deg,#221c32,#3d2f52);" onclick="searchNavigateTo('exp')">
-              <div class="browse-card-title">Experience</div><div class="browse-card-ico">📋</div>
+              <div class="browse-card-title">Experience</div>
             </div>
             <div class="browse-card" style="background:linear-gradient(135deg,#2a2010,#48361a);" onclick="searchNavigateTo('skills')">
-              <div class="browse-card-title">Skills</div><div class="browse-card-ico">⚡</div>
+              <div class="browse-card-title">Skills</div>
             </div>
             <div class="browse-card" style="background:linear-gradient(135deg,#152030,#254055);" onclick="searchNavigateTo('contact')">
-              <div class="browse-card-title">Contact</div><div class="browse-card-ico">✉️</div>
+              <div class="browse-card-title">Contact</div>
             </div>
           </div>
         </div>
@@ -1023,7 +1030,7 @@
     </div>
     <div class="p-right">
       <div class="eq" id="eq-anim"><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div></div>
-      <button class="p-vol-ico" id="vol-icon" title="Mute / Unmute">🔊</button>
+      <button class="p-vol-ico" id="vol-icon" title="Mute / Unmute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
       <div class="vol" id="vol-bar"><div class="vol-fill" id="vol-fill"></div></div>
     </div>
   </div>
@@ -1037,16 +1044,16 @@
     <div class="modal-title">Premium Access</div>
     <div class="modal-sub">Full picture — resume, LinkedIn, and everything in between.</div>
     <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="modal-btn modal-btn-primary">
-      <span class="modal-btn-ico">⬇</span>Download Resume via LinkedIn
+      <span class="modal-btn-ico">&#8675;</span>Download Resume via LinkedIn
     </a>
     <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="modal-btn">
-      <span class="modal-btn-ico">in</span>Connect on LinkedIn
+      <span class="modal-btn-ico" style="font-size:11px;font-weight:900;">in</span>Connect on LinkedIn
     </a>
     <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="modal-btn">
-      <span class="modal-btn-ico">◈</span>View GitHub Profile
+      <span class="modal-btn-ico" style="font-size:14px;">&#9670;</span>View GitHub Profile
     </a>
     <button class="modal-btn" onclick="navigateTo('contact');closePremiumModal();">
-      <span class="modal-btn-ico">✉</span>Send a message
+      <span class="modal-btn-ico">@</span>Send a message
     </button>
   </div>
 </div>
@@ -1074,7 +1081,7 @@
   /* ─── Project data ─────────────────────────────────── */
   var PROJECTS = {
     'secure-financial-pipeline': {
-      icon:       '🔐',
+      icon:       'SFP',
       tag:        'Featured',
       tagStyle:   'background:rgba(143,163,184,.12);color:#b0c4d4;border:1px solid rgba(143,163,184,.25);',
       gradient:   'linear-gradient(160deg,#0f1e2e,#1a2a3a,#223348)',
@@ -1098,7 +1105,7 @@
       ]
     },
     'autonomous-validation-agent': {
-      icon:       '🤖',
+      icon:       'AVA',
       tag:        'Systems',
       tagStyle:   'background:rgba(100,140,120,.12);color:#9ab8a8;border:1px solid rgba(100,140,120,.25);',
       gradient:   'linear-gradient(160deg,#0e1e18,#1a2e28,#1e3830)',
@@ -1122,7 +1129,7 @@
       ]
     },
     'obd-compliance-platform': {
-      icon:       '⚙️',
+      icon:       'OBD',
       tag:        'Automotive',
       tagStyle:   'background:rgba(100,160,100,.12);color:#90c890;border:1px solid rgba(100,160,100,.25);',
       gradient:   'linear-gradient(160deg,#0d1a0d,#1a2e1a,#1e3620)',
@@ -1146,7 +1153,7 @@
       ]
     },
     'finance-intelligence-platform': {
-      icon:       '💰',
+      icon:       'FIP',
       tag:        'Personal',
       tagStyle:   'background:rgba(130,115,160,.12);color:#b0a0c8;border:1px solid rgba(130,115,160,.25);',
       gradient:   'linear-gradient(160deg,#120e1e,#221c32,#2a2240)',
@@ -1170,7 +1177,7 @@
       ]
     },
     'multilingual-invoice-pipeline': {
-      icon:       '🌍',
+      icon:       'MIP',
       tag:        'Novelis',
       tagStyle:   'background:rgba(160,130,80,.12);color:#c8aa70;border:1px solid rgba(160,130,80,.25);',
       gradient:   'linear-gradient(160deg,#1a1408,#2a2010,#36280e)',
@@ -1197,39 +1204,39 @@
 
   /* ─── Search data ──────────────────────────────────── */
   var SEARCH_ITEMS = [
-    { id: 'about',    label: 'Home',                          icon: '🏠',  meta: 'Page',                                   type: 'page'     },
-    { id: 'projects', label: 'Projects',                       icon: '💻',  meta: 'Page',                                   type: 'page'     },
-    { id: 'exp',      label: 'Experience',                     icon: '📋',  meta: 'Page',                                   type: 'page'     },
-    { id: 'skills',   label: 'Skills',                         icon: '⚡',  meta: 'Page',                                   type: 'page'     },
-    { id: 'contact',  label: 'Contact',                        icon: '✉️',  meta: 'Page',                                   type: 'page'     },
-    { id: 'proj:secure-financial-pipeline',     label: 'Secure Financial Pipeline',      icon: '🔐',  meta: 'Project · PySpark, Airflow, Delta Lake',  type: 'project'  },
-    { id: 'proj:autonomous-validation-agent',   label: 'Autonomous Validation Agent',    icon: '🤖',  meta: 'Project · C++, pybind11, FastAPI',        type: 'project'  },
-    { id: 'proj:obd-compliance-platform',       label: 'OBD Compliance Platform',        icon: '⚙️',  meta: 'Project · C#, Python, Plotly Dash, VBA', type: 'project'  },
-    { id: 'proj:finance-intelligence-platform', label: 'Finance Intelligence Platform',  icon: '💰',  meta: 'Project · Flask, scikit-learn, AWS',     type: 'project'  },
-    { id: 'proj:multilingual-invoice-pipeline', label: 'Multilingual Invoice Pipeline',  icon: '🌍',  meta: 'Project · Databricks, PySpark, Azure',   type: 'project'  },
-    { id: 'skills',   label: 'Python',         icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
-    { id: 'skills',   label: 'C#',             icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
-    { id: 'skills',   label: 'C++',            icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
-    { id: 'skills',   label: 'SQL',            icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
-    { id: 'skills',   label: 'JavaScript',     icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
-    { id: 'skills',   label: 'PySpark',        icon: '⚡', meta: 'Skill · Data Engineering',   type: 'skill' },
-    { id: 'skills',   label: 'Airflow',        icon: '⚡', meta: 'Skill · Data Engineering',   type: 'skill' },
-    { id: 'skills',   label: 'Databricks',     icon: '⚡', meta: 'Skill · Data Engineering',   type: 'skill' },
-    { id: 'skills',   label: 'Delta Lake',     icon: '⚡', meta: 'Skill · Data Engineering',   type: 'skill' },
-    { id: 'skills',   label: 'AWS',            icon: '⚡', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
-    { id: 'skills',   label: 'Azure',          icon: '⚡', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
-    { id: 'skills',   label: 'Docker',         icon: '⚡', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
-    { id: 'skills',   label: 'GitHub Actions', icon: '⚡', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
-    { id: 'skills',   label: 'FastAPI',        icon: '⚡', meta: 'Skill · Backend',            type: 'skill' },
-    { id: 'skills',   label: 'Flask',          icon: '⚡', meta: 'Skill · Backend',            type: 'skill' },
-    { id: 'skills',   label: 'Spring Boot',    icon: '⚡', meta: 'Skill · Backend',            type: 'skill' },
-    { id: 'skills',   label: 'scikit-learn',   icon: '⚡', meta: 'Skill · AI & Analytics',     type: 'skill' },
-    { id: 'skills',   label: 'Power BI',       icon: '⚡', meta: 'Skill · AI & Analytics',     type: 'skill' },
-    { id: 'skills',   label: 'VBA',            icon: '⚡', meta: 'Skill · AI & Analytics',     type: 'skill' },
-    { id: 'exp',      label: 'Novelis',                   icon: '🏢', meta: 'Experience · Enterprise Architect Intern',      type: 'exp' },
-    { id: 'exp',      label: 'State Farm',                icon: '🏢', meta: 'Experience · Finance & Data Analytics Intern',  type: 'exp' },
-    { id: 'exp',      label: 'Enterprise Architect Intern',icon:'📋', meta: 'Role · Novelis · Atlanta, GA',                 type: 'exp' },
-    { id: 'exp',      label: 'Finance & Data Analytics Intern',icon:'📋',meta:'Role · State Farm · Dallas, TX',             type: 'exp' },
+    { id: 'about',    label: 'Home',                          icon: 'Hm', meta: 'Page',                                   type: 'page'     },
+    { id: 'projects', label: 'Projects',                       icon: 'Pr', meta: 'Page',                                   type: 'page'     },
+    { id: 'exp',      label: 'Experience',                     icon: 'Ex', meta: 'Page',                                   type: 'page'     },
+    { id: 'skills',   label: 'Skills',                         icon: 'Sk', meta: 'Page',                                   type: 'page'     },
+    { id: 'contact',  label: 'Contact',                        icon: 'Co', meta: 'Page',                                   type: 'page'     },
+    { id: 'proj:secure-financial-pipeline',     label: 'Secure Financial Pipeline',      icon: 'SFP', meta: 'Project · PySpark, Airflow, Delta Lake',  type: 'project'  },
+    { id: 'proj:autonomous-validation-agent',   label: 'Autonomous Validation Agent',    icon: 'AVA', meta: 'Project · C++, pybind11, FastAPI',        type: 'project'  },
+    { id: 'proj:obd-compliance-platform',       label: 'OBD Compliance Platform',        icon: 'OBD', meta: 'Project · C#, Python, Plotly Dash, VBA', type: 'project'  },
+    { id: 'proj:finance-intelligence-platform', label: 'Finance Intelligence Platform',  icon: 'FIP', meta: 'Project · Flask, scikit-learn, AWS',     type: 'project'  },
+    { id: 'proj:multilingual-invoice-pipeline', label: 'Multilingual Invoice Pipeline',  icon: 'MIP', meta: 'Project · Databricks, PySpark, Azure',   type: 'project'  },
+    { id: 'skills',   label: 'Python',         icon: 'Py', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'C#',             icon: 'C#', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'C++',            icon: 'C+', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'SQL',            icon: 'SQ', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'JavaScript',     icon: 'JS', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'PySpark',        icon: 'PS', meta: 'Skill · Data Engineering',   type: 'skill' },
+    { id: 'skills',   label: 'Airflow',        icon: 'Af', meta: 'Skill · Data Engineering',   type: 'skill' },
+    { id: 'skills',   label: 'Databricks',     icon: 'Db', meta: 'Skill · Data Engineering',   type: 'skill' },
+    { id: 'skills',   label: 'Delta Lake',     icon: 'DL', meta: 'Skill · Data Engineering',   type: 'skill' },
+    { id: 'skills',   label: 'AWS',            icon: 'AW', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
+    { id: 'skills',   label: 'Azure',          icon: 'Az', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
+    { id: 'skills',   label: 'Docker',         icon: 'Dk', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
+    { id: 'skills',   label: 'GitHub Actions', icon: 'GH', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
+    { id: 'skills',   label: 'FastAPI',        icon: 'FA', meta: 'Skill · Backend',            type: 'skill' },
+    { id: 'skills',   label: 'Flask',          icon: 'Fl', meta: 'Skill · Backend',            type: 'skill' },
+    { id: 'skills',   label: 'Spring Boot',    icon: 'SB', meta: 'Skill · Backend',            type: 'skill' },
+    { id: 'skills',   label: 'scikit-learn',   icon: 'SK', meta: 'Skill · AI & Analytics',     type: 'skill' },
+    { id: 'skills',   label: 'Power BI',       icon: 'PB', meta: 'Skill · AI & Analytics',     type: 'skill' },
+    { id: 'skills',   label: 'VBA',            icon: 'VB', meta: 'Skill · AI & Analytics',     type: 'skill' },
+    { id: 'exp',      label: 'Novelis',                    icon: 'Nv', meta: 'Experience · Enterprise Architect Intern',      type: 'exp' },
+    { id: 'exp',      label: 'State Farm',                 icon: 'SF', meta: 'Experience · Finance & Data Analytics Intern',  type: 'exp' },
+    { id: 'exp',      label: 'Enterprise Architect Intern',icon: 'EA', meta: 'Role · Novelis · Atlanta, GA',                 type: 'exp' },
+    { id: 'exp',      label: 'Finance & Data Analytics Intern', icon: 'FD', meta: 'Role · State Farm · Dallas, TX',          type: 'exp' },
   ];
 
   /* ─── Navigation ───────────────────────────────────── */
@@ -1386,12 +1393,20 @@
   var volDragging = false;
   var volLevel = 0.65;
 
+  var VOL_SVG_ON  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+  var VOL_SVG_LOW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+  var VOL_SVG_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+
+  function setVolIcon() {
+    document.getElementById('vol-icon').innerHTML = muted || volLevel === 0 ? VOL_SVG_OFF : (volLevel < 0.4 ? VOL_SVG_LOW : VOL_SVG_ON);
+  }
+
   function setVol(e) {
     var rect = volBar.getBoundingClientRect();
     volLevel = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     volFill.style.width = (volLevel * 100) + '%';
     muted = volLevel === 0;
-    document.getElementById('vol-icon').textContent = muted ? '🔇' : (volLevel < 0.4 ? '🔉' : '🔊');
+    setVolIcon();
   }
 
   volBar.addEventListener('mousedown', function(e){ volDragging = true; setVol(e); e.preventDefault(); });
@@ -1408,7 +1423,7 @@
       muted = true;
     }
     volFill.style.width = (volLevel * 100) + '%';
-    this.textContent = muted ? '🔇' : '🔊';
+    setVolIcon();
   });
 
   /* ─── Library filter chips ─────────────────────────── */
