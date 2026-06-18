@@ -504,6 +504,91 @@
     .modal-btn-primary { background: var(--acc); color: white; }
     .modal-btn-primary:hover { background: var(--acc2); }
     .modal-btn-ico { font-size: 18px; min-width: 22px; text-align: center; }
+
+    /* ── Project detail page ────────────────────────── */
+    .pd-hd {
+      min-height: 300px; position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 80px 28px 28px;
+    }
+    .pd-hd::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.05) 0%, rgba(18,18,18,.6) 55%, rgba(18,18,18,1) 100%);
+    }
+    .pd-hd-bg { position: absolute; inset: 0; }
+    .pd-hd-inner { position: relative; z-index: 1; }
+    .pd-icon { font-size: 72px; display: block; margin-bottom: 14px; line-height: 1; }
+    .pd-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 4px; display: inline-block; margin-bottom: 10px;
+    }
+    .pd-title { font-size: clamp(32px, 5vw, 56px); font-weight: 900; letter-spacing: -.04em; line-height: 1; color: white; margin-bottom: 10px; }
+    .pd-meta  { font-size: 13px; color: rgba(255,255,255,.6); }
+    .pd-actions {
+      display: flex; align-items: center; gap: 14px; padding: 20px 28px 0; flex-wrap: wrap;
+    }
+    .pd-back {
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 18px; border-radius: 99px;
+      border: 1px solid rgba(255,255,255,.25); background: transparent;
+      color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: border-color .15s, color .15s;
+    }
+    .pd-back:hover { border-color: white; color: white; }
+    .pd-gh-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 20px; border-radius: 99px; border: none;
+      background: var(--text); color: var(--black);
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      text-decoration: none; transition: opacity .15s, transform .12s;
+    }
+    .pd-gh-btn:hover { opacity: .85; transform: scale(1.03); }
+    .pd-body { padding: 24px 28px 40px; }
+    .pd-section-title {
+      font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 12px; margin-top: 28px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pd-section-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.07); }
+    .pd-about {
+      font-size: 14.5px; color: var(--muted); line-height: 1.85;
+      background: var(--s1); border-radius: 10px; padding: 18px 20px;
+    }
+    .pd-stats {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px;
+    }
+    .pd-stat {
+      background: var(--s1); border-radius: 10px; padding: 16px;
+      text-align: center;
+    }
+    .pd-stat-v { font-size: 22px; font-weight: 800; letter-spacing: -.02em; color: var(--text); }
+    .pd-stat-k { font-size: 10.5px; color: var(--dim); font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: .06em; }
+    .pd-tools { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pd-tool {
+      font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 99px;
+      background: var(--s2); color: var(--muted); border: 1px solid rgba(255,255,255,.07);
+      transition: color .15s, border-color .15s;
+    }
+    .pd-tool:hover { color: var(--text); border-color: var(--acc); }
+    .pd-bullets { display: flex; flex-direction: column; gap: 10px; }
+    .pd-bullet {
+      display: flex; gap: 12px; align-items: flex-start;
+      font-size: 14px; color: var(--muted); line-height: 1.7;
+      background: var(--s1); border-radius: 8px; padding: 14px 16px;
+    }
+    .pd-bullet-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--acc);
+      margin-top: 8px; flex-shrink: 0;
+    }
+    .pd-gh-full {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 32px; padding: 16px; border-radius: 12px;
+      background: var(--s1); border: 1px solid rgba(255,255,255,.07);
+      text-decoration: none; color: var(--text); font-size: 14px; font-weight: 700;
+      transition: background .15s, border-color .15s;
+    }
+    .pd-gh-full:hover { background: var(--s2); border-color: var(--acc); }
+    .pd-gh-full-ico { font-size: 20px; }
   </style>
 </head>
 <body>
@@ -639,22 +724,22 @@
             <div class="tlist-hd" style="display:grid;grid-template-columns:40px 1fr auto;padding:0 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:4px;">
               <div class="th">#</div><div class="th">Title</div><div class="th" style="text-align:right;">🕐</div>
             </div>
-            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="openProject('secure-financial-pipeline')">
               <span class="t-num t-now">♪</span><span class="t-play">▶</span>
               <div><div class="t-title t-now">Secure Financial Data Pipeline</div><div class="t-artist">Featured · PySpark, Airflow, Delta Lake</div></div>
               <span class="t-dur">3:47</span>
             </div>
-            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="openProject('autonomous-validation-agent')">
               <span class="t-num">2</span><span class="t-play">▶</span>
               <div><div class="t-title">Autonomous Validation Agent</div><div class="t-artist">Systems · C++, pybind11, FastAPI</div></div>
               <span class="t-dur">2:31</span>
             </div>
-            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="openProject('multilingual-invoice-pipeline')">
               <span class="t-num">3</span><span class="t-play">▶</span>
               <div><div class="t-title">Multilingual Invoice Pipeline</div><div class="t-artist">Novelis · Azure Databricks, PySpark</div></div>
               <span class="t-dur">4:12</span>
             </div>
-            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
+            <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="openProject('obd-compliance-platform')">
               <span class="t-num">4</span><span class="t-play">▶</span>
               <div><div class="t-title">OBD Compliance Platform</div><div class="t-artist">Mercedes-Benz · C#, Python, Plotly Dash, VBA</div></div>
               <span class="t-dur">5:04</span>
@@ -694,42 +779,77 @@
         <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#2d4a3e,#304860);box-shadow:0 6px 20px rgba(45,74,62,.5);" onclick="window.open('https://github.com/srinidhinarla-sudo','_blank')">▶</button></div>
         <div class="cp">
           <div class="grid">
-            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo/secure-financial-pipeline','_blank')">
-              <div class="acover" style="background:linear-gradient(135deg,#1a2a3a,#2a4258);">🔐<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo/secure-financial-pipeline','_blank')">▶</button></div>
+            <div class="acard" onclick="openProject('secure-financial-pipeline')">
+              <div class="acover" style="background:linear-gradient(135deg,#1a2a3a,#2a4258);">🔐<button class="acard-play" onclick="event.stopPropagation();openProject('secure-financial-pipeline')">▶</button></div>
               <div class="atag" style="background:rgba(143,163,184,.1);color:#b0c4d4;border:1px solid rgba(143,163,184,.2);">Featured</div>
               <div class="atitle">Secure Financial Pipeline</div>
               <div class="adesc">284K+ transactions · SHA-256 Merkle tamper detection · Isolation Forest fraud detection</div>
               <div class="apills"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>Docker</span></div>
             </div>
-            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo/autonomous-validation-agent','_blank')">
-              <div class="acover" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">🤖<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo/autonomous-validation-agent','_blank')">▶</button></div>
+            <div class="acard" onclick="openProject('autonomous-validation-agent')">
+              <div class="acover" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">🤖<button class="acard-play" onclick="event.stopPropagation();openProject('autonomous-validation-agent')">▶</button></div>
               <div class="atag" style="background:rgba(100,140,120,.1);color:#9ab8a8;border:1px solid rgba(100,140,120,.2);">Systems</div>
               <div class="atitle">Autonomous Validation Agent</div>
               <div class="adesc">61-state C++ FSM · 100% transition coverage · 92% mutation kill rate</div>
               <div class="apills"><span>C++</span><span>pybind11</span><span>FastAPI</span><span>pytest</span></div>
             </div>
-            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo/obd-compliance-platform','_blank')">
-              <div class="acover" style="background:linear-gradient(135deg,#1e2a1e,#2a3e2a);">⚙️<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo/obd-compliance-platform','_blank')">▶</button></div>
+            <div class="acard" onclick="openProject('obd-compliance-platform')">
+              <div class="acover" style="background:linear-gradient(135deg,#1e2a1e,#2a3e2a);">⚙️<button class="acard-play" onclick="event.stopPropagation();openProject('obd-compliance-platform')">▶</button></div>
               <div class="atag" style="background:rgba(100,160,100,.1);color:#90c890;border:1px solid rgba(100,160,100,.2);">Automotive</div>
               <div class="atitle">OBD Compliance Platform</div>
               <div class="adesc">SAE J1979 parser · Fleet readiness dashboard · VBA agency reports</div>
               <div class="apills"><span>C#</span><span>Python</span><span>Plotly Dash</span><span>VBA</span></div>
             </div>
-            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo','_blank')">
-              <div class="acover" style="background:linear-gradient(135deg,#221c32,#3d2f52);">💰<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo','_blank')">▶</button></div>
+            <div class="acard" onclick="openProject('finance-intelligence-platform')">
+              <div class="acover" style="background:linear-gradient(135deg,#221c32,#3d2f52);">💰<button class="acard-play" onclick="event.stopPropagation();openProject('finance-intelligence-platform')">▶</button></div>
               <div class="atag" style="background:rgba(130,115,160,.1);color:#b0a0c8;border:1px solid rgba(130,115,160,.2);">Personal</div>
               <div class="atitle">Finance Intelligence Platform</div>
               <div class="adesc">JWT + RBAC REST API · Anomaly detection · Deployed on AWS</div>
               <div class="apills"><span>Flask</span><span>scikit-learn</span><span>AWS</span></div>
             </div>
-            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo','_blank')">
-              <div class="acover" style="background:linear-gradient(135deg,#2a2010,#48361a);">🌍<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo','_blank')">▶</button></div>
+            <div class="acard" onclick="openProject('multilingual-invoice-pipeline')">
+              <div class="acover" style="background:linear-gradient(135deg,#2a2010,#48361a);">🌍<button class="acard-play" onclick="event.stopPropagation();openProject('multilingual-invoice-pipeline')">▶</button></div>
               <div class="atag" style="background:rgba(160,130,80,.1);color:#c8aa70;border:1px solid rgba(160,130,80,.2);">Novelis</div>
               <div class="atitle">Multilingual Invoice Pipeline</div>
               <div class="adesc">5,000+ invoices · 8 languages · Spark runtime cut ~50%</div>
               <div class="apills"><span>Databricks</span><span>PySpark</span><span>Azure AI</span></div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- ── Project Detail ── -->
+      <div class="sec" id="sec-project-detail">
+        <div class="pd-hd" id="pd-hd">
+          <div class="pd-hd-bg" id="pd-hd-bg"></div>
+          <div class="pd-hd-inner">
+            <span class="pd-icon" id="pd-icon"></span>
+            <div class="pd-tag" id="pd-tag"></div>
+            <div class="pd-title" id="pd-title"></div>
+            <div class="pd-meta" id="pd-meta"></div>
+          </div>
+        </div>
+        <div class="pd-actions">
+          <button class="pd-back" onclick="navigateTo('projects')">‹ Back to Projects</button>
+          <a class="pd-gh-btn" id="pd-gh-btn" href="#" target="_blank" rel="noopener">◈ View on GitHub</a>
+        </div>
+        <div class="pd-body">
+          <div class="pd-section-title">About</div>
+          <div class="pd-about" id="pd-about"></div>
+
+          <div class="pd-section-title">Results</div>
+          <div class="pd-stats" id="pd-stats"></div>
+
+          <div class="pd-section-title">Tools Used</div>
+          <div class="pd-tools" id="pd-tools"></div>
+
+          <div class="pd-section-title">What I Built</div>
+          <div class="pd-bullets" id="pd-bullets"></div>
+
+          <a class="pd-gh-full" id="pd-gh-full" href="#" target="_blank" rel="noopener">
+            <span class="pd-gh-full-ico">◈</span>
+            <span id="pd-gh-full-label">View full source on GitHub →</span>
+          </a>
         </div>
       </div>
 
@@ -943,11 +1063,136 @@
   var liked = false;
 
   var trackData = {
-    about:    { title: 'Data Engineer',               dur: 227 },
-    projects: { title: 'Secure Financial Pipeline',   dur: 227 },
-    exp:      { title: 'Enterprise Architect Intern', dur: 183 },
-    skills:   { title: 'Tech Stack Compilation',      dur: 252 },
-    contact:  { title: "Let's Connect",               dur: 195 }
+    about:           { title: 'Data Engineer',               dur: 227 },
+    projects:        { title: 'Secure Financial Pipeline',   dur: 227 },
+    'project-detail':{ title: 'Project Deep Dive',           dur: 300 },
+    exp:             { title: 'Enterprise Architect Intern',  dur: 183 },
+    skills:          { title: 'Tech Stack Compilation',      dur: 252 },
+    contact:         { title: "Let's Connect",               dur: 195 }
+  };
+
+  /* ─── Project data ─────────────────────────────────── */
+  var PROJECTS = {
+    'secure-financial-pipeline': {
+      icon:       '🔐',
+      tag:        'Featured',
+      tagStyle:   'background:rgba(143,163,184,.12);color:#b0c4d4;border:1px solid rgba(143,163,184,.25);',
+      gradient:   'linear-gradient(160deg,#0f1e2e,#1a2a3a,#223348)',
+      title:      'Secure Financial Data Pipeline',
+      meta:       'Data Engineering · Personal Project',
+      github:     'https://github.com/srinidhinarla-sudo/secure-financial-pipeline',
+      about:      'A production-grade Apache Airflow ETL pipeline that ingests 284,000+ synthetic credit card transactions through a three-tier Delta Lake medallion architecture (Bronze → Silver → Gold). Tamper detection is implemented via SHA-256 Merkle trees — any row-level change invalidates its branch hash. An Isolation Forest model flags statistically anomalous transactions for review. The entire stack runs in Docker with automated Airflow DAG scheduling and email alerting on failure.',
+      stats: [
+        { v: '284K+', k: 'Transactions' },
+        { v: '3-Tier', k: 'Architecture' },
+        { v: '100%',   k: 'Audit Coverage' },
+        { v: '< 2min', k: 'Avg Job Runtime' }
+      ],
+      tools: ['Python', 'Apache Airflow', 'PySpark', 'Delta Lake', 'Docker', 'SHA-256', 'Isolation Forest', 'pandas', 'pytest'],
+      bullets: [
+        'Designed a Bronze/Silver/Gold medallion lakehouse: raw ingestion → deduplication + schema validation → aggregated fraud metrics.',
+        'Built a SHA-256 Merkle tree audit layer — any tampered row is detected at reconciliation time with O(log n) hash traversal.',
+        'Trained an Isolation Forest anomaly detector on engineered features (velocity, geo-delta, hour-of-day) achieving high precision on injected fraud scenarios.',
+        'Packaged all services in Docker Compose; Airflow DAGs trigger ingestion, detection, and report generation on a configurable schedule.',
+        'Added a pytest suite covering pipeline idempotency, Merkle tamper detection, and anomaly detection thresholds.'
+      ]
+    },
+    'autonomous-validation-agent': {
+      icon:       '🤖',
+      tag:        'Systems',
+      tagStyle:   'background:rgba(100,140,120,.12);color:#9ab8a8;border:1px solid rgba(100,140,120,.25);',
+      gradient:   'linear-gradient(160deg,#0e1e18,#1a2e28,#1e3830)',
+      title:      'Autonomous Validation Agent',
+      meta:       'Software Systems · Personal Project',
+      github:     'https://github.com/srinidhinarla-sudo/autonomous-validation-agent',
+      about:      'An autonomous testing platform for a 61-state C++ vehicle-infotainment state machine. The agent uses model-based BFS test generation to achieve 100% transition coverage, an adversarial fuzzer with delta debugging to isolate minimal failure-triggering sequences, and a mutation testing harness (mutmut) to verify test-suite strength. A FastAPI + SQLite layer persists all runs for historical trend analysis, and a Plotly dashboard renders coverage maps and failure distributions. CI via GitHub Actions enforces an 88% mutation kill-rate gate.',
+      stats: [
+        { v: '61',   k: 'FSM States' },
+        { v: '100%', k: 'Transition Coverage' },
+        { v: '92%',  k: 'Mutation Kill Rate' },
+        { v: '216',  k: 'Test Cases Generated' }
+      ],
+      tools: ['C++', 'pybind11', 'Python', 'FastAPI', 'SQLite', 'pytest', 'mutmut', 'Plotly', 'GitHub Actions'],
+      bullets: [
+        'Implemented a 61-state C++ infotainment FSM with 73 events and 217 transitions covering Boot, Media, Navigation, Phone, Settings, and Error Recovery.',
+        'Built a model-based BFS test generator that discovers every reachable transition and synthesizes minimal covering test sequences.',
+        'Developed an adversarial fuzzer (500 campaigns × 250 steps) with delta debugging — automatically reduces failure traces from 250 steps to ≤ 4 (98.4% reduction).',
+        'Wired mutmut mutation testing into CI/CD: 92% kill rate, with an 88% gate blocking merges that weaken test coverage.',
+        'FastAPI REST service persists every run to SQLite; Plotly dashboard shows per-state coverage heat map and failure-frequency distribution.'
+      ]
+    },
+    'obd-compliance-platform': {
+      icon:       '⚙️',
+      tag:        'Automotive',
+      tagStyle:   'background:rgba(100,160,100,.12);color:#90c890;border:1px solid rgba(100,160,100,.25);',
+      gradient:   'linear-gradient(160deg,#0d1a0d,#1a2e1a,#1e3620)',
+      title:      'OBD-II Compliance Platform',
+      meta:       'Automotive / Mercedes-Benz · Portfolio Project',
+      github:     'https://github.com/srinidhinarla-sudo/obd-compliance-platform',
+      about:      'An end-to-end OBD-II readiness monitor compliance tracker that mirrors the toolchain used by automotive OEM compliance engineers. A C# console app decodes raw ELM327 hex logs using SAE J1979 Mode 01 PID formulas and bit-field readiness monitors. A Python pipeline ingests the parsed JSON, tracks monitor completion across drive sessions, and classifies each vehicle as PASS / FAIL / INCOMPLETE. A Plotly Dash dashboard visualises fleet health, and a VBA macro produces print-ready Excel reports formatted for agency submission.',
+      stats: [
+        { v: '8',      k: 'Vehicles Tracked' },
+        { v: '10',     k: 'OBD-II Monitors' },
+        { v: 'SAE J1979', k: 'Standard' },
+        { v: '3-Job',  k: 'CI Pipeline' }
+      ],
+      tools: ['C#', '.NET 10', 'Python', 'Plotly Dash', 'openpyxl', 'VBA', 'GitHub Actions', 'pytest'],
+      bullets: [
+        'C# parser decodes SAE J1979 Mode 01 PIDs (RPM, coolant, MAF, throttle, O₂) and Mode $01 PID $01 readiness monitor bit-flags from raw ELM327 hex logs.',
+        'Python pipeline ingests parsed JSON, tracks Catalyst / O₂ / Evap / EGR monitor completion across sessions, and scores each vehicle 0–100.',
+        'Plotly Dash dashboard: live fleet pass-rate gauge, readiness bar chart, filterable table, per-vehicle trend line, and monitor-completion heatmap.',
+        'openpyxl report generator produces colour-coded Excel sheets (GREEN / YELLOW / RED) with a VBA macro that applies conditional formatting, inserts a pie chart, and sets print layout for agency submission.',
+        'GitHub Actions CI: dotnet build → pytest (≥ 80% coverage gate) → end-to-end pipeline run verifying output files.'
+      ]
+    },
+    'finance-intelligence-platform': {
+      icon:       '💰',
+      tag:        'Personal',
+      tagStyle:   'background:rgba(130,115,160,.12);color:#b0a0c8;border:1px solid rgba(130,115,160,.25);',
+      gradient:   'linear-gradient(160deg,#120e1e,#221c32,#2a2240)',
+      title:      'Finance Intelligence Platform',
+      meta:       'Backend / Security · Personal Project',
+      github:     'https://github.com/srinidhinarla-sudo',
+      about:      'A secure REST API for personal finance management with JWT authentication, role-based access control (RBAC), and ML-powered anomaly detection. Users can log transactions, set budgets, and receive automated alerts when spending patterns deviate from historical norms. The service is deployed on AWS with auto-scaling and a CI/CD pipeline that runs security linting and integration tests on every push.',
+      stats: [
+        { v: 'JWT',  k: 'Auth Method' },
+        { v: 'RBAC', k: 'Access Control' },
+        { v: 'AWS',  k: 'Deployment' },
+        { v: '95%',  k: 'Test Coverage' }
+      ],
+      tools: ['Python', 'Flask', 'scikit-learn', 'JWT', 'PostgreSQL', 'AWS EC2', 'AWS RDS', 'Docker', 'pytest'],
+      bullets: [
+        'Implemented JWT-based authentication with refresh token rotation and RBAC middleware — admins, analysts, and read-only roles enforced at the route level.',
+        'Integrated Isolation Forest anomaly detection trained on per-user spending history; real-time scoring on each transaction POST.',
+        'Deployed on AWS (EC2 + RDS PostgreSQL) behind an ALB; Docker containerisation ensures environment parity between local and production.',
+        'Automated CI/CD pipeline: pytest + Bandit security linting gate on every PR; zero-downtime blue-green deploys to EC2.',
+        'RESTful API design following OpenAPI 3.0; all endpoints documented and validated with Pydantic-equivalent Flask-Marshmallow schemas.'
+      ]
+    },
+    'multilingual-invoice-pipeline': {
+      icon:       '🌍',
+      tag:        'Novelis',
+      tagStyle:   'background:rgba(160,130,80,.12);color:#c8aa70;border:1px solid rgba(160,130,80,.25);',
+      gradient:   'linear-gradient(160deg,#1a1408,#2a2010,#36280e)',
+      title:      'Multilingual Invoice Pipeline',
+      meta:       'Data Engineering · Novelis Internship',
+      github:     'https://github.com/srinidhinarla-sudo',
+      about:      'An enterprise ETL pipeline built during my internship at Novelis that processes 5,000+ vendor invoices per run across 8 languages. Azure AI Document Intelligence extracts structured fields (vendor, amount, date, line items) from PDFs and images regardless of language. PySpark on Azure Databricks transforms and normalises the extracted data before loading it into a Delta Lake Gold table used by the finance team for reconciliation and reporting.',
+      stats: [
+        { v: '5K+',  k: 'Invoices / Run' },
+        { v: '8',    k: 'Languages' },
+        { v: '~50%', k: 'Runtime Reduction' },
+        { v: '3',    k: 'Delta Lake Layers' }
+      ],
+      tools: ['Python', 'PySpark', 'Azure Databricks', 'Delta Lake', 'Azure AI Document Intelligence', 'Azure Data Factory', 'Spark SQL'],
+      bullets: [
+        'Integrated Azure AI Document Intelligence to extract vendor, amount, date, and line-item fields from PDFs in English, Spanish, French, German, Japanese, Chinese, Portuguese, and Italian.',
+        'Built Bronze → Silver → Gold Delta Lake pipeline on Azure Databricks: raw extraction → normalisation + currency conversion → reconciliation-ready Gold table.',
+        'Optimised the largest Spark job from ~40 minutes to ~20 minutes via dynamic partitioning, broadcast joins for currency lookup, and Adaptive Query Execution.',
+        'Automated pipeline orchestration with Azure Data Factory triggers; Delta Lake ACID transactions ensure idempotent re-runs without duplicate records.',
+        'Delivered weekly to the finance team, replacing a manual Excel-based invoice matching process and reducing reconciliation time significantly.'
+      ]
+    }
   };
 
   /* ─── Search data ──────────────────────────────────── */
@@ -957,11 +1202,11 @@
     { id: 'exp',      label: 'Experience',                     icon: '📋',  meta: 'Page',                                   type: 'page'     },
     { id: 'skills',   label: 'Skills',                         icon: '⚡',  meta: 'Page',                                   type: 'page'     },
     { id: 'contact',  label: 'Contact',                        icon: '✉️',  meta: 'Page',                                   type: 'page'     },
-    { id: 'projects', label: 'Secure Financial Pipeline',      icon: '🔐',  meta: 'Project · PySpark, Airflow, Delta Lake',  type: 'project'  },
-    { id: 'projects', label: 'Autonomous Validation Agent',    icon: '🤖',  meta: 'Project · C++, pybind11, FastAPI',        type: 'project'  },
-    { id: 'projects', label: 'OBD Compliance Platform',        icon: '⚙️',  meta: 'Project · C#, Python, Plotly Dash, VBA', type: 'project'  },
-    { id: 'projects', label: 'Finance Intelligence Platform',  icon: '💰',  meta: 'Project · Flask, scikit-learn, AWS',     type: 'project'  },
-    { id: 'projects', label: 'Multilingual Invoice Pipeline',  icon: '🌍',  meta: 'Project · Databricks, PySpark, Azure',   type: 'project'  },
+    { id: 'proj:secure-financial-pipeline',     label: 'Secure Financial Pipeline',      icon: '🔐',  meta: 'Project · PySpark, Airflow, Delta Lake',  type: 'project'  },
+    { id: 'proj:autonomous-validation-agent',   label: 'Autonomous Validation Agent',    icon: '🤖',  meta: 'Project · C++, pybind11, FastAPI',        type: 'project'  },
+    { id: 'proj:obd-compliance-platform',       label: 'OBD Compliance Platform',        icon: '⚙️',  meta: 'Project · C#, Python, Plotly Dash, VBA', type: 'project'  },
+    { id: 'proj:finance-intelligence-platform', label: 'Finance Intelligence Platform',  icon: '💰',  meta: 'Project · Flask, scikit-learn, AWS',     type: 'project'  },
+    { id: 'proj:multilingual-invoice-pipeline', label: 'Multilingual Invoice Pipeline',  icon: '🌍',  meta: 'Project · Databricks, PySpark, Azure',   type: 'project'  },
     { id: 'skills',   label: 'Python',         icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
     { id: 'skills',   label: 'C#',             icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
     { id: 'skills',   label: 'C++',            icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
@@ -1385,6 +1630,48 @@
     setTimeout(function(){ t.remove(); }, 2600);
   }
 
+  /* ─── Project detail ────────────────────────────────── */
+  function openProject(projectId) {
+    var p = PROJECTS[projectId];
+    if (!p) { navigateTo('projects'); return; }
+
+    // Populate header
+    document.getElementById('pd-hd-bg').style.background = p.gradient;
+    document.getElementById('pd-icon').textContent  = p.icon;
+    document.getElementById('pd-tag').textContent   = p.tag;
+    document.getElementById('pd-tag').style.cssText += ';' + p.tagStyle;
+    document.getElementById('pd-title').textContent = p.title;
+    document.getElementById('pd-meta').textContent  = p.meta;
+
+    // GitHub links
+    document.getElementById('pd-gh-btn').href   = p.github;
+    document.getElementById('pd-gh-full').href  = p.github;
+    document.getElementById('pd-gh-full-label').textContent =
+      p.github.includes('srinidhinarla-sudo/') && !p.github.endsWith('/srinidhinarla-sudo')
+        ? 'View full source on GitHub →'
+        : 'View GitHub profile →';
+
+    // About
+    document.getElementById('pd-about').textContent = p.about;
+
+    // Stats
+    document.getElementById('pd-stats').innerHTML = p.stats.map(function(s) {
+      return '<div class="pd-stat"><div class="pd-stat-v">' + s.v + '</div><div class="pd-stat-k">' + s.k + '</div></div>';
+    }).join('');
+
+    // Tools
+    document.getElementById('pd-tools').innerHTML = p.tools.map(function(t) {
+      return '<span class="pd-tool">' + t + '</span>';
+    }).join('');
+
+    // Bullets
+    document.getElementById('pd-bullets').innerHTML = p.bullets.map(function(b) {
+      return '<div class="pd-bullet"><div class="pd-bullet-dot"></div><div>' + b + '</div></div>';
+    }).join('');
+
+    navigateTo('project-detail');
+  }
+
   /* ─── Expose globals ─────────────────────────────────── */
   window.navigateTo      = navigateTo;
   window.goBack          = goBack;
@@ -1393,7 +1680,15 @@
   window.openSearch      = openSearch;
   window.closeSearch     = closeSearch;
   window.closePremiumModal = closePremiumModal;
-  window.searchNavigateTo = function(id) { closeSearch(); navigateTo(id); };
+  window.openProject     = openProject;
+  window.searchNavigateTo = function(id) {
+    closeSearch();
+    if (id.indexOf('proj:') === 0) {
+      openProject(id.slice(5));
+    } else {
+      navigateTo(id);
+    }
+  };
 
   /* ─── Init ───────────────────────────────────────────── */
   updateArrows();
