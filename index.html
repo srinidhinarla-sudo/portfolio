@@ -1503,15 +1503,15 @@
 
   function showSec(id) {
     var exiting = document.querySelector('.sec.on');
-    if (exiting) {
+    var next = document.getElementById('sec-' + id);
+
+    if (exiting && exiting !== next) {
       exiting.classList.add('sec-exiting');
       setTimeout(function() { exiting.classList.remove('on', 'sec-exiting'); }, 200);
-    }
-
-    var next = document.getElementById('sec-' + id);
-    setTimeout(function() {
+      setTimeout(function() { next.classList.add('on'); }, 80);
+    } else {
       next.classList.add('on');
-    }, exiting ? 80 : 0);
+    }
 
     document.querySelectorAll('[data-sec]').forEach(function(el){ el.classList.remove('on'); });
     document.querySelectorAll('[data-sec="' + id + '"]').forEach(function(el){ el.classList.add('on'); });
