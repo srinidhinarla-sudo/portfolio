@@ -944,15 +944,15 @@
               <div class="adesc">SAE J1979 parser · Fleet readiness dashboard · VBA agency reports</div>
               <div class="apills"><span>C#</span><span>Python</span><span>Plotly Dash</span><span>VBA</span></div>
             </div>
-            <div class="acard" onclick="openProject('finance-intelligence-platform')">
-              <div class="acover" style="background:linear-gradient(145deg,#1a1622,#241e30);color:#a890c0;">
-                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,36 18,22 26,28 42,10"/><polyline points="30,10 42,10 42,22"/></svg>
-                <button class="acard-play" onclick="event.stopPropagation();openProject('finance-intelligence-platform')">&#9654;</button>
+            <div class="acard" onclick="openProject('ml-architecture-benchmark')">
+              <div class="acover" style="background:linear-gradient(145deg,#1e1008,#2c1a10);color:#c8906a;">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="14" r="3"/><circle cx="8" cy="24" r="3"/><circle cx="8" cy="34" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="24" cy="20" r="3"/><circle cx="24" cy="30" r="3"/><circle cx="24" cy="40" r="3"/><circle cx="40" cy="24" r="3"/><line x1="11" y1="14" x2="21" y2="8"/><line x1="11" y1="14" x2="21" y2="20"/><line x1="11" y1="24" x2="21" y2="20"/><line x1="11" y1="24" x2="21" y2="30"/><line x1="11" y1="34" x2="21" y2="30"/><line x1="11" y1="34" x2="21" y2="40"/><line x1="27" y1="8" x2="37" y2="24"/><line x1="27" y1="20" x2="37" y2="24"/><line x1="27" y1="30" x2="37" y2="24"/><line x1="27" y1="40" x2="37" y2="24"/></svg>
+                <button class="acard-play" onclick="event.stopPropagation();openProject('ml-architecture-benchmark')">&#9654;</button>
               </div>
-              <div class="atag" style="background:rgba(130,115,160,.1);color:#b0a0c8;border:1px solid rgba(130,115,160,.2);">Personal</div>
-              <div class="atitle">Finance Intelligence Platform</div>
-              <div class="adesc">JWT + RBAC REST API · Anomaly detection · Deployed on AWS</div>
-              <div class="apills"><span>Flask</span><span>scikit-learn</span><span>AWS</span></div>
+              <div class="atag" style="background:rgba(160,120,80,.1);color:#c8906a;border:1px solid rgba(160,120,80,.2);">Course Project</div>
+              <div class="atitle">CNN Architecture Benchmark</div>
+              <div class="adesc">7 architectures · 92.67% CIFAR-10 · Custom SE-ResNet-Lite</div>
+              <div class="apills"><span>PyTorch</span><span>Python</span><span>scikit-learn</span></div>
             </div>
             <div class="acard" onclick="openProject('multilingual-invoice-pipeline')">
               <div class="acover" style="background:linear-gradient(145deg,#1c1a14,#28241a);color:#b8a880;">
@@ -1398,28 +1398,28 @@
         'GitHub Actions CI: dotnet build → pytest (≥ 80% coverage gate) → end-to-end pipeline run verifying output files.'
       ]
     },
-    'finance-intelligence-platform': {
-      icon:       'FIP',
-      tag:        'Personal',
-      tagStyle:   'background:rgba(130,115,160,.12);color:#b0a0c8;border:1px solid rgba(130,115,160,.25);',
-      hdrGradient: 'linear-gradient(160deg,#14101c,#1a1622,#241e30)',
-      title:      'Finance Intelligence Platform',
-      meta:       'Backend / Security · Personal Project',
-      github:     'https://github.com/srinidhinarla-sudo',
-      about:      'A secure REST API for personal finance management with JWT authentication, role-based access control (RBAC), and ML-powered anomaly detection. Users can log transactions, set budgets, and receive automated alerts when spending patterns deviate from historical norms. The service is deployed on AWS with auto-scaling and a CI/CD pipeline that runs security linting and integration tests on every push.',
+    'ml-architecture-benchmark': {
+      icon:       'ML',
+      tag:        'Course Project',
+      tagStyle:   'background:rgba(160,120,80,.12);color:#c8906a;border:1px solid rgba(160,120,80,.25);',
+      hdrGradient: 'linear-gradient(160deg,#140c04,#1e1008,#2c1a10)',
+      title:      'CNN Architecture Benchmark',
+      meta:       'Machine Learning · CS 4375 Course Project',
+      github:     'https://github.com/srinidhinarla-sudo/CS4375-ML-Project',
+      about:      'A PyTorch implementation and systematic comparison of 7 neural network architectures — MLP, SimpleCNN, LeNet-5, AlexNet, VGG-11, ResNet-18, and a novel SE-ResNet-Lite (Squeeze-and-Excitation residual network) — evaluated on MNIST and CIFAR-10. The custom SE-ResNet-Lite outperformed all baselines, achieving 92.67% test accuracy on CIFAR-10. Results were compiled into an IEEE two-column report with training curves, confusion matrices, and t-SNE embeddings.',
       stats: [
-        { v: 'JWT',  k: 'Auth Method' },
-        { v: 'RBAC', k: 'Access Control' },
-        { v: 'AWS',  k: 'Deployment' },
-        { v: '95%',  k: 'Test Coverage' }
+        { v: '7',      k: 'Architectures' },
+        { v: '92.67%', k: 'Best Accuracy (CIFAR-10)' },
+        { v: '11.3M',  k: 'Params (SE-ResNet-Lite)' },
+        { v: '2',      k: 'Datasets' }
       ],
-      tools: ['Python', 'Flask', 'scikit-learn', 'JWT', 'PostgreSQL', 'AWS EC2', 'AWS RDS', 'Docker', 'pytest'],
+      tools: ['Python', 'PyTorch', 'scikit-learn', 'NumPy', 'Matplotlib', 'LaTeX', 'Shell'],
       bullets: [
-        'Implemented JWT-based authentication with refresh token rotation and RBAC middleware — admins, analysts, and read-only roles enforced at the route level.',
-        'Integrated Isolation Forest anomaly detection trained on per-user spending history; real-time scoring on each transaction POST.',
-        'Deployed on AWS (EC2 + RDS PostgreSQL) behind an ALB; Docker containerisation ensures environment parity between local and production.',
-        'Automated CI/CD pipeline: pytest + Bandit security linting gate on every PR; zero-downtime blue-green deploys to EC2.',
-        'RESTful API design following OpenAPI 3.0; all endpoints documented and validated with Pydantic-equivalent Flask-Marshmallow schemas.'
+        'Designed a novel SE-ResNet-Lite architecture using Squeeze-and-Excitation blocks on top of ResNet-18 residual connections, achieving 92.67% on CIFAR-10 — outperforming the ResNet-18 baseline (91.38%).',
+        'Benchmarked all 7 architectures across accuracy, precision, recall, F1, and AUROC on both MNIST and CIFAR-10; full training curves and confusion matrices generated programmatically.',
+        'Built an end-to-end training pipeline with CLI flags (--model, --dataset, --epochs), checkpoint saving, and early stopping based on validation accuracy.',
+        'Generated t-SNE visualisations of learned embeddings to compare feature separability between architectures.',
+        'Compiled findings into an IEEE two-column LaTeX report with a results table, training curves, and a presentation deck built with Beamer.'
       ]
     },
     'multilingual-invoice-pipeline': {
@@ -1429,7 +1429,7 @@
       hdrGradient: 'linear-gradient(160deg,#141210,#1c1a14,#28241a)',
       title:      'Multilingual Invoice Pipeline',
       meta:       'Data Engineering · Novelis Internship',
-      github:     'https://github.com/srinidhinarla-sudo',
+      github:     null,
       about:      'An enterprise ETL pipeline built during my internship at Novelis that processes 5,000+ vendor invoices per run across 8 languages. Azure AI Document Intelligence extracts structured fields (vendor, amount, date, line items) from PDFs and images regardless of language. PySpark on Azure Databricks transforms and normalises the extracted data before loading it into a Delta Lake Gold table used by the finance team for reconciliation and reporting.',
       stats: [
         { v: '5K+',  k: 'Invoices / Run' },
@@ -1458,7 +1458,7 @@
     { id: 'proj:secure-financial-pipeline',     label: 'Secure Financial Pipeline',      icon: 'SFP', meta: 'Project · PySpark, Airflow, Delta Lake',  type: 'project'  },
     { id: 'proj:autonomous-validation-agent',   label: 'Autonomous Validation Agent',    icon: 'AVA', meta: 'Project · C++, pybind11, FastAPI',        type: 'project'  },
     { id: 'proj:obd-compliance-platform',       label: 'OBD Compliance Platform',        icon: 'OBD', meta: 'Project · C#, Python, Plotly Dash, VBA', type: 'project'  },
-    { id: 'proj:finance-intelligence-platform', label: 'Finance Intelligence Platform',  icon: 'FIP', meta: 'Project · Flask, scikit-learn, AWS',     type: 'project'  },
+    { id: 'proj:ml-architecture-benchmark',      label: 'CNN Architecture Benchmark',      icon: 'ML',  meta: 'Project · PyTorch, CNN, SE-ResNet-Lite', type: 'project'  },
     { id: 'proj:multilingual-invoice-pipeline', label: 'Multilingual Invoice Pipeline',  icon: 'MIP', meta: 'Project · Databricks, PySpark, Azure',   type: 'project'  },
     { id: 'skills',   label: 'Python',         icon: 'Py', meta: 'Skill · Languages',          type: 'skill' },
     { id: 'skills',   label: 'C#',             icon: 'C#', meta: 'Skill · Languages',          type: 'skill' },
@@ -1944,12 +1944,21 @@
     document.getElementById('pd-meta').textContent  = p.meta;
 
     // GitHub links
-    document.getElementById('pd-gh-btn').href   = p.github;
-    document.getElementById('pd-gh-full').href  = p.github;
-    document.getElementById('pd-gh-full-label').textContent =
-      p.github.includes('srinidhinarla-sudo/') && !p.github.endsWith('/srinidhinarla-sudo')
-        ? 'View full source on GitHub →'
-        : 'View GitHub profile →';
+    var ghBtn  = document.getElementById('pd-gh-btn');
+    var ghFull = document.getElementById('pd-gh-full');
+    if (p.github) {
+      ghBtn.href  = p.github;
+      ghFull.href = p.github;
+      ghBtn.style.display  = '';
+      ghFull.style.display = '';
+      document.getElementById('pd-gh-full-label').textContent =
+        p.github.includes('srinidhinarla-sudo/') && !p.github.endsWith('/srinidhinarla-sudo')
+          ? 'View full source on GitHub →'
+          : 'View GitHub profile →';
+    } else {
+      ghBtn.style.display  = 'none';
+      ghFull.style.display = 'none';
+    }
 
     // About
     document.getElementById('pd-about').textContent = p.about;
