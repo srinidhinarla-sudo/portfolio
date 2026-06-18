@@ -1244,13 +1244,13 @@
       bg: 'linear-gradient(160deg,#0e1820,#1a2535,#253a50)', color: '#8eaad4',
       skills: [
         {name:'Python',     level:'primary'},
+        {name:'C++',        level:'primary'},
         {name:'SQL',        level:'primary'},
         {name:'C#',         level:'primary'},
-        {name:'Java',       level:'secondary'},
-        {name:'JavaScript', level:'secondary'},
-        {name:'VBA',        level:'secondary'},
-        {name:'C++',        level:'familiar'},
-        {name:'Bash',       level:'familiar'}
+        {name:'Java',       level:'primary'},
+        {name:'JavaScript', level:'primary'},
+        {name:'VBA',        level:'primary'},
+        {name:'Bash',       level:'primary'}
       ]
     },
     'data-engineering': {
@@ -1987,7 +1987,7 @@
     document.getElementById('sd-desc').textContent  = cat.desc;
 
     var pct   = { primary: '88%', secondary: '62%', familiar: '38%' };
-    var label = { primary: 'Core', secondary: 'Proficient', familiar: 'Familiar' };
+    var label = { primary: 'Proficient', secondary: 'Familiar', familiar: 'Exposure' };
 
     document.getElementById('sd-skills').innerHTML = cat.skills.map(function(s, i) {
       return '<div class="sd-skill ' + s.level + '" style="color:' + cat.color + ';animation-delay:' + (0.06 + i * 0.065) + 's">' +
