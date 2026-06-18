@@ -270,19 +270,42 @@
     .acover {
       width: 100%; aspect-ratio: 1; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 15px; font-weight: 900; letter-spacing: -.04em; color: rgba(255,255,255,.6);
-      margin-bottom: 14px; position: relative;
+      margin-bottom: 14px; position: relative; overflow: hidden;
       box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      background: var(--orb-bg, #060c18);
     }
     .acover.circle { border-radius: 50%; }
+
+    /* ── Animated orb covers ────────────────────────── */
+    .acover::before,
+    .acover::after {
+      content: ''; position: absolute; border-radius: 50%;
+      will-change: transform; pointer-events: none;
+    }
+    .acover::before {
+      inset: -55%;
+      background:
+        radial-gradient(circle at 38% 42%, var(--orb-c1, rgba(42,127,191,.9)) 0%, transparent 52%),
+        radial-gradient(circle at 68% 62%, var(--orb-c2, rgba(26,74,140,.9)) 0%, transparent 52%);
+      animation: orb-cw var(--orb-s1, 7s) linear infinite;
+    }
+    .acover::after {
+      inset: -45%;
+      background:
+        radial-gradient(circle at 55% 28%, var(--orb-c3, rgba(10,180,160,.7)) 0%, transparent 48%);
+      animation: orb-ccw var(--orb-s2, 11s) linear infinite;
+    }
+    @keyframes orb-cw  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes orb-ccw { from{transform:rotate(0deg)} to{transform:rotate(-360deg)} }
+
     .acard-play {
-      position: absolute; bottom: 8px; right: 8px;
+      position: absolute; bottom: 8px; right: 8px; z-index: 2;
       width: 44px; height: 44px; border-radius: 50%; border: none;
       background: var(--acc); color: white; font-size: 18px;
       display: flex; align-items: center; justify-content: center;
       opacity: 0; transform: translateY(8px);
       transition: opacity .2s, transform .2s, background .15s;
-      cursor: pointer; box-shadow: 0 6px 20px rgba(96,165,250,.5);
+      cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,.5);
     }
     .acard-play:hover { background: var(--acc2); }
     .atag {
@@ -518,7 +541,28 @@
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(to bottom, rgba(0,0,0,.05) 0%, rgba(18,18,18,.6) 55%, rgba(18,18,18,1) 100%);
     }
-    .pd-hd-bg { position: absolute; inset: 0; }
+    .pd-hd-bg {
+      position: absolute; inset: 0;
+      background: var(--orb-bg, #060c18);
+    }
+    .pd-hd-bg::before,
+    .pd-hd-bg::after {
+      content: ''; position: absolute; border-radius: 50%;
+      will-change: transform; pointer-events: none;
+    }
+    .pd-hd-bg::before {
+      inset: -40%;
+      background:
+        radial-gradient(circle at 35% 40%, var(--orb-c1, rgba(24,110,175,.9)) 0%, transparent 50%),
+        radial-gradient(circle at 70% 65%, var(--orb-c2, rgba(8,44,96,.9)) 0%, transparent 50%);
+      animation: orb-cw var(--orb-s1, 9s) linear infinite;
+    }
+    .pd-hd-bg::after {
+      inset: -35%;
+      background:
+        radial-gradient(circle at 55% 25%, var(--orb-c3, rgba(0,168,168,.6)) 0%, transparent 45%);
+      animation: orb-ccw var(--orb-s2, 13s) linear infinite;
+    }
     .pd-hd-inner { position: relative; z-index: 1; }
     .pd-icon {
       display: inline-block; margin-bottom: 16px;
@@ -643,19 +687,19 @@
           </div>
         </div>
         <div class="pl-row" data-sec="projects" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">Pr</div>
+          <div class="pl-img" style="background:linear-gradient(135deg,#0d5c3a,#1a8a5a);">Pr</div>
           <div class="pl-info"><div class="pl-name">Projects</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="exp" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#221c32,#3d2f52);">Ex</div>
+          <div class="pl-img" style="background:linear-gradient(135deg,#3d1a78,#6a30b0);">Ex</div>
           <div class="pl-info"><div class="pl-name">Experience</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="skills" data-lib-type="album">
-          <div class="pl-img" style="background:linear-gradient(135deg,#2a2010,#48361a);">Sk</div>
+          <div class="pl-img" style="background:linear-gradient(135deg,#8a4a00,#c07020);">Sk</div>
           <div class="pl-info"><div class="pl-name">Skills</div><div class="pl-type">Compilation · Srinidhi Narla</div></div>
         </div>
         <div class="pl-row" data-sec="contact" data-lib-type="playlist">
-          <div class="pl-img" style="background:linear-gradient(135deg,#152030,#254055);">Co</div>
+          <div class="pl-img" style="background:linear-gradient(135deg,#0a3060,#1a60a8);">Co</div>
           <div class="pl-info"><div class="pl-name">Contact</div><div class="pl-type">Single · Srinidhi Narla</div></div>
         </div>
       </div>
@@ -787,35 +831,35 @@
         <div class="cp">
           <div class="grid">
             <div class="acard" onclick="openProject('secure-financial-pipeline')">
-              <div class="acover" style="background:linear-gradient(135deg,#1a2a3a,#2a4258);">SFP<button class="acard-play" onclick="event.stopPropagation();openProject('secure-financial-pipeline')">&#9654;</button></div>
+              <div class="acover" style="--orb-bg:#040d18;--orb-c1:rgba(24,110,175,.95);--orb-c2:rgba(8,44,96,.95);--orb-c3:rgba(0,168,168,.75);--orb-s1:7s;--orb-s2:11s;"><button class="acard-play" onclick="event.stopPropagation();openProject('secure-financial-pipeline')">&#9654;</button></div>
               <div class="atag" style="background:rgba(143,163,184,.1);color:#b0c4d4;border:1px solid rgba(143,163,184,.2);">Featured</div>
               <div class="atitle">Secure Financial Pipeline</div>
               <div class="adesc">284K+ transactions · SHA-256 Merkle tamper detection · Isolation Forest fraud detection</div>
               <div class="apills"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>Docker</span></div>
             </div>
             <div class="acard" onclick="openProject('autonomous-validation-agent')">
-              <div class="acover" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">AVA<button class="acard-play" onclick="event.stopPropagation();openProject('autonomous-validation-agent')">&#9654;</button></div>
+              <div class="acover" style="--orb-bg:#040e08;--orb-c1:rgba(12,160,96,.95);--orb-c2:rgba(6,80,48,.95);--orb-c3:rgba(0,210,120,.7);--orb-s1:9s;--orb-s2:13s;"><button class="acard-play" onclick="event.stopPropagation();openProject('autonomous-validation-agent')">&#9654;</button></div>
               <div class="atag" style="background:rgba(100,140,120,.1);color:#9ab8a8;border:1px solid rgba(100,140,120,.2);">Systems</div>
               <div class="atitle">Autonomous Validation Agent</div>
               <div class="adesc">61-state C++ FSM · 100% transition coverage · 92% mutation kill rate</div>
               <div class="apills"><span>C++</span><span>pybind11</span><span>FastAPI</span><span>pytest</span></div>
             </div>
             <div class="acard" onclick="openProject('obd-compliance-platform')">
-              <div class="acover" style="background:linear-gradient(135deg,#1e2a1e,#2a3e2a);">OBD<button class="acard-play" onclick="event.stopPropagation();openProject('obd-compliance-platform')">&#9654;</button></div>
+              <div class="acover" style="--orb-bg:#040e04;--orb-c1:rgba(48,148,32,.95);--orb-c2:rgba(24,72,8,.95);--orb-c3:rgba(100,210,40,.7);--orb-s1:8s;--orb-s2:12s;"><button class="acard-play" onclick="event.stopPropagation();openProject('obd-compliance-platform')">&#9654;</button></div>
               <div class="atag" style="background:rgba(100,160,100,.1);color:#90c890;border:1px solid rgba(100,160,100,.2);">Automotive</div>
               <div class="atitle">OBD Compliance Platform</div>
               <div class="adesc">SAE J1979 parser · Fleet readiness dashboard · VBA agency reports</div>
               <div class="apills"><span>C#</span><span>Python</span><span>Plotly Dash</span><span>VBA</span></div>
             </div>
             <div class="acard" onclick="openProject('finance-intelligence-platform')">
-              <div class="acover" style="background:linear-gradient(135deg,#221c32,#3d2f52);">FIP<button class="acard-play" onclick="event.stopPropagation();openProject('finance-intelligence-platform')">&#9654;</button></div>
+              <div class="acover" style="--orb-bg:#08040e;--orb-c1:rgba(120,56,200,.95);--orb-c2:rgba(56,24,152,.95);--orb-c3:rgba(180,80,240,.7);--orb-s1:10s;--orb-s2:14s;"><button class="acard-play" onclick="event.stopPropagation();openProject('finance-intelligence-platform')">&#9654;</button></div>
               <div class="atag" style="background:rgba(130,115,160,.1);color:#b0a0c8;border:1px solid rgba(130,115,160,.2);">Personal</div>
               <div class="atitle">Finance Intelligence Platform</div>
               <div class="adesc">JWT + RBAC REST API · Anomaly detection · Deployed on AWS</div>
               <div class="apills"><span>Flask</span><span>scikit-learn</span><span>AWS</span></div>
             </div>
             <div class="acard" onclick="openProject('multilingual-invoice-pipeline')">
-              <div class="acover" style="background:linear-gradient(135deg,#2a2010,#48361a);">MIP<button class="acard-play" onclick="event.stopPropagation();openProject('multilingual-invoice-pipeline')">&#9654;</button></div>
+              <div class="acover" style="--orb-bg:#100800;--orb-c1:rgba(200,112,16,.95);--orb-c2:rgba(120,48,8,.95);--orb-c3:rgba(240,160,0,.7);--orb-s1:6s;--orb-s2:10s;"><button class="acard-play" onclick="event.stopPropagation();openProject('multilingual-invoice-pipeline')">&#9654;</button></div>
               <div class="atag" style="background:rgba(160,130,80,.1);color:#c8aa70;border:1px solid rgba(160,130,80,.2);">Novelis</div>
               <div class="atitle">Multilingual Invoice Pipeline</div>
               <div class="adesc">5,000+ invoices · 8 languages · Spark runtime cut ~50%</div>
@@ -1084,7 +1128,7 @@
       icon:       'SFP',
       tag:        'Featured',
       tagStyle:   'background:rgba(143,163,184,.12);color:#b0c4d4;border:1px solid rgba(143,163,184,.25);',
-      gradient:   'linear-gradient(160deg,#0f1e2e,#1a2a3a,#223348)',
+      orbBg: '#040d18', orbC1: 'rgba(24,110,175,.95)', orbC2: 'rgba(8,44,96,.95)', orbC3: 'rgba(0,168,168,.75)', orbS1: '9s', orbS2: '13s',
       title:      'Secure Financial Data Pipeline',
       meta:       'Data Engineering · Personal Project',
       github:     'https://github.com/srinidhinarla-sudo/secure-financial-pipeline',
@@ -1108,7 +1152,7 @@
       icon:       'AVA',
       tag:        'Systems',
       tagStyle:   'background:rgba(100,140,120,.12);color:#9ab8a8;border:1px solid rgba(100,140,120,.25);',
-      gradient:   'linear-gradient(160deg,#0e1e18,#1a2e28,#1e3830)',
+      orbBg: '#040e08', orbC1: 'rgba(12,160,96,.95)', orbC2: 'rgba(6,80,48,.95)', orbC3: 'rgba(0,210,120,.7)', orbS1: '8s', orbS2: '12s',
       title:      'Autonomous Validation Agent',
       meta:       'Software Systems · Personal Project',
       github:     'https://github.com/srinidhinarla-sudo/autonomous-validation-agent',
@@ -1132,7 +1176,7 @@
       icon:       'OBD',
       tag:        'Automotive',
       tagStyle:   'background:rgba(100,160,100,.12);color:#90c890;border:1px solid rgba(100,160,100,.25);',
-      gradient:   'linear-gradient(160deg,#0d1a0d,#1a2e1a,#1e3620)',
+      orbBg: '#040e04', orbC1: 'rgba(48,148,32,.95)', orbC2: 'rgba(24,72,8,.95)', orbC3: 'rgba(100,210,40,.7)', orbS1: '10s', orbS2: '15s',
       title:      'OBD-II Compliance Platform',
       meta:       'Automotive / Mercedes-Benz · Portfolio Project',
       github:     'https://github.com/srinidhinarla-sudo/obd-compliance-platform',
@@ -1156,7 +1200,7 @@
       icon:       'FIP',
       tag:        'Personal',
       tagStyle:   'background:rgba(130,115,160,.12);color:#b0a0c8;border:1px solid rgba(130,115,160,.25);',
-      gradient:   'linear-gradient(160deg,#120e1e,#221c32,#2a2240)',
+      orbBg: '#08040e', orbC1: 'rgba(120,56,200,.95)', orbC2: 'rgba(56,24,152,.95)', orbC3: 'rgba(180,80,240,.7)', orbS1: '11s', orbS2: '16s',
       title:      'Finance Intelligence Platform',
       meta:       'Backend / Security · Personal Project',
       github:     'https://github.com/srinidhinarla-sudo',
@@ -1180,7 +1224,7 @@
       icon:       'MIP',
       tag:        'Novelis',
       tagStyle:   'background:rgba(160,130,80,.12);color:#c8aa70;border:1px solid rgba(160,130,80,.25);',
-      gradient:   'linear-gradient(160deg,#1a1408,#2a2010,#36280e)',
+      orbBg: '#100800', orbC1: 'rgba(200,112,16,.95)', orbC2: 'rgba(120,48,8,.95)', orbC3: 'rgba(240,160,0,.7)', orbS1: '7s', orbS2: '11s',
       title:      'Multilingual Invoice Pipeline',
       meta:       'Data Engineering · Novelis Internship',
       github:     'https://github.com/srinidhinarla-sudo',
@@ -1650,8 +1694,14 @@
     var p = PROJECTS[projectId];
     if (!p) { navigateTo('projects'); return; }
 
-    // Populate header
-    document.getElementById('pd-hd-bg').style.background = p.gradient;
+    // Populate header with orb variables
+    var hdbg = document.getElementById('pd-hd-bg');
+    hdbg.style.setProperty('--orb-bg', p.orbBg);
+    hdbg.style.setProperty('--orb-c1', p.orbC1);
+    hdbg.style.setProperty('--orb-c2', p.orbC2);
+    hdbg.style.setProperty('--orb-c3', p.orbC3);
+    hdbg.style.setProperty('--orb-s1', p.orbS1);
+    hdbg.style.setProperty('--orb-s2', p.orbS2);
     document.getElementById('pd-icon').textContent  = p.icon;
     document.getElementById('pd-tag').textContent   = p.tag;
     document.getElementById('pd-tag').style.cssText += ';' + p.tagStyle;
