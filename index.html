@@ -152,7 +152,9 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 12px; font-weight: 800; cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,.5);
+      transition: transform .15s;
     }
+    .tb-avatar:hover { transform: scale(1.08); }
 
     /* Main scroll area */
     .main-scroll {
@@ -221,7 +223,7 @@
       padding: 7px 20px; border-radius: 99px;
       border: 1px solid rgba(255,255,255,.3); background: transparent;
       color: white; font-size: 13px; font-weight: 700; cursor: pointer;
-      letter-spacing: .06em; text-transform: uppercase; transition: border-color .15s;
+      letter-spacing: .06em; text-transform: uppercase; transition: border-color .15s, color .15s;
     }
     .btn-follow:hover { border-color: white; }
     .btn-more { background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; transition: color .15s; }
@@ -349,20 +351,21 @@
       width: 56px; height: 56px; border-radius: 6px; flex-shrink: 0;
       object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,.5);
     }
-    .np-img-placeholder {
-      width: 56px; height: 56px; border-radius: 6px; flex-shrink: 0;
-      background: linear-gradient(135deg, #1e2e40, #3a5570);
-      display: flex; align-items: center; justify-content: center; font-size: 24px;
-    }
     .np-info { min-width: 0; flex: 1; }
     .np-title  { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .np-artist { font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .np-heart { background: none; border: none; cursor: pointer; color: var(--acc); font-size: 18px; padding: 0 8px; flex-shrink: 0; }
+    .np-heart {
+      background: none; border: none; cursor: pointer; color: var(--dim); font-size: 18px;
+      padding: 0 8px; flex-shrink: 0; transition: color .15s, transform .15s;
+    }
+    .np-heart:hover { color: white; }
+    .np-heart.liked { color: var(--acc); }
 
     .pctrl { display: flex; flex-direction: column; align-items: center; gap: 8px; }
     .ctrl-btns { display: flex; align-items: center; gap: 16px; }
     .cbtn { background: none; border: none; cursor: pointer; color: var(--dim); font-size: 17px; transition: color .15s; }
     .cbtn:hover { color: white; }
+    .cbtn.active { color: var(--acc); }
     .cbtn-play {
       width: 36px; height: 36px; border-radius: 50%; border: none;
       background: white; color: black; font-size: 15px; cursor: pointer;
@@ -373,21 +376,25 @@
     .prog { width: 100%; display: flex; align-items: center; gap: 8px; }
     .prog-t { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; min-width: 34px; }
     .prog-t.r { text-align: right; }
-    .prog-bar { flex: 1; height: 4px; background: var(--s3); border-radius: 2px; cursor: pointer; position: relative; }
+    .prog-bar {
+      flex: 1; height: 4px; background: var(--s3); border-radius: 2px;
+      cursor: pointer; position: relative;
+    }
     .prog-fill { height: 100%; border-radius: 2px; background: white; width: 0%; transition: background .15s; }
     .prog-bar:hover .prog-fill { background: var(--acc); }
     .prog-bar:hover .prog-thumb { opacity: 1; }
-    .prog-thumb { position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; border-radius: 50%; background: white; opacity: 0; transition: opacity .15s; }
+    .prog-thumb { position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; border-radius: 50%; background: white; opacity: 0; transition: opacity .15s; pointer-events: none; }
 
     .p-right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
     .p-vol-ico { background: none; border: none; cursor: pointer; color: var(--dim); font-size: 16px; transition: color .15s; }
     .p-vol-ico:hover { color: white; }
-    .vol { width: 80px; height: 4px; background: var(--s3); border-radius: 2px; position: relative; }
-    .vol-fill { height: 100%; width: 65%; border-radius: 2px; background: white; }
+    .vol { width: 80px; height: 4px; background: var(--s3); border-radius: 2px; position: relative; cursor: pointer; }
+    .vol-fill { height: 100%; width: 65%; border-radius: 2px; background: white; pointer-events: none; }
 
     /* Equalizer */
     .eq { display: flex; align-items: flex-end; gap: 2px; height: 14px; }
     .eq-b { width: 3px; border-radius: 1px; background: var(--acc); animation: eq .75s ease-in-out infinite; }
+    .eq-b.paused { animation-play-state: paused; }
     .eq-b:nth-child(1) { height: 6px;  animation-delay: 0s; }
     .eq-b:nth-child(2) { height: 13px; animation-delay: .14s; }
     .eq-b:nth-child(3) { height: 8px;  animation-delay: .28s; }
@@ -398,6 +405,105 @@
     /* Typewriter cursor */
     .cursor { display: inline-block; width: 2px; height: 1em; background: var(--acc); margin-left: 2px; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── Search overlay ─────────────────────────────── */
+    .search-overlay {
+      position: absolute; inset: 0; z-index: 100;
+      background: var(--bg); border-radius: 8px;
+      display: none; flex-direction: column; overflow: hidden;
+    }
+    .search-overlay.open { display: flex; }
+    .search-bar-wrap {
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px 20px; flex-shrink: 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .search-bar-wrap .sico { font-size: 20px; color: var(--muted); }
+    .search-input {
+      flex: 1; background: var(--s2); border: none; border-radius: 99px;
+      padding: 10px 18px; font-size: 15px; color: var(--text);
+      font-family: 'Inter', sans-serif; outline: none;
+      transition: box-shadow .15s;
+    }
+    .search-input:focus { box-shadow: 0 0 0 2px var(--acc); }
+    .search-input::placeholder { color: var(--dim); }
+    .search-close-btn {
+      background: none; border: none; color: var(--muted);
+      font-size: 18px; font-weight: 700; cursor: pointer;
+      padding: 4px 10px; border-radius: 6px; transition: color .15s, background .15s;
+    }
+    .search-close-btn:hover { color: var(--text); background: var(--s2); }
+    .search-body { flex: 1; overflow-y: auto; padding: 20px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.1) transparent; }
+    .search-section-lbl { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 16px; }
+    .browse-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;
+    }
+    .browse-card {
+      border-radius: 8px; padding: 16px 14px; height: 96px;
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: transform .15s, filter .15s;
+    }
+    .browse-card:hover { transform: scale(1.03); filter: brightness(1.15); }
+    .browse-card-title { font-size: 16px; font-weight: 800; color: white; }
+    .browse-card-ico {
+      position: absolute; bottom: 8px; right: 10px;
+      font-size: 38px; transform: rotate(15deg); opacity: .85;
+    }
+    #search-results { display: none; }
+    .result-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 10px 12px; border-radius: 6px;
+      cursor: pointer; transition: background .15s;
+    }
+    .result-item:hover { background: var(--s2); }
+    .result-ico {
+      width: 40px; height: 40px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; background: var(--s2); flex-shrink: 0;
+    }
+    .result-ico.circle { border-radius: 50%; }
+    .result-lbl { font-size: 14px; font-weight: 600; }
+    .result-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .result-type-badge {
+      margin-left: auto; font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--dim); padding: 2px 8px;
+      background: var(--s2); border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+    }
+    #no-results { display: none; text-align: center; padding: 40px 0; color: var(--muted); font-size: 14px; }
+
+    /* ── Premium / Resume modal ─────────────────────── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,.75); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: var(--s1); border-radius: 14px; padding: 36px;
+      width: 380px; max-width: 92vw; position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,.6);
+      animation: modalIn .2s ease;
+    }
+    @keyframes modalIn { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      background: none; border: none; color: var(--muted); font-size: 20px;
+      cursor: pointer; transition: color .15s; padding: 2px 6px; border-radius: 4px;
+    }
+    .modal-close:hover { color: var(--text); background: var(--s2); }
+    .modal-title { font-size: 26px; font-weight: 900; letter-spacing: -.03em; margin-bottom: 6px; }
+    .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+    .modal-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px; border-radius: 8px; background: var(--s2);
+      color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600;
+      margin-bottom: 10px; transition: background .15s, transform .12s; cursor: pointer;
+      border: none; width: 100%;
+    }
+    .modal-btn:hover { background: var(--s3); transform: translateX(2px); }
+    .modal-btn-primary { background: var(--acc); color: white; }
+    .modal-btn-primary:hover { background: var(--acc2); }
+    .modal-btn-ico { font-size: 18px; min-width: 22px; text-align: center; }
   </style>
 </head>
 <body>
@@ -406,10 +512,10 @@
   <!-- ── Sidebar ── -->
   <div class="sidebar">
     <div class="sb-nav">
-      <div class="sbn-item on" data-sec="about">
+      <div class="sbn-item on" id="nav-home" data-sec="about">
         <span class="sbn-ico">🏠</span>Home
       </div>
-      <div class="sbn-item" data-sec="projects">
+      <div class="sbn-item" id="nav-search">
         <span class="sbn-ico">🔍</span>Search
       </div>
     </div>
@@ -420,15 +526,15 @@
           <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--muted)"><path d="M3 18v-2h18v2H3zm0-5v-2h18v2H3zm0-5V6h18v2H3z"/></svg>
           Your Library
         </span>
-        <button class="lib-plus">+</button>
+        <button class="lib-plus" id="lib-plus-btn" title="Add to library">+</button>
       </div>
       <div class="lib-filter">
-        <span class="lib-chip on">Playlists</span>
-        <span class="lib-chip">Artists</span>
-        <span class="lib-chip">Albums</span>
+        <span class="lib-chip on" data-filter="all">Playlists</span>
+        <span class="lib-chip" data-filter="artist">Artists</span>
+        <span class="lib-chip" data-filter="album">Albums</span>
       </div>
       <div class="lib-list">
-        <div class="pl-row on" data-sec="about">
+        <div class="pl-row on" data-sec="about" data-lib-type="artist">
           <div class="pl-img circle" style="overflow:hidden;padding:0;"><img src="photo.png" style="width:100%;height:100%;object-fit:cover;object-position:center 8%;border-radius:50%;"></div>
           <div class="pl-info">
             <div class="pl-name">Srinidhi Narla</div>
@@ -444,19 +550,19 @@
             </div>
           </div>
         </div>
-        <div class="pl-row" data-sec="projects">
+        <div class="pl-row" data-sec="projects" data-lib-type="playlist">
           <div class="pl-img" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">💻</div>
           <div class="pl-info"><div class="pl-name">Projects</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
         </div>
-        <div class="pl-row" data-sec="exp">
+        <div class="pl-row" data-sec="exp" data-lib-type="playlist">
           <div class="pl-img" style="background:linear-gradient(135deg,#221c32,#3d2f52);">📋</div>
           <div class="pl-info"><div class="pl-name">Experience</div><div class="pl-type">Playlist · Srinidhi Narla</div></div>
         </div>
-        <div class="pl-row" data-sec="skills">
+        <div class="pl-row" data-sec="skills" data-lib-type="album">
           <div class="pl-img" style="background:linear-gradient(135deg,#2a2010,#48361a);">⚡</div>
           <div class="pl-info"><div class="pl-name">Skills</div><div class="pl-type">Compilation · Srinidhi Narla</div></div>
         </div>
-        <div class="pl-row" data-sec="contact">
+        <div class="pl-row" data-sec="contact" data-lib-type="playlist">
           <div class="pl-img" style="background:linear-gradient(135deg,#152030,#254055);">✉️</div>
           <div class="pl-info"><div class="pl-name">Contact</div><div class="pl-type">Single · Srinidhi Narla</div></div>
         </div>
@@ -468,13 +574,13 @@
   <div class="main">
     <div class="topbar" id="topbar">
       <div class="tb-arrows">
-        <button class="tb-arrow" id="btn-back" onclick="goBack()">‹</button>
-        <button class="tb-arrow" id="btn-fwd"  onclick="goFwd()">›</button>
+        <button class="tb-arrow" id="btn-back">‹</button>
+        <button class="tb-arrow" id="btn-fwd">›</button>
       </div>
       <div class="tb-right">
-        <button class="tb-pill">Premium</button>
+        <button class="tb-pill" id="btn-premium">Premium</button>
         <button class="tb-pill" onclick="navigateTo('contact')">Contact</button>
-        <div class="tb-avatar">SN</div>
+        <div class="tb-avatar" title="Profile" onclick="navigateTo('about')">SN</div>
       </div>
     </div>
 
@@ -501,8 +607,8 @@
         </div>
 
         <div class="artist-acts">
-          <button class="btn-play">▶</button>
-          <button class="btn-follow" id="follow-btn" onclick="toggleFollow()">Follow</button>
+          <button class="btn-play" id="hero-play-btn" title="Go to Projects">▶</button>
+          <button class="btn-follow" id="follow-btn">Follow</button>
           <div style="position:relative;">
             <button class="btn-more" id="dots-btn">···</button>
             <div id="dots-menu" style="display:none;position:absolute;top:calc(100% + 8px);left:0;
@@ -511,6 +617,10 @@
               <div id="menu-share" style="display:flex;align-items:center;gap:12px;
                 padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
                 <span>↗</span>Share
+              </div>
+              <div id="menu-resume" style="display:flex;align-items:center;gap:12px;
+                padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
+                <span>📄</span>View Resume
               </div>
               <div id="menu-about" style="display:flex;align-items:center;gap:12px;
                 padding:12px 16px;border-radius:5px;cursor:pointer;font-size:14px;font-weight:500;color:#fff;">
@@ -546,8 +656,8 @@
             </div>
             <div class="track" style="grid-template-columns:40px 1fr auto;" onclick="navigateTo('projects')">
               <span class="t-num">4</span><span class="t-play">▶</span>
-              <div><div class="t-title">Finance Intelligence Platform</div><div class="t-artist">Personal · Flask, JWT, AWS</div></div>
-              <span class="t-dur">1:58</span>
+              <div><div class="t-title">OBD Compliance Platform</div><div class="t-artist">Mercedes-Benz · C#, Python, Plotly Dash, VBA</div></div>
+              <span class="t-dur">5:04</span>
             </div>
           </div>
 
@@ -558,7 +668,7 @@
             <div class="bio-stats">
               <div><div class="bstat-v">3.7</div><div class="bstat-k">GPA / 4.0</div></div>
               <div><div class="bstat-v">2</div><div class="bstat-k">Internships</div></div>
-              <div><div class="bstat-v">4</div><div class="bstat-k">Projects</div></div>
+              <div><div class="bstat-v">5</div><div class="bstat-k">Projects</div></div>
               <div><div class="bstat-v">2027</div><div class="bstat-k">Graduating</div></div>
             </div>
             <div class="chip-row">
@@ -578,35 +688,42 @@
           <div class="pl-hd-inner">
             <div class="pl-hd-type">Discography</div>
             <div class="pl-hd-title">Projects</div>
-            <div class="pl-hd-meta">Srinidhi Narla · 4 releases</div>
+            <div class="pl-hd-meta">Srinidhi Narla · 5 releases</div>
           </div>
         </div>
-        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#2d4a3e,#304860);box-shadow:0 6px 20px rgba(45,74,62,.5);">▶</button></div>
+        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#2d4a3e,#304860);box-shadow:0 6px 20px rgba(45,74,62,.5);" onclick="window.open('https://github.com/srinidhinarla-sudo','_blank')">▶</button></div>
         <div class="cp">
           <div class="grid">
-            <div class="acard">
-              <div class="acover" style="background:linear-gradient(135deg,#1a2a3a,#2a4258);">🔐<button class="acard-play">▶</button></div>
+            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo/secure-financial-pipeline','_blank')">
+              <div class="acover" style="background:linear-gradient(135deg,#1a2a3a,#2a4258);">🔐<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo/secure-financial-pipeline','_blank')">▶</button></div>
               <div class="atag" style="background:rgba(143,163,184,.1);color:#b0c4d4;border:1px solid rgba(143,163,184,.2);">Featured</div>
               <div class="atitle">Secure Financial Pipeline</div>
               <div class="adesc">284K+ transactions · SHA-256 Merkle tamper detection · Isolation Forest fraud detection</div>
               <div class="apills"><span>PySpark</span><span>Airflow</span><span>Delta Lake</span><span>Docker</span></div>
             </div>
-            <div class="acard">
-              <div class="acover" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">🤖<button class="acard-play">▶</button></div>
+            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo/autonomous-validation-agent','_blank')">
+              <div class="acover" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);">🤖<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo/autonomous-validation-agent','_blank')">▶</button></div>
               <div class="atag" style="background:rgba(100,140,120,.1);color:#9ab8a8;border:1px solid rgba(100,140,120,.2);">Systems</div>
               <div class="atitle">Autonomous Validation Agent</div>
               <div class="adesc">61-state C++ FSM · 100% transition coverage · 92% mutation kill rate</div>
               <div class="apills"><span>C++</span><span>pybind11</span><span>FastAPI</span><span>pytest</span></div>
             </div>
-            <div class="acard">
-              <div class="acover" style="background:linear-gradient(135deg,#221c32,#3d2f52);">💰<button class="acard-play">▶</button></div>
+            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo/obd-compliance-platform','_blank')">
+              <div class="acover" style="background:linear-gradient(135deg,#1e2a1e,#2a3e2a);">⚙️<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo/obd-compliance-platform','_blank')">▶</button></div>
+              <div class="atag" style="background:rgba(100,160,100,.1);color:#90c890;border:1px solid rgba(100,160,100,.2);">Automotive</div>
+              <div class="atitle">OBD Compliance Platform</div>
+              <div class="adesc">SAE J1979 parser · Fleet readiness dashboard · VBA agency reports</div>
+              <div class="apills"><span>C#</span><span>Python</span><span>Plotly Dash</span><span>VBA</span></div>
+            </div>
+            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo','_blank')">
+              <div class="acover" style="background:linear-gradient(135deg,#221c32,#3d2f52);">💰<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo','_blank')">▶</button></div>
               <div class="atag" style="background:rgba(130,115,160,.1);color:#b0a0c8;border:1px solid rgba(130,115,160,.2);">Personal</div>
               <div class="atitle">Finance Intelligence Platform</div>
               <div class="adesc">JWT + RBAC REST API · Anomaly detection · Deployed on AWS</div>
               <div class="apills"><span>Flask</span><span>scikit-learn</span><span>AWS</span></div>
             </div>
-            <div class="acard">
-              <div class="acover" style="background:linear-gradient(135deg,#2a2010,#48361a);">🌍<button class="acard-play">▶</button></div>
+            <div class="acard" onclick="window.open('https://github.com/srinidhinarla-sudo','_blank')">
+              <div class="acover" style="background:linear-gradient(135deg,#2a2010,#48361a);">🌍<button class="acard-play" onclick="event.stopPropagation();window.open('https://github.com/srinidhinarla-sudo','_blank')">▶</button></div>
               <div class="atag" style="background:rgba(160,130,80,.1);color:#c8aa70;border:1px solid rgba(160,130,80,.2);">Novelis</div>
               <div class="atitle">Multilingual Invoice Pipeline</div>
               <div class="adesc">5,000+ invoices · 8 languages · Spark runtime cut ~50%</div>
@@ -626,7 +743,7 @@
             <div class="pl-hd-meta">Srinidhi Narla · 2 roles · 8 months</div>
           </div>
         </div>
-        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#352848,#4a3860);box-shadow:0 6px 20px rgba(53,40,72,.5);">▶</button></div>
+        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#352848,#4a3860);box-shadow:0 6px 20px rgba(53,40,72,.5);" onclick="navigateTo('contact')">▶</button></div>
         <div class="cp">
           <div style="display:grid;grid-template-columns:40px 1fr auto;padding:0 16px 8px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:4px;">
             <div class="th">#</div><div class="th">Role</div><div class="th" style="text-align:right;">Tenure</div>
@@ -672,30 +789,30 @@
             <div class="pl-hd-meta">Srinidhi Narla · 6 categories</div>
           </div>
         </div>
-        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#483618,#5a3520);box-shadow:0 6px 20px rgba(72,54,24,.5);">▶</button></div>
+        <div class="artist-acts"><button class="btn-play" style="background:linear-gradient(135deg,#483618,#5a3520);box-shadow:0 6px 20px rgba(72,54,24,.5);" onclick="openSearch()">▶</button></div>
         <div class="cp">
           <div class="genres">
-            <div class="gcard" style="background:linear-gradient(135deg,#1a2535,#253a50);">
+            <div class="gcard" style="background:linear-gradient(135deg,#1a2535,#253a50);" onclick="openSearch('python')">
               <div class="gcard-title">Languages</div>
-              <div class="gcard-pills"><span class="gcard-pill">Python</span><span class="gcard-pill">Java</span><span class="gcard-pill">SQL</span><span class="gcard-pill">JavaScript</span><span class="gcard-pill">C++</span><span class="gcard-pill">Bash</span></div>
+              <div class="gcard-pills"><span class="gcard-pill">Python</span><span class="gcard-pill">Java</span><span class="gcard-pill">SQL</span><span class="gcard-pill">JavaScript</span><span class="gcard-pill">C++</span><span class="gcard-pill">C#</span><span class="gcard-pill">Bash</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#1a2e28,#253e32);">
+            <div class="gcard" style="background:linear-gradient(135deg,#1a2e28,#253e32);" onclick="openSearch('pyspark')">
               <div class="gcard-title">Data Engineering</div>
               <div class="gcard-pills"><span class="gcard-pill">PySpark</span><span class="gcard-pill">Airflow</span><span class="gcard-pill">Delta Lake</span><span class="gcard-pill">Databricks</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#152030,#204050);">
+            <div class="gcard" style="background:linear-gradient(135deg,#152030,#204050);" onclick="openSearch('compliance')">
               <div class="gcard-title">Security</div>
               <div class="gcard-pills"><span class="gcard-pill">Compliance</span><span class="gcard-pill">Access Gov.</span><span class="gcard-pill">JWT/RBAC</span><span class="gcard-pill">Merkle Audit</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#1a1a2e,#2a2840);">
+            <div class="gcard" style="background:linear-gradient(135deg,#1a1a2e,#2a2840);" onclick="openSearch('aws')">
               <div class="gcard-title">Cloud &amp; DevOps</div>
               <div class="gcard-pills"><span class="gcard-pill">AWS</span><span class="gcard-pill">Azure</span><span class="gcard-pill">Docker</span><span class="gcard-pill">GitHub Actions</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#221c32,#352848);">
+            <div class="gcard" style="background:linear-gradient(135deg,#221c32,#352848);" onclick="openSearch('fastapi')">
               <div class="gcard-title">Backend</div>
               <div class="gcard-pills"><span class="gcard-pill">Flask</span><span class="gcard-pill">FastAPI</span><span class="gcard-pill">Spring Boot</span><span class="gcard-pill">REST</span></div>
             </div>
-            <div class="gcard" style="background:linear-gradient(135deg,#2a2010,#453520);">
+            <div class="gcard" style="background:linear-gradient(135deg,#2a2010,#453520);" onclick="openSearch('power bi')">
               <div class="gcard-title">AI &amp; Analytics</div>
               <div class="gcard-pills"><span class="gcard-pill">scikit-learn</span><span class="gcard-pill">Anomaly Detection</span><span class="gcard-pill">Power BI</span></div>
             </div>
@@ -722,54 +839,155 @@
       </div>
 
     </div><!-- /main-scroll -->
+
+    <!-- ── Search overlay (inside .main, covers it fully) ── -->
+    <div id="search-overlay" class="search-overlay">
+      <div class="search-bar-wrap">
+        <span class="sico">🔍</span>
+        <input type="text" id="search-input" class="search-input" placeholder="What do you want to find?" autocomplete="off" spellcheck="false">
+        <button class="search-close-btn" id="search-close-btn">✕ Close</button>
+      </div>
+      <div class="search-body">
+        <div id="browse-all">
+          <div class="search-section-lbl">Browse all</div>
+          <div class="browse-grid">
+            <div class="browse-card" style="background:linear-gradient(135deg,#1a2535,#253a50);" onclick="searchNavigateTo('about')">
+              <div class="browse-card-title">Home</div><div class="browse-card-ico">🏠</div>
+            </div>
+            <div class="browse-card" style="background:linear-gradient(135deg,#1a2e28,#2d4a3e);" onclick="searchNavigateTo('projects')">
+              <div class="browse-card-title">Projects</div><div class="browse-card-ico">💻</div>
+            </div>
+            <div class="browse-card" style="background:linear-gradient(135deg,#221c32,#3d2f52);" onclick="searchNavigateTo('exp')">
+              <div class="browse-card-title">Experience</div><div class="browse-card-ico">📋</div>
+            </div>
+            <div class="browse-card" style="background:linear-gradient(135deg,#2a2010,#48361a);" onclick="searchNavigateTo('skills')">
+              <div class="browse-card-title">Skills</div><div class="browse-card-ico">⚡</div>
+            </div>
+            <div class="browse-card" style="background:linear-gradient(135deg,#152030,#254055);" onclick="searchNavigateTo('contact')">
+              <div class="browse-card-title">Contact</div><div class="browse-card-ico">✉️</div>
+            </div>
+          </div>
+        </div>
+        <div id="search-results">
+          <div class="search-section-lbl" id="results-label">Results for ""</div>
+          <div id="results-list"></div>
+          <div id="no-results">No results found for "<span id="no-results-query"></span>"<br><span style="font-size:12px;color:var(--dim);margin-top:6px;display:block;">Try searching for Projects, Skills, Experience, or a technology like Python.</span></div>
+        </div>
+      </div>
+    </div>
   </div><!-- /main -->
 
   <!-- ── Player bar ── -->
   <div class="player">
     <div class="np">
-      <img src="photo.png" class="np-img" id="np-ico" alt="Srinidhi Narla">
+      <img src="photo.png" class="np-img" alt="Srinidhi Narla">
       <div class="np-info">
         <div class="np-title"><span id="np-tw"></span><span class="cursor"></span></div>
         <div class="np-artist">Srinidhi Narla</div>
       </div>
-      <button class="np-heart">♥</button>
+      <button class="np-heart" id="heart-btn" title="Like">♥</button>
     </div>
     <div class="pctrl">
       <div class="ctrl-btns">
-        <button class="cbtn">⇄</button>
-        <button class="cbtn">⏮</button>
-        <button class="cbtn-play">▶</button>
-        <button class="cbtn">⏭</button>
-        <button class="cbtn">↻</button>
+        <button class="cbtn" id="btn-shuffle" title="Shuffle sections">⇄</button>
+        <button class="cbtn" id="btn-prev"   title="Previous section">⏮</button>
+        <button class="cbtn-play" id="btn-playpause" title="Play / Pause">▶</button>
+        <button class="cbtn" id="btn-next"   title="Next section">⏭</button>
+        <button class="cbtn" id="btn-repeat" title="Toggle repeat">↻</button>
       </div>
       <div class="prog">
         <span class="prog-t" id="prog-cur">0:00</span>
-        <div class="prog-bar"><div class="prog-fill" id="prog-fill"><div class="prog-thumb"></div></div></div>
+        <div class="prog-bar" id="prog-bar"><div class="prog-fill" id="prog-fill"><div class="prog-thumb"></div></div></div>
         <span class="prog-t r" id="prog-dur">3:47</span>
       </div>
     </div>
     <div class="p-right">
-      <div class="eq"><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div></div>
-      <button class="p-vol-ico">🔊</button>
-      <div class="vol"><div class="vol-fill"></div></div>
+      <div class="eq" id="eq-anim"><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div></div>
+      <button class="p-vol-ico" id="vol-icon" title="Mute / Unmute">🔊</button>
+      <div class="vol" id="vol-bar"><div class="vol-fill" id="vol-fill"></div></div>
     </div>
   </div>
 
 </div>
 
+<!-- ── Premium / Resume modal (outside .app, fixed) ── -->
+<div id="premium-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close-btn">✕</button>
+    <div class="modal-title">Premium Access</div>
+    <div class="modal-sub">Full picture — resume, LinkedIn, and everything in between.</div>
+    <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="modal-btn modal-btn-primary">
+      <span class="modal-btn-ico">⬇</span>Download Resume via LinkedIn
+    </a>
+    <a href="https://linkedin.com/in/srinidhinarla1352" target="_blank" rel="noopener" class="modal-btn">
+      <span class="modal-btn-ico">in</span>Connect on LinkedIn
+    </a>
+    <a href="https://github.com/srinidhinarla-sudo" target="_blank" rel="noopener" class="modal-btn">
+      <span class="modal-btn-ico">◈</span>View GitHub Profile
+    </a>
+    <button class="modal-btn" onclick="navigateTo('contact');closePremiumModal();">
+      <span class="modal-btn-ico">✉</span>Send a message
+    </button>
+  </div>
+</div>
+
 <script>
 (function () {
 
-  /* ── Navigation ── */
+  /* ─── Sections & state ─────────────────────────────── */
+  var SECTIONS = ['about', 'projects', 'exp', 'skills', 'contact'];
   var hist = ['about'], hIdx = 0;
+  var trackDur = 227, trackStart = Date.now();
+  var paused = false, pausedAt = 0;
+  var shuffleOn = false, repeatOn = false, muted = false, prevVol = 0.65;
+  var liked = false;
+
   var trackData = {
-    about:    { ico: '👤', title: 'Data Engineer',               dur: 227 },
-    projects: { ico: '💻', title: 'Secure Financial Pipeline',   dur: 227 },
-    exp:      { ico: '📋', title: 'Enterprise Architect Intern', dur: 183 },
-    skills:   { ico: '⚡', title: 'Tech Stack Compilation',      dur: 252 },
-    contact:  { ico: '✉️', title: "Let's Connect",               dur: 195 }
+    about:    { title: 'Data Engineer',               dur: 227 },
+    projects: { title: 'Secure Financial Pipeline',   dur: 227 },
+    exp:      { title: 'Enterprise Architect Intern', dur: 183 },
+    skills:   { title: 'Tech Stack Compilation',      dur: 252 },
+    contact:  { title: "Let's Connect",               dur: 195 }
   };
 
+  /* ─── Search data ──────────────────────────────────── */
+  var SEARCH_ITEMS = [
+    { id: 'about',    label: 'Home',                          icon: '🏠',  meta: 'Page',                                   type: 'page'     },
+    { id: 'projects', label: 'Projects',                       icon: '💻',  meta: 'Page',                                   type: 'page'     },
+    { id: 'exp',      label: 'Experience',                     icon: '📋',  meta: 'Page',                                   type: 'page'     },
+    { id: 'skills',   label: 'Skills',                         icon: '⚡',  meta: 'Page',                                   type: 'page'     },
+    { id: 'contact',  label: 'Contact',                        icon: '✉️',  meta: 'Page',                                   type: 'page'     },
+    { id: 'projects', label: 'Secure Financial Pipeline',      icon: '🔐',  meta: 'Project · PySpark, Airflow, Delta Lake',  type: 'project'  },
+    { id: 'projects', label: 'Autonomous Validation Agent',    icon: '🤖',  meta: 'Project · C++, pybind11, FastAPI',        type: 'project'  },
+    { id: 'projects', label: 'OBD Compliance Platform',        icon: '⚙️',  meta: 'Project · C#, Python, Plotly Dash, VBA', type: 'project'  },
+    { id: 'projects', label: 'Finance Intelligence Platform',  icon: '💰',  meta: 'Project · Flask, scikit-learn, AWS',     type: 'project'  },
+    { id: 'projects', label: 'Multilingual Invoice Pipeline',  icon: '🌍',  meta: 'Project · Databricks, PySpark, Azure',   type: 'project'  },
+    { id: 'skills',   label: 'Python',         icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'C#',             icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'C++',            icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'SQL',            icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'JavaScript',     icon: '⚡', meta: 'Skill · Languages',          type: 'skill' },
+    { id: 'skills',   label: 'PySpark',        icon: '⚡', meta: 'Skill · Data Engineering',   type: 'skill' },
+    { id: 'skills',   label: 'Airflow',        icon: '⚡', meta: 'Skill · Data Engineering',   type: 'skill' },
+    { id: 'skills',   label: 'Databricks',     icon: '⚡', meta: 'Skill · Data Engineering',   type: 'skill' },
+    { id: 'skills',   label: 'Delta Lake',     icon: '⚡', meta: 'Skill · Data Engineering',   type: 'skill' },
+    { id: 'skills',   label: 'AWS',            icon: '⚡', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
+    { id: 'skills',   label: 'Azure',          icon: '⚡', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
+    { id: 'skills',   label: 'Docker',         icon: '⚡', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
+    { id: 'skills',   label: 'GitHub Actions', icon: '⚡', meta: 'Skill · Cloud & DevOps',     type: 'skill' },
+    { id: 'skills',   label: 'FastAPI',        icon: '⚡', meta: 'Skill · Backend',            type: 'skill' },
+    { id: 'skills',   label: 'Flask',          icon: '⚡', meta: 'Skill · Backend',            type: 'skill' },
+    { id: 'skills',   label: 'Spring Boot',    icon: '⚡', meta: 'Skill · Backend',            type: 'skill' },
+    { id: 'skills',   label: 'scikit-learn',   icon: '⚡', meta: 'Skill · AI & Analytics',     type: 'skill' },
+    { id: 'skills',   label: 'Power BI',       icon: '⚡', meta: 'Skill · AI & Analytics',     type: 'skill' },
+    { id: 'skills',   label: 'VBA',            icon: '⚡', meta: 'Skill · AI & Analytics',     type: 'skill' },
+    { id: 'exp',      label: 'Novelis',                   icon: '🏢', meta: 'Experience · Enterprise Architect Intern',      type: 'exp' },
+    { id: 'exp',      label: 'State Farm',                icon: '🏢', meta: 'Experience · Finance & Data Analytics Intern',  type: 'exp' },
+    { id: 'exp',      label: 'Enterprise Architect Intern',icon:'📋', meta: 'Role · Novelis · Atlanta, GA',                 type: 'exp' },
+    { id: 'exp',      label: 'Finance & Data Analytics Intern',icon:'📋',meta:'Role · State Farm · Dallas, TX',             type: 'exp' },
+  ];
+
+  /* ─── Navigation ───────────────────────────────────── */
   function showSec(id) {
     document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
     document.getElementById('sec-' + id).classList.add('on');
@@ -778,17 +996,21 @@
     document.getElementById('mainScroll').scrollTo({ top: 0, behavior: 'smooth' });
 
     var td = trackData[id] || trackData.about;
-    document.getElementById('np-ico').textContent = td.ico;
     trackDur = td.dur;
     trackStart = Date.now();
+    paused = false;
+    document.getElementById('btn-playpause').textContent = '⏸';
     startTypewriter(td.title);
 
-    var durEl = document.getElementById('prog-dur');
     var m = Math.floor(td.dur / 60), s = td.dur % 60;
-    durEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    document.getElementById('prog-dur').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+
+    // Update sidebar nav active
+    document.getElementById('nav-home').classList.toggle('on', id === 'about');
   }
 
   function navigateTo(id) {
+    closeSearch();
     hist = hist.slice(0, hIdx + 1);
     hist.push(id); hIdx++;
     showSec(id);
@@ -806,29 +1028,322 @@
     document.getElementById('btn-fwd').disabled  = hIdx >= hist.length - 1;
   }
 
+  document.getElementById('btn-back').addEventListener('click', goBack);
+  document.getElementById('btn-fwd').addEventListener('click', goFwd);
+
+  /* ─── Sidebar data-sec clicks ──────────────────────── */
   document.querySelectorAll('[data-sec]').forEach(function(el) {
     el.addEventListener('click', function(){ navigateTo(el.dataset.sec); });
   });
 
-  /* ── Topbar tint on scroll ── */
+  /* ─── Topbar scroll tint ───────────────────────────── */
   document.getElementById('mainScroll').addEventListener('scroll', function() {
     document.getElementById('topbar').classList.toggle('scrolled', this.scrollTop > 60);
   });
 
-  /* ── Experience expand ── */
+  /* ─── Hero play button ─────────────────────────────── */
+  document.getElementById('hero-play-btn').addEventListener('click', function() {
+    navigateTo('projects');
+  });
+
+  /* ─── Player: play/pause ───────────────────────────── */
+  var btnPP = document.getElementById('btn-playpause');
+  btnPP.addEventListener('click', function() {
+    paused = !paused;
+    if (paused) {
+      pausedAt = (Date.now() - trackStart) / 1000 % trackDur;
+      btnPP.textContent = '▶';
+      document.querySelectorAll('.eq-b').forEach(function(b){ b.classList.add('paused'); });
+    } else {
+      trackStart = Date.now() - pausedAt * 1000;
+      btnPP.textContent = '⏸';
+      document.querySelectorAll('.eq-b').forEach(function(b){ b.classList.remove('paused'); });
+    }
+  });
+
+  /* ─── Player: prev / next sections ────────────────────*/
+  document.getElementById('btn-prev').addEventListener('click', function() {
+    var cur = hist[hIdx];
+    var idx = SECTIONS.indexOf(cur);
+    var prev = SECTIONS[(idx - 1 + SECTIONS.length) % SECTIONS.length];
+    navigateTo(prev);
+  });
+
+  document.getElementById('btn-next').addEventListener('click', function() {
+    var cur = hist[hIdx];
+    var idx = SECTIONS.indexOf(cur);
+    var next = SECTIONS[(idx + 1) % SECTIONS.length];
+    navigateTo(next);
+  });
+
+  /* ─── Player: shuffle ──────────────────────────────── */
+  document.getElementById('btn-shuffle').addEventListener('click', function() {
+    shuffleOn = !shuffleOn;
+    this.classList.toggle('active', shuffleOn);
+    if (shuffleOn) {
+      var others = SECTIONS.filter(function(s){ return s !== hist[hIdx]; });
+      navigateTo(others[Math.floor(Math.random() * others.length)]);
+      showToast('Shuffle on — jumped to random section');
+    }
+  });
+
+  /* ─── Player: repeat ───────────────────────────────── */
+  document.getElementById('btn-repeat').addEventListener('click', function() {
+    repeatOn = !repeatOn;
+    this.classList.toggle('active', repeatOn);
+    showToast(repeatOn ? 'Repeat on' : 'Repeat off');
+  });
+
+  /* ─── Heart / like ─────────────────────────────────── */
+  document.getElementById('heart-btn').addEventListener('click', function() {
+    liked = !liked;
+    this.classList.toggle('liked', liked);
+    showToast(liked ? '♥ Added to Liked Songs' : 'Removed from Liked Songs');
+  });
+
+  /* ─── Progress bar: clickable ──────────────────────── */
+  document.getElementById('prog-bar').addEventListener('click', function(e) {
+    if (paused) return;
+    var rect = this.getBoundingClientRect();
+    var pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    trackStart = Date.now() - pct * trackDur * 1000;
+  });
+
+  /* ─── Progress bar: tick ───────────────────────────── */
+  setInterval(function() {
+    if (paused) return;
+    var elapsed = (Date.now() - trackStart) / 1000;
+    var cur = elapsed % trackDur;
+    var pct = (cur / trackDur) * 100;
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-cur').textContent  = fmt(cur);
+
+    // Auto-advance when track ends (if not repeat)
+    if (cur >= trackDur - 0.5) {
+      if (repeatOn) {
+        trackStart = Date.now();
+      } else {
+        var curSec = hist[hIdx];
+        var idx = SECTIONS.indexOf(curSec);
+        navigateTo(SECTIONS[(idx + 1) % SECTIONS.length]);
+      }
+    }
+  }, 250);
+
+  function fmt(s) {
+    var m = Math.floor(s / 60), r = Math.floor(s % 60);
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+
+  /* ─── Volume bar ───────────────────────────────────── */
+  var volBar  = document.getElementById('vol-bar');
+  var volFill = document.getElementById('vol-fill');
+  var volDragging = false;
+  var volLevel = 0.65;
+
+  function setVol(e) {
+    var rect = volBar.getBoundingClientRect();
+    volLevel = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    volFill.style.width = (volLevel * 100) + '%';
+    muted = volLevel === 0;
+    document.getElementById('vol-icon').textContent = muted ? '🔇' : (volLevel < 0.4 ? '🔉' : '🔊');
+  }
+
+  volBar.addEventListener('mousedown', function(e){ volDragging = true; setVol(e); e.preventDefault(); });
+  document.addEventListener('mousemove', function(e){ if (volDragging) setVol(e); });
+  document.addEventListener('mouseup',   function()  { volDragging = false; });
+
+  document.getElementById('vol-icon').addEventListener('click', function() {
+    if (muted || volLevel === 0) {
+      volLevel = prevVol || 0.65;
+      muted = false;
+    } else {
+      prevVol = volLevel;
+      volLevel = 0;
+      muted = true;
+    }
+    volFill.style.width = (volLevel * 100) + '%';
+    this.textContent = muted ? '🔇' : '🔊';
+  });
+
+  /* ─── Library filter chips ─────────────────────────── */
+  document.querySelectorAll('.lib-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.lib-chip').forEach(function(c){ c.classList.remove('on'); });
+      chip.classList.add('on');
+      var filter = chip.dataset.filter;
+      document.querySelectorAll('.pl-row').forEach(function(row) {
+        var type = row.dataset.libType;
+        if (filter === 'all') {
+          row.style.display = '';
+        } else if (filter === 'artist') {
+          row.style.display = type === 'artist' ? '' : 'none';
+        } else if (filter === 'album') {
+          row.style.display = (type === 'album' || type === 'artist') ? '' : 'none';
+        }
+      });
+    });
+  });
+
+  /* ─── Library + button ─────────────────────────────── */
+  document.getElementById('lib-plus-btn').addEventListener('click', function() {
+    showToast('✓ Already in Your Library');
+  });
+
+  /* ─── Premium button ────────────────────────────────── */
+  document.getElementById('btn-premium').addEventListener('click', openPremiumModal);
+
+  function openPremiumModal() {
+    document.getElementById('premium-modal').classList.add('open');
+  }
+  function closePremiumModal() {
+    document.getElementById('premium-modal').classList.remove('open');
+  }
+
+  document.getElementById('modal-close-btn').addEventListener('click', closePremiumModal);
+  document.getElementById('premium-modal').addEventListener('click', function(e) {
+    if (e.target === this) closePremiumModal();
+  });
+
+  /* ─── Dots menu ─────────────────────────────────────── */
+  var dotsBtn  = document.getElementById('dots-btn');
+  var dotsMenu = document.getElementById('dots-menu');
+
+  dotsBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    dotsMenu.style.display = dotsMenu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  ['menu-share','menu-about','menu-resume'].forEach(function(id) {
+    var el = document.getElementById(id);
+    el.addEventListener('mouseenter', function() { el.style.background = '#3e3e3e'; });
+    el.addEventListener('mouseleave', function() { el.style.background = 'transparent'; });
+  });
+
+  document.getElementById('menu-share').addEventListener('click', function() {
+    dotsMenu.style.display = 'none';
+    var url = window.location.href;
+    if (navigator.share) {
+      navigator.share({ title: 'Srinidhi Narla — Portfolio', url: url });
+    } else {
+      navigator.clipboard.writeText(url).then(function(){ showToast('Link copied to clipboard!'); });
+    }
+  });
+
+  document.getElementById('menu-resume').addEventListener('click', function() {
+    dotsMenu.style.display = 'none';
+    openPremiumModal();
+  });
+
+  document.getElementById('menu-about').addEventListener('click', function() {
+    dotsMenu.style.display = 'none';
+    navigateTo('about');
+    setTimeout(function() {
+      var bio = document.querySelector('.bio-card');
+      if (bio) bio.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  });
+
+  document.addEventListener('click', function() { dotsMenu.style.display = 'none'; });
+
+  /* ─── Follow toggle ─────────────────────────────────── */
+  document.getElementById('follow-btn').addEventListener('click', function() {
+    var following = this.textContent === 'Following';
+    this.textContent = following ? 'Follow' : 'Following';
+    this.style.color = following ? 'white' : 'var(--acc)';
+    this.style.borderColor = following ? 'rgba(255,255,255,.3)' : 'var(--acc)';
+    showToast(following ? 'Unfollowed' : '✓ Following Srinidhi Narla');
+  });
+
+  /* ─── Experience expand ─────────────────────────────── */
   function toggleXP(id) {
     var body = document.getElementById(id + '-body');
     var open = body.style.maxHeight && body.style.maxHeight !== '0px';
     body.style.maxHeight = open ? '0px' : '400px';
   }
 
-  /* ── Typewriter ── */
-  var twEl = document.getElementById('np-tw');
+  /* ─── Search overlay ────────────────────────────────── */
+  var searchOverlay = document.getElementById('search-overlay');
+  var searchInput   = document.getElementById('search-input');
+
+  document.getElementById('nav-search').addEventListener('click', function() {
+    openSearch();
+  });
+
+  document.getElementById('search-close-btn').addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeSearch();
+  });
+
+  function openSearch(prefill) {
+    searchOverlay.classList.add('open');
+    searchInput.value = prefill || '';
+    searchInput.focus();
+    if (prefill) runSearch(prefill);
+    else showBrowse();
+    // Mark search nav item active
+    document.getElementById('nav-search').classList.add('on');
+  }
+
+  function closeSearch() {
+    searchOverlay.classList.remove('open');
+    document.getElementById('nav-search').classList.remove('on');
+  }
+
+  function showBrowse() {
+    document.getElementById('browse-all').style.display = '';
+    document.getElementById('search-results').style.display = 'none';
+  }
+
+  function runSearch(q) {
+    var query = q.trim().toLowerCase();
+    if (!query) { showBrowse(); return; }
+
+    document.getElementById('browse-all').style.display = 'none';
+    document.getElementById('search-results').style.display = '';
+    document.getElementById('results-label').textContent = 'Results for "' + q.trim() + '"';
+
+    var matches = SEARCH_ITEMS.filter(function(item) {
+      return item.label.toLowerCase().indexOf(query) !== -1 ||
+             item.meta.toLowerCase().indexOf(query) !== -1;
+    });
+
+    var list = document.getElementById('results-list');
+    var noRes = document.getElementById('no-results');
+
+    if (matches.length === 0) {
+      list.innerHTML = '';
+      noRes.style.display = 'block';
+      document.getElementById('no-results-query').textContent = q.trim();
+      return;
+    }
+
+    noRes.style.display = 'none';
+    list.innerHTML = matches.map(function(item) {
+      var isCircle = item.type === 'exp';
+      return '<div class="result-item" onclick="searchNavigateTo(\'' + item.id + '\')">' +
+        '<div class="result-ico' + (isCircle ? ' circle' : '') + '">' + item.icon + '</div>' +
+        '<div>' +
+          '<div class="result-lbl">' + item.label + '</div>' +
+          '<div class="result-meta">' + item.meta + '</div>' +
+        '</div>' +
+        '<div class="result-type-badge">' + item.type + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  searchInput.addEventListener('input', function() {
+    runSearch(this.value);
+  });
+
+  /* ─── Typewriter ────────────────────────────────────── */
+  var twEl    = document.getElementById('np-tw');
   var twTimer = null;
 
-  function startTypewriter(text) {
+  function startTypewriter(firstPhrase) {
     if (twTimer) clearTimeout(twTimer);
-    var phrases = [text, 'Data Engineer', 'Cybersecurity Specialist', 'Software Developer'];
+    var phrases = [firstPhrase, 'Data Engineer', 'Cybersecurity Specialist', 'Software Developer'];
     var pIdx = 0, cIdx = 0, deleting = false;
 
     function type() {
@@ -854,103 +1369,36 @@
     type();
   }
 
-  /* ── Progress bar ── */
-  var trackStart = Date.now(), trackDur = 227;
-
-  function fmt(s) {
-    var m = Math.floor(s / 60), r = Math.floor(s % 60);
-    return m + ':' + (r < 10 ? '0' : '') + r;
-  }
-
-  setInterval(function() {
-    var elapsed = (Date.now() - trackStart) / 1000;
-    var cur = elapsed % trackDur;
-    var pct = (cur / trackDur) * 100;
-    document.getElementById('prog-fill').style.width = pct + '%';
-    document.getElementById('prog-cur').textContent  = fmt(cur);
-  }, 250);
-
-  /* ── Dots menu ── */
-  var dotsBtn  = document.getElementById('dots-btn');
-  var dotsMenu = document.getElementById('dots-menu');
-
-  dotsBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    var open = dotsMenu.style.display === 'block';
-    dotsMenu.style.display = open ? 'none' : 'block';
-  });
-
-  document.getElementById('menu-share').addEventListener('click', function() {
-    dotsMenu.style.display = 'none';
-    sharePortfolio();
-  });
-
-  document.getElementById('menu-about').addEventListener('click', function() {
-    dotsMenu.style.display = 'none';
-    navigateTo('about');
-    setTimeout(function() {
-      var bio = document.querySelector('.bio-card');
-      if (bio) bio.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 300);
-  });
-
-  ['menu-share','menu-about'].forEach(function(id) {
-    var el = document.getElementById(id);
-    el.addEventListener('mouseenter', function() { el.style.background = '#3e3e3e'; });
-    el.addEventListener('mouseleave', function() { el.style.background = 'transparent'; });
-  });
-
-  document.addEventListener('click', function() {
-    dotsMenu.style.display = 'none';
-  });
-
-  /* ── Share ── */
-  function sharePortfolio() {
-    var url   = window.location.href;
-    var title = 'Srinidhi Narla — Portfolio';
-    var text  = 'Check out Srinidhi Narla\'s portfolio!';
-
-    if (navigator.share) {
-      navigator.share({ title: title, text: text, url: url });
-    } else {
-      navigator.clipboard.writeText(url).then(function () {
-        showToast('Link copied to clipboard!');
-      });
-    }
-  }
-
+  /* ─── Toast ─────────────────────────────────────────── */
   function showToast(msg) {
+    var existing = document.querySelector('.toast');
+    if (existing) existing.remove();
     var t = document.createElement('div');
+    t.className = 'toast';
     t.textContent = msg;
     t.style.cssText = 'position:fixed;bottom:106px;left:50%;transform:translateX(-50%);' +
       'background:#1e2e40;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;' +
       'font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.5);' +
-      'transition:opacity .3s;pointer-events:none;';
+      'transition:opacity .3s;pointer-events:none;white-space:nowrap;';
     document.body.appendChild(t);
-    setTimeout(function () { t.style.opacity = '0'; }, 2000);
-    setTimeout(function () { t.remove(); }, 2400);
+    setTimeout(function(){ t.style.opacity = '0'; }, 2200);
+    setTimeout(function(){ t.remove(); }, 2600);
   }
-  window.sharePortfolio = sharePortfolio;
 
-  /* ── Follow toggle ── */
-  function toggleFollow() {
-    var btn = document.getElementById('follow-btn');
-    var following = btn.textContent === 'Following';
-    btn.textContent = following ? 'Follow' : 'Following';
-    btn.style.color = following ? 'white' : 'var(--acc)';
-    btn.style.borderColor = following ? 'rgba(255,255,255,.3)' : 'var(--acc)';
-  }
-  window.toggleFollow = toggleFollow;
+  /* ─── Expose globals ─────────────────────────────────── */
+  window.navigateTo      = navigateTo;
+  window.goBack          = goBack;
+  window.goFwd           = goFwd;
+  window.toggleXP        = toggleXP;
+  window.openSearch      = openSearch;
+  window.closeSearch     = closeSearch;
+  window.closePremiumModal = closePremiumModal;
+  window.searchNavigateTo = function(id) { closeSearch(); navigateTo(id); };
 
-  /* ── Expose globals ── */
-  window.navigateTo = navigateTo;
-  window.goBack     = goBack;
-  window.goFwd      = goFwd;
-  window.toggleXP   = toggleXP;
+  /* ─── Init ───────────────────────────────────────────── */
   updateArrows();
-
-  /* ── Start ── */
   showSec('about');
+  btnPP.textContent = '⏸';
 
 }());
 </script>
